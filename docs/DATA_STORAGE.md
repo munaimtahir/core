@@ -19,7 +19,7 @@ Jetpack DataStore Preferences
 | Data | Purpose |
 |---|---|
 | selected home app references | remember home grid |
-| selected theme id | remember visual preference |
+| selected theme palette/text/icon settings | remember visual preference |
 | first-run flag if needed | avoid repeating basic intro |
 | simple debug/version marker if needed | troubleshooting |
 
@@ -67,7 +67,9 @@ No competing theme state should exist.
 
 DataStore Preferences keys:
 
-- `theme_id`
+- `theme_palette`
+- `text_size`
+- `icon_size`
 - `home_slot_{pageIndex}_{slotIndex}` (value: `packageName|activityName`)
 
 ## Privacy

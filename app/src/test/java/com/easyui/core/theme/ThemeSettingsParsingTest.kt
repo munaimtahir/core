@@ -17,7 +17,7 @@ class ThemeSettingsParsingTest {
         assertEquals(ThemePalette.System, themePaletteFromStorage("system"))
         assertEquals(ThemePalette.Light, themePaletteFromStorage("light"))
         assertEquals(ThemePalette.Dark, themePaletteFromStorage("dark"))
-        assertEquals(ThemePalette.HighContrast, themePaletteFromStorage("high_contrast"))
+        assertEquals(ThemePalette.Dark, themePaletteFromStorage("high_contrast"))
     }
 
     @Test

@@ -26,7 +26,7 @@ Core v0.1 baseline implementation is present on `main`:
 - Customize Home (assign/replace/remove/move/reset)
 - Onboarding (first-run): default launcher setup guidance + settings entry point
 - Theme settings (persisted):
-  - Palette: System / Light / Dark / High Contrast
+  - Palette: System / Light / Dark
   - Text size: Small / Normal / Large / Larger
   - Icon size: Normal / Large
 - Status/Debug screen + Reset options
@@ -151,6 +151,8 @@ Emulator runtime CI failed with `/usr/bin/sh` incompatibilities:
 - [x] Create `docs/_debug/live_debug_session.md` ledger
 - [ ] Keep this “Live Debug Mode Preparation” section current as bugs are handled
 - [ ] Record user verification results for BUG-001..BUG-004 in the ledger
+- [x] Record user verification result for BUG-005 in the ledger
+- [ ] Record user verification result for BUG-006 in the ledger
 
 ### Known risks / unknowns
 

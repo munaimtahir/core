@@ -54,7 +54,8 @@
 
 ## Stage 5 — Theme Persistence
 
-- [x] Add minimal theme list (Default / High Contrast / Large Text)
+- [x] Add minimal theme list (System / Light / Dark)
+- [x] Add Core Launcher text size scale cues and preview labels
 - [x] Persist selected theme
 - [x] Verify no flicker/revert behavior (manual + CI)
 - [x] Add tests for theme state

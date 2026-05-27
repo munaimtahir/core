@@ -36,7 +36,7 @@ class BaselineUiSmokeTest {
         rule.onNodeWithTag("theme_palette_system").assertExists()
         rule.onNodeWithTag("theme_palette_light").assertExists()
         rule.onNodeWithTag("theme_palette_dark").assertExists()
-        rule.onNodeWithTag("theme_palette_high_contrast").assertExists()
+        rule.onNodeWithTag("theme_text_scope_note").assertExists()
         rule.onNodeWithTag("theme_text_small").assertExists()
         rule.onNodeWithTag("theme_text_normal").assertExists()
         rule.onNodeWithTag("theme_text_large").assertExists()

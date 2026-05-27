@@ -29,7 +29,6 @@
     <string name="page_short">Page %1$d</string>
 
     <string name="theme_default">Default</string>
-    <string name="theme_high_contrast">High Contrast</string>
     <string name="theme_large_text">Large Text</string>
 
     <string name="status_app_version">App version</string>
@@ -47,13 +46,23 @@
     <string name="theme_palette_system">System default</string>
     <string name="theme_palette_light">Light</string>
     <string name="theme_palette_dark">Dark</string>
+    <string name="theme_text_scope_note">Changes Core Launcher text only. It affects launcher labels, menus, and settings, not system text or other apps.</string>
     <string name="theme_text_normal">Normal text</string>
+    <string name="theme_text_normal_desc">Default launcher text size</string>
     <string name="theme_text_large">Large text</string>
+    <string name="theme_text_large_desc">Larger launcher labels and controls</string>
     <string name="theme_text_small">Small text</string>
+    <string name="theme_text_small_desc">Compact launcher labels and controls</string>
     <string name="theme_text_larger">Larger text</string>
+    <string name="theme_text_larger_desc">Largest launcher labels and controls</string>
+    <string name="theme_text_scale_small">Scale 0.9x</string>
+    <string name="theme_text_scale_normal">Scale 1.0x</string>
+    <string name="theme_text_scale_large">Scale 1.18x</string>
+    <string name="theme_text_scale_larger">Scale 1.32x</string>
     <string name="theme_icons_normal">Normal icons</string>
     <string name="theme_icons_large">Large icons</string>
     <string name="theme_preview_title">Preview</string>
+    <string name="theme_preview_scale">Text scale: %1$.2fx</string>
     <string name="theme_preview_row_primary">Example item</string>
     <string name="theme_preview_row_secondary">Secondary text</string>
 

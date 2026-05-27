@@ -75,7 +75,14 @@ Baseline should start with a very small theme set.
 Recommended:
 
 - Default
-- High contrast
+- Light
+- Dark
+
+Text size should be clearly scoped in the UI:
+
+- it applies to Core Launcher labels, menus, and settings text
+- it does not change the phone's system-wide text size
+- each option should show a visible scale cue and preview
 
 Add more themes only after theme persistence is stable.
 

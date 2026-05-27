@@ -35,20 +35,9 @@ fun CoreTheme(
         ThemePalette.System -> isSystemInDarkTheme()
         ThemePalette.Light -> false
         ThemePalette.Dark -> true
-        ThemePalette.HighContrast -> true
     }
 
-    val colors = when (settings.palette) {
-        ThemePalette.HighContrast -> darkColorScheme(
-            background = androidx.compose.ui.graphics.Color.Black,
-            surface = androidx.compose.ui.graphics.Color.Black,
-            onSurface = androidx.compose.ui.graphics.Color.White,
-            onSurfaceVariant = androidx.compose.ui.graphics.Color.White,
-            primary = androidx.compose.ui.graphics.Color(0xFFFFD400), // bright yellow accent
-            onPrimary = androidx.compose.ui.graphics.Color.Black,
-        )
-        else -> if (useDark) CoreDarkColorScheme else CoreLightColorScheme
-    }
+    val colors = if (useDark) CoreDarkColorScheme else CoreLightColorScheme
 
     val typography = when (settings.textSize) {
         TextSize.Small -> scaleTypography(MaterialTheme.typography, 0.9f)

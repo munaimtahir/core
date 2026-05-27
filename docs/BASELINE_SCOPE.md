@@ -116,12 +116,13 @@ Acceptance:
   - System default
   - Light
   - Dark
-  - High contrast
 - text size selection applies immediately and persists:
   - Small
   - Normal
   - Large
   - Larger
+- text size scope is clearly labeled as Core Launcher UI text, not system-wide phone text
+- each text size option includes a visible scale cue and preview
 - icon size selection applies immediately and persists:
   - Normal
   - Large

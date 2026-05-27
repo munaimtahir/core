@@ -14,7 +14,7 @@ Date: 2026-05-27
 - All Apps list (alphabetical)
 - Fixed Home layout model (3 pages, 3x3 grid)
 - Customize Home (assign / replace / remove / move / reset)
-- Theme settings (Default / High Contrast / Large Text) + persistence
+- Theme settings (System / Light / Dark, plus text/icon sizing) + persistence
 - Status/Debug screen
 - Reset options (home-only vs all settings)
 - Automated verification (build / unit tests / lint)
@@ -37,7 +37,7 @@ Date: 2026-05-27
 
 - `apps/`: PackageManager-backed discovery, launching, icon loading
 - `home/`: deterministic fixed grid model + DataStore persistence
-- `theme/`: theme ID + DataStore persistence (single source of truth)
+- `theme/`: theme palette, text scale, and icon scale persistence (single source of truth)
 - `storage/`: DataStore configuration
 - UI: single-activity Compose with simple screen switching (no hidden flows)
 
@@ -45,8 +45,9 @@ Date: 2026-05-27
 
 DataStore Preferences keys:
 
-- `theme_id`: selected theme
-- `home_slot_{pageIndex}_{slotIndex}`: stored app component refs (`package|activity`)
+- `theme_palette`: selected palette (`system` / `light` / `dark`)
+- `text_size`: selected Core Launcher text scale
+- `icon_size`: selected Core Launcher icon scale
 
 Read behavior:
 

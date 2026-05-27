@@ -82,13 +82,43 @@ import com.easyui.core.theme.ThemeRepository
 import com.easyui.core.theme.ThemeSettings
 import com.easyui.core.ui.theme.CoreTheme
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.MutableStateFlow
+
+private enum class LaunchOrigin {
+    LauncherIcon,
+    HomeLauncher,
+}
 
 class MainActivity : ComponentActivity() {
+    private val launchOriginFlow = MutableStateFlow(LaunchOrigin.LauncherIcon)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { AppEntry() }
+        updateLaunchOrigin(intent)
+        setContent { AppEntry(launchOriginFlow) }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        updateLaunchOrigin(intent)
+    }
+
+    private fun updateLaunchOrigin(intent: Intent?) {
+        launchOriginFlow.value = classifyLaunchOrigin(intent)
+    }
+
+    private fun classifyLaunchOrigin(intent: Intent?): LaunchOrigin {
+        val action = intent?.action
+        val categories = intent?.categories.orEmpty()
+        return when {
+            action == Intent.ACTION_MAIN &&
+                categories.contains(Intent.CATEGORY_HOME) -> LaunchOrigin.HomeLauncher
+            else -> LaunchOrigin.LauncherIcon
+        }
     }
 }
 
@@ -103,8 +133,9 @@ private sealed interface Screen {
 }
 
 @Composable
-private fun AppEntry() {
+private fun AppEntry(launchOriginFlow: MutableStateFlow<LaunchOrigin>) {
     val context = LocalContext.current
+    val launchOrigin by launchOriginFlow.collectAsState()
     val themeRepo = remember { ThemeRepository(context) }
     val themeSettings by themeRepo.settingsFlow.collectAsState(initial = ThemeSettings())
 
@@ -113,7 +144,11 @@ private fun AppEntry() {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background,
         ) {
-            AppRoot(themeRepo = themeRepo, themeSettings = themeSettings)
+            AppRoot(
+                themeRepo = themeRepo,
+                themeSettings = themeSettings,
+                launchOrigin = launchOrigin,
+            )
         }
     }
 }
@@ -122,6 +157,7 @@ private fun AppEntry() {
 private fun AppRoot(
     themeRepo: ThemeRepository,
     themeSettings: ThemeSettings,
+    launchOrigin: LaunchOrigin,
 ) {
     val context = LocalContext.current
     val spec = remember { HomeGridSpec(pageCount = 3, columns = 3, rows = 3) }
@@ -135,8 +171,14 @@ private fun AppRoot(
     val homeIconSize = remember(themeSettings.iconSize) { homeIconDp(themeSettings.iconSize) }
     val listIconSize = remember(themeSettings.iconSize) { listIconDp(themeSettings.iconSize) }
 
-    val onboardingCompleted by onboardingRepo.isCompletedFlow.collectAsState(initial = false)
-    var screen by remember { mutableStateOf<Screen>(if (onboardingCompleted) Screen.Home else Screen.Onboarding) }
+    var screen by remember {
+        mutableStateOf(
+            when (launchOrigin) {
+                LaunchOrigin.HomeLauncher -> Screen.Home
+                LaunchOrigin.LauncherIcon -> Screen.Onboarding
+            }
+        )
+    }
     var lastError by remember { mutableStateOf<String?>(null) }
 
     var apps by remember { mutableStateOf<List<LaunchableApp>>(emptyList()) }
@@ -161,12 +203,6 @@ private fun AppRoot(
     }
 
     LaunchedEffect(Unit) { refreshApps() }
-    LaunchedEffect(onboardingCompleted) {
-        if (onboardingCompleted && screen == Screen.Onboarding) {
-            screen = Screen.Home
-        }
-    }
-
     val layout by homeRepo.layoutFlow.collectAsState(initial = HomeLayout(spec = spec))
 
     when (screen) {
@@ -282,14 +318,33 @@ private fun OnboardingScreen(
     onContinue: () -> Unit,
 ) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     var refreshTick by remember { mutableIntStateOf(0) }
 
     val status = remember(refreshTick) { computeLauncherStatus(context) }
+    val isDefaultHome = remember(refreshTick) { isCoreDefaultHome(context) }
 
     val launcherForResult = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
-        onResult = { refreshTick++ },
+        onResult = {
+            scope.launch {
+                repeat(6) {
+                    refreshTick++
+                    if (isCoreDefaultHome(context)) {
+                        onContinue()
+                        return@launch
+                    }
+                    delay(300)
+                }
+            }
+        },
     )
+
+    LaunchedEffect(isDefaultHome) {
+        if (isDefaultHome) {
+            onContinue()
+        }
+    }
 
     fun openDefaultHomePicker() {
         val intent = createDefaultHomePickerIntent(context)
@@ -992,21 +1047,23 @@ private fun ThemeSettingsContent(
         previewSettings = selected.copy(palette = ThemePalette.Dark),
         onClick = { onSetPalette(ThemePalette.Dark) },
     )
-    ThemeOptionRow(
-        tag = "theme_palette_high_contrast",
-        label = stringResource(R.string.theme_high_contrast),
-        selected = selected.palette == ThemePalette.HighContrast,
-        previewSettings = selected.copy(palette = ThemePalette.HighContrast),
-        onClick = { onSetPalette(ThemePalette.HighContrast) },
-    )
 
     Spacer(modifier = Modifier.height(12.dp))
     Text(text = stringResource(R.string.theme_section_text), color = MaterialTheme.colorScheme.onSurfaceVariant)
     Spacer(modifier = Modifier.height(6.dp))
+    Text(
+        modifier = Modifier.testTag("theme_text_scope_note"),
+        text = stringResource(R.string.theme_text_scope_note),
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+    )
+    Spacer(modifier = Modifier.height(8.dp))
 
     ThemeOptionRow(
         tag = "theme_text_small",
         label = stringResource(R.string.theme_text_small),
+        subtitle = stringResource(R.string.theme_text_small_desc),
+        scaleLabel = stringResource(R.string.theme_text_scale_small),
         selected = selected.textSize == TextSize.Small,
         previewSettings = selected.copy(textSize = TextSize.Small),
         onClick = { onSetTextSize(TextSize.Small) },
@@ -1014,6 +1071,8 @@ private fun ThemeSettingsContent(
     ThemeOptionRow(
         tag = "theme_text_normal",
         label = stringResource(R.string.theme_text_normal),
+        subtitle = stringResource(R.string.theme_text_normal_desc),
+        scaleLabel = stringResource(R.string.theme_text_scale_normal),
         selected = selected.textSize == TextSize.Normal,
         previewSettings = selected.copy(textSize = TextSize.Normal),
         onClick = { onSetTextSize(TextSize.Normal) },
@@ -1021,6 +1080,8 @@ private fun ThemeSettingsContent(
     ThemeOptionRow(
         tag = "theme_text_large",
         label = stringResource(R.string.theme_text_large),
+        subtitle = stringResource(R.string.theme_text_large_desc),
+        scaleLabel = stringResource(R.string.theme_text_scale_large),
         selected = selected.textSize == TextSize.Large,
         previewSettings = selected.copy(textSize = TextSize.Large),
         onClick = { onSetTextSize(TextSize.Large) },
@@ -1028,6 +1089,8 @@ private fun ThemeSettingsContent(
     ThemeOptionRow(
         tag = "theme_text_larger",
         label = stringResource(R.string.theme_text_larger),
+        subtitle = stringResource(R.string.theme_text_larger_desc),
+        scaleLabel = stringResource(R.string.theme_text_scale_larger),
         selected = selected.textSize == TextSize.Larger,
         previewSettings = selected.copy(textSize = TextSize.Larger),
         onClick = { onSetTextSize(TextSize.Larger) },
@@ -1057,6 +1120,8 @@ private fun ThemeSettingsContent(
 private fun ThemeOptionRow(
     tag: String,
     label: String,
+    subtitle: String? = null,
+    scaleLabel: String? = null,
     selected: Boolean,
     previewSettings: ThemeSettings,
     onClick: () -> Unit,
@@ -1069,8 +1134,24 @@ private fun ThemeOptionRow(
             .testTag(tag),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(text = label, style = MaterialTheme.typography.bodyLarge)
-            Spacer(modifier = Modifier.weight(1f))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(text = label, style = MaterialTheme.typography.bodyLarge)
+                if (subtitle != null) {
+                    Text(
+                        text = subtitle,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
+            if (scaleLabel != null) {
+                Text(
+                    text = scaleLabel,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+            }
             if (selected) {
                 Text(
                     modifier = Modifier.testTag("theme_selected_marker"),
@@ -1103,6 +1184,11 @@ private fun ThemePreviewCard(settings: ThemeSettings) {
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
+                )
+                Text(
+                    text = stringResource(R.string.theme_preview_scale, settings.textSize.scaleFactor),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -1179,13 +1265,8 @@ private fun StatusDebugScreen(
 
 private fun computeLauncherStatus(context: Context): String {
     // Best-effort only. Different OEMs/devices can behave differently.
-    if (Build.VERSION.SDK_INT >= 29) {
-        val roleManager = context.getSystemService(RoleManager::class.java)
-        if (roleManager != null && roleManager.isRoleAvailable(RoleManager.ROLE_HOME)) {
-            if (roleManager.isRoleHeld(RoleManager.ROLE_HOME)) {
-                return context.getString(R.string.launcher_state_is_default)
-            }
-        }
+    if (isCoreDefaultHome(context)) {
+        return context.getString(R.string.launcher_state_is_default)
     }
 
     val pm = context.packageManager
@@ -1203,6 +1284,25 @@ private fun computeLauncherStatus(context: Context): String {
         pkg == "android" -> context.getString(R.string.launcher_state_unknown)
         else -> context.getString(R.string.launcher_state_default_other, pkg)
     }
+}
+
+private fun isCoreDefaultHome(context: Context): Boolean {
+    if (Build.VERSION.SDK_INT >= 29) {
+        val roleManager = context.getSystemService(RoleManager::class.java)
+        if (roleManager != null && roleManager.isRoleAvailable(RoleManager.ROLE_HOME)) {
+            if (roleManager.isRoleHeld(RoleManager.ROLE_HOME)) {
+                return true
+            }
+        }
+    }
+
+    val pm = context.packageManager
+    val intent = Intent(Intent.ACTION_MAIN)
+        .addCategory(Intent.CATEGORY_HOME)
+        .addCategory(Intent.CATEGORY_DEFAULT)
+    @Suppress("DEPRECATION")
+    val ri = pm.resolveActivity(intent, android.content.pm.PackageManager.MATCH_DEFAULT_ONLY)
+    return ri?.activityInfo?.packageName == context.packageName
 }
 
 private fun homeIconDp(iconSize: IconSize): androidx.compose.ui.unit.Dp {

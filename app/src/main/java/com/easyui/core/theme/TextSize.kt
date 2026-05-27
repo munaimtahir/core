@@ -1,10 +1,10 @@
 package com.easyui.core.theme
 
-enum class TextSize(val storageValue: String) {
-    Small("small"),
-    Normal("normal"),
-    Large("large"),
-    Larger("larger"),
+enum class TextSize(val storageValue: String, val scaleFactor: Float) {
+    Small("small", 0.90f),
+    Normal("normal", 1.00f),
+    Large("large", 1.18f),
+    Larger("larger", 1.32f),
 }
 
 fun textSizeFromStorage(raw: String?): TextSize {
