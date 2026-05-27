@@ -12,12 +12,13 @@ Stage 1 CI closure + Stage 2: implement installed-app discovery and a simple app
 
 ## Current status
 
-Stage 1 implementation exists locally (Android skeleton + wrapper + minimal home + Android Code CI), but changes are not committed yet.
+Stage 1 CI closure completed and Stage 2 app discovery + app list implemented on branch `stage2-app-discovery` (PR #1 open).
 
 ## Repo state (May 27, 2026)
 
-- Local working tree contains new Android project files plus a CI workflow.
-- `git status` shows untracked `app/`, `gradle/`, wrapper scripts, and workflow YAML (commit pending).
+- Branch: `stage2-app-discovery`
+- Stage 1 and Stage 2 changes committed and pushed.
+- Working tree clean.
 
 ## Implementation plan (baseline-only)
 
@@ -75,7 +76,7 @@ Do not reuse legacy code, architecture, workflows, UI flows, or state systems fr
 - [x] Run: `./gradlew clean assembleDebug`
 - [x] Run: `./gradlew testDebugUnitTest`
 - [x] Run: `./gradlew lintDebug`
-- [ ] Update `copilot_session.md` with final results for this session
+- [x] Update `copilot_session.md` with final results for this session
 
 ## Files inspected
 
@@ -100,6 +101,7 @@ Do not reuse legacy code, architecture, workflows, UI flows, or state systems fr
 
 - `.github/workflows/android-code-ci.yml`
 - `.gitignore`
+- `TASKS.md`
 - `build.gradle.kts`
 - `settings.gradle.kts`
 - `gradle.properties`
@@ -112,13 +114,23 @@ Do not reuse legacy code, architecture, workflows, UI flows, or state systems fr
 - `app/proguard-rules.pro`
 - `app/src/main/AndroidManifest.xml`
 - `app/src/main/java/com/easyui/core/MainActivity.kt`
+- `app/src/main/java/com/easyui/core/apps/AppDiscovery.kt`
+- `app/src/main/java/com/easyui/core/apps/AppIconLoader.kt`
+- `app/src/main/java/com/easyui/core/apps/AppLauncher.kt`
+- `app/src/main/java/com/easyui/core/apps/AppSorting.kt`
+- `app/src/main/java/com/easyui/core/apps/LaunchableApp.kt`
+- `app/src/main/java/com/easyui/core/apps/PackageManagerAppDiscovery.kt`
+- `app/src/main/java/com/easyui/core/apps/PackageManagerAppIconLoader.kt`
+- `app/src/main/java/com/easyui/core/apps/PackageManagerAppLauncher.kt`
 - `app/src/main/java/com/easyui/core/ui/theme/Color.kt`
 - `app/src/main/java/com/easyui/core/ui/theme/Theme.kt`
+- `app/src/main/res/drawable/ic_app_placeholder.xml`
 - `app/src/main/res/drawable/ic_launcher.xml`
 - `app/src/main/res/drawable/ic_launcher_round.xml`
 - `app/src/main/res/values/colors.xml`
 - `app/src/main/res/values/strings.xml`
 - `app/src/main/res/values/themes.xml`
+- `app/src/test/java/com/easyui/core/apps/AppSortingTest.kt`
 - `app/src/test/java/com/easyui/core/ExampleUnitTest.kt`
 - `copilot_session.md`
 
@@ -138,6 +150,7 @@ Do not reuse legacy code, architecture, workflows, UI flows, or state systems fr
 - `git push -u origin stage2-app-discovery`
 - `gh pr create` (PR #1)
 - `gh run watch 26489357539` (Android Code CI push run PASS)
+- `gh run watch 26489651456` (Android Code CI push run PASS)
 
 ## Verification results
 
@@ -147,7 +160,8 @@ Do not reuse legacy code, architecture, workflows, UI flows, or state systems fr
 
 ## GitHub Actions result
 
-- Android Code CI (push on `stage2-app-discovery`): PASS (run `26489357539`)
+- Android Code CI (push on `stage2-app-discovery`): PASS (run `26489651456`)
+- Android Code CI (PR #1): PASS (run `26489652450`)
 
 ## Remaining issues
 
