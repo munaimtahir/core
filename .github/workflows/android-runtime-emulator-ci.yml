@@ -34,10 +34,12 @@ jobs:
       - name: Emulator Runtime Smoke
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 34
+          api-level: 33
           target: google_apis
           arch: x86_64
           disable-animations: true
+          emulator-boot-timeout: 1200
+          emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect -no-snapshot
           script: |
             set -euxo pipefail
             APK="app/build/outputs/apk/debug/app-debug.apk"
