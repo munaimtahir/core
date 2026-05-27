@@ -2,4 +2,9 @@
     <string name="app_name">Core Launcher</string>
     <string name="home_title">Core Launcher</string>
     <string name="home_subtitle">Baseline skeleton (v0.1)</string>
+    <string name="open_all_apps">All apps</string>
+    <string name="all_apps_title">All apps</string>
+    <string name="back">Back</string>
+    <string name="loading_apps">Loading apps...</string>
+    <string name="no_apps_found">No apps found.</string>
 </resources>

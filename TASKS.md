@@ -16,31 +16,31 @@
 
 ## Stage 1 — Android Project Skeleton
 
-- [ ] Create clean Android project
-- [ ] Confirm greenfield structure
-- [ ] Configure launcher intent
-- [ ] Add minimal home screen
-- [ ] Run build
-- [ ] Add initial CI workflow
-- [ ] Update `copilot_session.md`
+- [x] Create clean Android project
+- [x] Confirm greenfield structure
+- [x] Configure launcher intent
+- [x] Add minimal home screen
+- [x] Run build
+- [x] Add initial CI workflow
+- [x] Update `copilot_session.md`
 
 ## Stage 2 — App Discovery
 
-- [ ] Implement installed app discovery
-- [ ] Load app labels
-- [ ] Load app icons
-- [ ] Add fallback icon behavior
-- [ ] Exclude self where appropriate
-- [ ] Add tests
-- [ ] Verify build/test/lint
+- [x] Implement installed app discovery
+- [x] Load app labels
+- [x] Load app icons
+- [x] Add fallback icon behavior
+- [x] Exclude self where appropriate
+- [x] Add tests
+- [x] Verify build/test/lint
 
 ## Stage 3 — App List
 
-- [ ] Build simple alphabetical app list
-- [ ] Show icons and labels
-- [ ] Launch apps on tap
-- [ ] Handle launch failures safely
-- [ ] Add tests where practical
+- [x] Build simple alphabetical app list
+- [x] Show icons and labels
+- [x] Launch apps on tap
+- [x] Handle launch failures safely
+- [x] Add tests where practical
 
 ## Stage 4 — Fixed Home Grid
 

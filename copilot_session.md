@@ -62,19 +62,19 @@ Do not reuse legacy code, architecture, workflows, UI flows, or state systems fr
 ## Task checklist
 
 - [x] Review baseline docs + agent rules
-- [ ] Stage 1 CI closure: commit Android skeleton
-- [ ] Stage 1 CI closure: commit Android Code CI workflow
-- [ ] Stage 1 CI closure: verify GitHub Actions result (if remote/PR available)
-- [ ] Stage 2: implement installed app discovery
-- [ ] Stage 2: load app labels
-- [ ] Stage 2: load app icons with fallback
-- [ ] Stage 2: exclude self where appropriate
-- [ ] Stage 2: app list UI (alphabetical) reachable from Home
-- [ ] Stage 2: tap-to-launch with safe failure handling
-- [ ] Add/adjust unit tests (practical, logic-focused)
-- [ ] Run: `./gradlew clean assembleDebug`
-- [ ] Run: `./gradlew testDebugUnitTest`
-- [ ] Run: `./gradlew lintDebug`
+- [x] Stage 1 CI closure: commit Android skeleton
+- [x] Stage 1 CI closure: commit Android Code CI workflow
+- [x] Stage 1 CI closure: verify GitHub Actions result (remote run)
+- [x] Stage 2: implement installed app discovery
+- [x] Stage 2: load app labels
+- [x] Stage 2: load app icons with fallback
+- [x] Stage 2: exclude self where appropriate
+- [x] Stage 2: app list UI (alphabetical) reachable from Home
+- [x] Stage 2: tap-to-launch with safe failure handling
+- [x] Add/adjust unit tests (practical, logic-focused)
+- [x] Run: `./gradlew clean assembleDebug`
+- [x] Run: `./gradlew testDebugUnitTest`
+- [x] Run: `./gradlew lintDebug`
 - [ ] Update `copilot_session.md` with final results for this session
 
 ## Files inspected
@@ -94,6 +94,7 @@ Do not reuse legacy code, architecture, workflows, UI flows, or state systems fr
 - `docs/DEFINITION_OF_DONE.md`
 - `TASKS.md`
 - `.github/workflows/README.md`
+- `.github/workflows/android-code-ci.yml`
 
 ## Files changed
 
@@ -132,6 +133,11 @@ Do not reuse legacy code, architecture, workflows, UI flows, or state systems fr
 - `./gradlew clean assembleDebug` (PASS)
 - `./gradlew testDebugUnitTest` (PASS)
 - `./gradlew lintDebug` (PASS)
+- `git switch -c stage2-app-discovery`
+- `git commit ...` (Stage 1 split commits + CI trigger tweak)
+- `git push -u origin stage2-app-discovery`
+- `gh pr create` (PR #1)
+- `gh run watch 26489357539` (Android Code CI push run PASS)
 
 ## Verification results
 
@@ -139,12 +145,14 @@ Do not reuse legacy code, architecture, workflows, UI flows, or state systems fr
 - `./gradlew testDebugUnitTest`: PASS
 - `./gradlew lintDebug`: PASS
 
+## GitHub Actions result
+
+- Android Code CI (push on `stage2-app-discovery`): PASS (run `26489357539`)
+
 ## Remaining issues
 
-Stage 1 changes are not committed yet.
-
-Stage 2 is not implemented yet.
+- None known for Stage 2 baseline discovery/list behavior.
 
 ## Next recommended step
 
-Commit Stage 1 work, verify CI configuration, then implement Stage 2 app discovery + app list + safe app launching.
+Proceed to Stage 4: fixed home grid selection + persistence (after confirming Stage 2 behavior on a device/emulator).
