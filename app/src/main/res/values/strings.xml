@@ -49,6 +49,8 @@
     <string name="theme_palette_dark">Dark</string>
     <string name="theme_text_normal">Normal text</string>
     <string name="theme_text_large">Large text</string>
+    <string name="theme_text_small">Small text</string>
+    <string name="theme_text_larger">Larger text</string>
     <string name="theme_icons_normal">Normal icons</string>
     <string name="theme_icons_large">Large icons</string>
     <string name="theme_preview_title">Preview</string>
@@ -60,4 +62,11 @@
     <string name="reset_confirm_title">Confirm reset</string>
     <string name="reset_home_only_confirm">This will clear all home slots but keep your theme.</string>
     <string name="reset_all_settings_confirm">This will clear all home slots and reset the theme to Default.</string>
+
+    <string name="onboarding_title">Set up Core Launcher</string>
+    <string name="onboarding_instructions">To use Core as your Home screen, set it as your default Home app in Android settings.</string>
+    <string name="onboarding_current_launcher">Current default Home app</string>
+    <string name="onboarding_choose_default_launcher">Choose default Home app</string>
+    <string name="onboarding_settings_title">Preferences</string>
+    <string name="continue_to_home">Continue to Home</string>
 </resources>

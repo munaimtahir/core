@@ -108,14 +108,35 @@ Acceptance:
 
 ### 9. Basic theme persistence
 
-The app should support a small theme set.
+The app should support a small, reliable visual settings set.
 
 Acceptance:
 
-- selected theme applies immediately
-- selected theme persists
-- theme does not revert randomly
-- theme logic has one source of truth
+- palette selection applies immediately and persists:
+  - System default
+  - Light
+  - Dark
+  - High contrast
+- text size selection applies immediately and persists:
+  - Small
+  - Normal
+  - Large
+  - Larger
+- icon size selection applies immediately and persists:
+  - Normal
+  - Large
+- visual settings have one source of truth and do not revert randomly
+
+### 9B. First-run onboarding setup
+
+The app should provide a simple first-run onboarding screen.
+
+Acceptance:
+
+- shows current default Home app status conservatively
+- provides a button to open Android's default Home app selection UI
+- allows selecting the same theme/text/icon settings as the in-launcher Theme menu
+- after onboarding, settings remain editable from the launcher menu
 
 ### 10. Automated verification
 

@@ -60,6 +60,14 @@ Baseline settings should include only:
 - reset home apps
 - status/debug screen
 
+## Onboarding
+
+Baseline should include a simple first-run onboarding screen that:
+
+- shows current default Home app status conservatively
+- provides a direct button to open Android's default Home selection UI
+- allows setting theme/text/icon preferences (same as the Theme menu)
+
 ## Theme system
 
 Baseline should start with a very small theme set.
