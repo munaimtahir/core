@@ -114,6 +114,10 @@ Runs:
 - logcat
 - artifact upload
 
+Expected location:
+
+- `.github/workflows/android-runtime-emulator-ci.yml`
+
 ## Artifact policy
 
 Where practical, upload:
