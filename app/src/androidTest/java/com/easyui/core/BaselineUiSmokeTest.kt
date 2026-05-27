@@ -20,12 +20,16 @@ class BaselineUiSmokeTest {
     }
 
     @Test
-    fun theme_settings_showsExactlyThreeThemes() {
+    fun theme_settings_showsThemeOptions() {
         rule.onNodeWithTag("home_settings_button").performClick()
         rule.onNodeWithTag("theme_settings_screen").assertExists()
-        rule.onNodeWithTag("theme_default").assertExists()
-        rule.onNodeWithTag("theme_high_contrast").assertExists()
-        rule.onNodeWithTag("theme_large_text").assertExists()
+        rule.onNodeWithTag("theme_palette_system").assertExists()
+        rule.onNodeWithTag("theme_palette_light").assertExists()
+        rule.onNodeWithTag("theme_palette_dark").assertExists()
+        rule.onNodeWithTag("theme_palette_high_contrast").assertExists()
+        rule.onNodeWithTag("theme_text_normal").assertExists()
+        rule.onNodeWithTag("theme_text_large").assertExists()
+        rule.onNodeWithTag("theme_icons_normal").assertExists()
+        rule.onNodeWithTag("theme_icons_large").assertExists()
     }
 }
-

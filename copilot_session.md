@@ -144,6 +144,7 @@ Emulator runtime CI failed with `/usr/bin/sh` incompatibilities:
 
 - [ ] Create `docs/_debug/live_debug_session.md` ledger
 - [ ] Keep this “Live Debug Mode Preparation” section current as bugs are handled
+  - BUG-001: All Apps list incomplete (pending user verification)
 
 ### Known risks / unknowns
 

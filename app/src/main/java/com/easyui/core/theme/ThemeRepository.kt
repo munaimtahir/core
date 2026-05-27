@@ -10,20 +10,41 @@ import kotlinx.coroutines.flow.map
 class ThemeRepository(
     private val context: Context,
 ) {
-    private val themeKey = stringPreferencesKey("theme_id")
+    private val paletteKey = stringPreferencesKey("theme_palette")
+    private val textSizeKey = stringPreferencesKey("text_size")
+    private val iconSizeKey = stringPreferencesKey("icon_size")
 
-    val themeFlow: Flow<ThemeId> = context.coreDataStore.data.map { prefs ->
-        themeIdFromStorage(prefs[themeKey])
+    val settingsFlow: Flow<ThemeSettings> = context.coreDataStore.data.map { prefs ->
+        ThemeSettings(
+            palette = themePaletteFromStorage(prefs[paletteKey]),
+            textSize = textSizeFromStorage(prefs[textSizeKey]),
+            iconSize = iconSizeFromStorage(prefs[iconSizeKey]),
+        )
     }
 
-    suspend fun setTheme(themeId: ThemeId) {
+    suspend fun setPalette(palette: ThemePalette) {
         context.coreDataStore.edit { prefs ->
-            prefs[themeKey] = themeId.storageValue
+            prefs[paletteKey] = palette.storageValue
+        }
+    }
+
+    suspend fun setTextSize(textSize: TextSize) {
+        context.coreDataStore.edit { prefs ->
+            prefs[textSizeKey] = textSize.storageValue
+        }
+    }
+
+    suspend fun setIconSize(iconSize: IconSize) {
+        context.coreDataStore.edit { prefs ->
+            prefs[iconSizeKey] = iconSize.storageValue
         }
     }
 
     suspend fun resetToDefault() {
-        setTheme(ThemeId.Default)
+        context.coreDataStore.edit { prefs ->
+            prefs[paletteKey] = ThemePalette.System.storageValue
+            prefs[textSizeKey] = TextSize.Normal.storageValue
+            prefs[iconSizeKey] = IconSize.Normal.storageValue
+        }
     }
 }
-

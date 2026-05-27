@@ -38,6 +38,22 @@
     <string name="status_selected_theme">Selected theme</string>
     <string name="status_selected_home_slots_count">Home slots filled</string>
     <string name="launcher_state_unknown">Launcher status could not be confirmed on this device.</string>
+    <string name="launcher_state_is_default">Core is set as the default Home app on this device.</string>
+    <string name="launcher_state_default_other">Default Home app: %1$s</string>
+
+    <string name="theme_section_palette">Theme</string>
+    <string name="theme_section_text">Text size</string>
+    <string name="theme_section_icons">Icon size</string>
+    <string name="theme_palette_system">System default</string>
+    <string name="theme_palette_light">Light</string>
+    <string name="theme_palette_dark">Dark</string>
+    <string name="theme_text_normal">Normal text</string>
+    <string name="theme_text_large">Large text</string>
+    <string name="theme_icons_normal">Normal icons</string>
+    <string name="theme_icons_large">Large icons</string>
+    <string name="theme_preview_title">Preview</string>
+    <string name="theme_preview_row_primary">Example item</string>
+    <string name="theme_preview_row_secondary">Secondary text</string>
 
     <string name="reset_home_only">Reset home apps only</string>
     <string name="reset_all_settings">Reset all baseline settings</string>

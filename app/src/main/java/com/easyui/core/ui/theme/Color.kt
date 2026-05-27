@@ -7,3 +7,7 @@ val CoreDarkSurface = Color(0xFF0F1720)
 val CoreDarkOnSurface = Color(0xFFE6EDF3)
 val CoreDarkOnSurfaceVariant = Color(0xFF9FB0BE)
 
+val CoreLightBackground = Color(0xFFFAFBFC)
+val CoreLightSurface = Color(0xFFFFFFFF)
+val CoreLightOnSurface = Color(0xFF0E1216)
+val CoreLightOnSurfaceVariant = Color(0xFF3A4956)

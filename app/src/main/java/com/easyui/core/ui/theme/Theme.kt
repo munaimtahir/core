@@ -3,38 +3,55 @@ package com.easyui.core.ui.theme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import com.easyui.core.theme.ThemeId
+import com.easyui.core.theme.TextSize
+import com.easyui.core.theme.ThemePalette
+import com.easyui.core.theme.ThemeSettings
 
-private val CoreColorScheme = darkColorScheme(
+private val CoreDarkColorScheme = darkColorScheme(
     background = CoreDarkBackground,
     surface = CoreDarkSurface,
     onSurface = CoreDarkOnSurface,
     onSurfaceVariant = CoreDarkOnSurfaceVariant,
 )
 
+private val CoreLightColorScheme = lightColorScheme(
+    background = CoreLightBackground,
+    surface = CoreLightSurface,
+    onSurface = CoreLightOnSurface,
+    onSurfaceVariant = CoreLightOnSurfaceVariant,
+)
+
 @Composable
 fun CoreTheme(
-    themeId: ThemeId = ThemeId.Default,
+    settings: ThemeSettings = ThemeSettings(),
     content: @Composable () -> Unit,
 ) {
-    val colors = when (themeId) {
-        ThemeId.Default -> CoreColorScheme
-        ThemeId.HighContrast -> darkColorScheme(
+    val useDark = when (settings.palette) {
+        ThemePalette.System -> isSystemInDarkTheme()
+        ThemePalette.Light -> false
+        ThemePalette.Dark -> true
+        ThemePalette.HighContrast -> true
+    }
+
+    val colors = when (settings.palette) {
+        ThemePalette.HighContrast -> darkColorScheme(
             background = androidx.compose.ui.graphics.Color.Black,
             surface = androidx.compose.ui.graphics.Color.Black,
             onSurface = androidx.compose.ui.graphics.Color.White,
             onSurfaceVariant = androidx.compose.ui.graphics.Color.White,
             primary = androidx.compose.ui.graphics.Color.White,
         )
-        ThemeId.LargeText -> CoreColorScheme
+        else -> if (useDark) CoreDarkColorScheme else CoreLightColorScheme
     }
 
-    val typography = when (themeId) {
-        ThemeId.LargeText -> scaleTypography(MaterialTheme.typography, 1.2f)
-        else -> MaterialTheme.typography
+    val typography = when (settings.textSize) {
+        TextSize.Large -> scaleTypography(MaterialTheme.typography, 1.2f)
+        TextSize.Normal -> MaterialTheme.typography
     }
 
     MaterialTheme(
