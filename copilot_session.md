@@ -24,7 +24,11 @@ Core v0.1 baseline implementation is present on `main`:
 - App launching with safe failure handling
 - Fixed Home grid model: 3 pages, 3x3
 - Customize Home (assign/replace/remove/move/reset)
-- Theme settings: Default / High Contrast / Large Text, persisted
+- Onboarding (first-run): default launcher setup guidance + settings entry point
+- Theme settings (persisted):
+  - Palette: System / Light / Dark / High Contrast
+  - Text size: Small / Normal / Large / Larger
+  - Icon size: Normal / Large
 - Status/Debug screen + Reset options
 - CI: Android Code CI + Android Runtime Emulator CI
 - Verification report: `docs/VERIFICATION/core-v0.1-baseline-report.md`
@@ -41,13 +45,14 @@ Emulator runtime CI failed with `/usr/bin/sh` incompatibilities:
 - `./gradlew clean assembleDebug`: PASS
 - `./gradlew testDebugUnitTest`: PASS
 - `./gradlew lintDebug`: PASS
+- Device install: `adb install -r app/build/outputs/apk/debug/app-debug.apk`: PASS
+- Device launch: `adb shell am start -n com.easyui.core/.MainActivity`: PASS
 
 ## GitHub Actions status (recent)
 
-- Android Code CI (push): PASS (run `26504621906`)
-- Android Code CI (PR): PASS (run `26504623288`)
-- Android Runtime Emulator CI (push): PASS (run `26504622357`)
-- Android Runtime Emulator CI (PR): PASS (run `26504623088`)
+- Android Code CI (push on `main`): PASS (run `26510870283`)
+- Android Runtime Emulator CI (push on `main`): PASS (run `26510870284`)
+- Android Runtime Emulator CI (manual `workflow_dispatch`): PASS (run `26509839591`)
 
 ## Files inspected (prep)
 
@@ -56,11 +61,12 @@ Emulator runtime CI failed with `/usr/bin/sh` incompatibilities:
 - `docs/VERIFICATION/core-v0.1-baseline-report.md`
 - `TASKS.md`
 - `copilot_session.md`
+- `docs/_debug/live_debug_session.md`
 
 ## Remaining work (prep session)
 
 - Live Debug Mode Preparation section (below)
-- Create `docs/_debug/live_debug_session.md` ledger
+- Keep the live debug ledger current as bugs are reported/verified
 
 ## Live Debug Mode Preparation
 
@@ -142,9 +148,9 @@ Emulator runtime CI failed with `/usr/bin/sh` incompatibilities:
 
 ### Current checklist
 
-- [ ] Create `docs/_debug/live_debug_session.md` ledger
+- [x] Create `docs/_debug/live_debug_session.md` ledger
 - [ ] Keep this “Live Debug Mode Preparation” section current as bugs are handled
-  - BUG-001: All Apps list incomplete (pending user verification)
+- [ ] Record user verification results for BUG-001..BUG-004 in the ledger
 
 ### Known risks / unknowns
 
