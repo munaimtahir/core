@@ -42,6 +42,8 @@ jobs:
           emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect -no-snapshot
           script: |
             set -euxo pipefail
+            adb kill-server || true
+            adb start-server
             APK="app/build/outputs/apk/debug/app-debug.apk"
             test -f "$APK"
             adb wait-for-device
