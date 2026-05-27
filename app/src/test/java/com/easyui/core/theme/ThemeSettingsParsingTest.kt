@@ -25,7 +25,9 @@ class ThemeSettingsParsingTest {
         assertEquals(TextSize.Normal, textSizeFromStorage(null))
         assertEquals(TextSize.Normal, textSizeFromStorage(""))
         assertEquals(TextSize.Normal, textSizeFromStorage("unknown"))
+        assertEquals(TextSize.Small, textSizeFromStorage("small"))
         assertEquals(TextSize.Large, textSizeFromStorage("large"))
+        assertEquals(TextSize.Larger, textSizeFromStorage("larger"))
     }
 
     @Test
@@ -36,4 +38,3 @@ class ThemeSettingsParsingTest {
         assertEquals(IconSize.Large, iconSizeFromStorage("large"))
     }
 }
-

@@ -44,14 +44,17 @@ fun CoreTheme(
             surface = androidx.compose.ui.graphics.Color.Black,
             onSurface = androidx.compose.ui.graphics.Color.White,
             onSurfaceVariant = androidx.compose.ui.graphics.Color.White,
-            primary = androidx.compose.ui.graphics.Color.White,
+            primary = androidx.compose.ui.graphics.Color(0xFFFFD400), // bright yellow accent
+            onPrimary = androidx.compose.ui.graphics.Color.Black,
         )
         else -> if (useDark) CoreDarkColorScheme else CoreLightColorScheme
     }
 
     val typography = when (settings.textSize) {
-        TextSize.Large -> scaleTypography(MaterialTheme.typography, 1.2f)
+        TextSize.Small -> scaleTypography(MaterialTheme.typography, 0.9f)
         TextSize.Normal -> MaterialTheme.typography
+        TextSize.Large -> scaleTypography(MaterialTheme.typography, 1.18f)
+        TextSize.Larger -> scaleTypography(MaterialTheme.typography, 1.32f)
     }
 
     MaterialTheme(

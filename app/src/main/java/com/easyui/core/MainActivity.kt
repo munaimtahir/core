@@ -1,15 +1,19 @@
 package com.easyui.core
 
 import android.app.role.RoleManager
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Build
+import android.provider.Settings
 import android.view.View
 import android.widget.ImageView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -46,6 +50,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -69,6 +74,7 @@ import com.easyui.core.home.HomeGridSpec
 import com.easyui.core.home.HomeLayout
 import com.easyui.core.home.HomeLayoutRepository
 import com.easyui.core.home.HomeSlotId
+import com.easyui.core.onboarding.OnboardingRepository
 import com.easyui.core.theme.IconSize
 import com.easyui.core.theme.TextSize
 import com.easyui.core.theme.ThemePalette
@@ -87,6 +93,7 @@ class MainActivity : ComponentActivity() {
 }
 
 private sealed interface Screen {
+    data object Onboarding : Screen
     data object Home : Screen
     data object AllApps : Screen
     data object CustomizeHome : Screen
@@ -119,6 +126,7 @@ private fun AppRoot(
     val context = LocalContext.current
     val spec = remember { HomeGridSpec(pageCount = 3, columns = 3, rows = 3) }
     val homeRepo = remember { HomeLayoutRepository(context, spec) }
+    val onboardingRepo = remember { OnboardingRepository(context) }
 
     val discovery: AppDiscovery = remember { PackageManagerAppDiscovery(context) }
     val launcher: AppLauncher = remember { PackageManagerAppLauncher(context) }
@@ -127,7 +135,8 @@ private fun AppRoot(
     val homeIconSize = remember(themeSettings.iconSize) { homeIconDp(themeSettings.iconSize) }
     val listIconSize = remember(themeSettings.iconSize) { listIconDp(themeSettings.iconSize) }
 
-    var screen by remember { mutableStateOf<Screen>(Screen.Home) }
+    val onboardingCompleted by onboardingRepo.isCompletedFlow.collectAsState(initial = false)
+    var screen by remember { mutableStateOf<Screen>(if (onboardingCompleted) Screen.Home else Screen.Onboarding) }
     var lastError by remember { mutableStateOf<String?>(null) }
 
     var apps by remember { mutableStateOf<List<LaunchableApp>>(emptyList()) }
@@ -139,6 +148,7 @@ private fun AppRoot(
     // - On other screens: Back returns to Home.
     BackHandler(enabled = true) {
         when (screen) {
+            Screen.Onboarding -> Unit
             Screen.Home -> Unit
             else -> screen = Screen.Home
         }
@@ -151,10 +161,26 @@ private fun AppRoot(
     }
 
     LaunchedEffect(Unit) { refreshApps() }
+    LaunchedEffect(onboardingCompleted) {
+        if (onboardingCompleted && screen == Screen.Onboarding) {
+            screen = Screen.Home
+        }
+    }
 
     val layout by homeRepo.layoutFlow.collectAsState(initial = HomeLayout(spec = spec))
 
     when (screen) {
+        Screen.Onboarding -> OnboardingScreen(
+            selected = themeSettings,
+            onSetPalette = { palette -> scope.launch { themeRepo.setPalette(palette) } },
+            onSetTextSize = { size -> scope.launch { themeRepo.setTextSize(size) } },
+            onSetIconSize = { size -> scope.launch { themeRepo.setIconSize(size) } },
+            onContinue = {
+                scope.launch { onboardingRepo.markCompleted() }
+                screen = Screen.Home
+            },
+        )
+
         Screen.Home -> HomeScreen(
             spec = spec,
             layout = layout,
@@ -247,6 +273,103 @@ private fun AppRoot(
     }
 }
 
+@Composable
+private fun OnboardingScreen(
+    selected: ThemeSettings,
+    onSetPalette: (ThemePalette) -> Unit,
+    onSetTextSize: (TextSize) -> Unit,
+    onSetIconSize: (IconSize) -> Unit,
+    onContinue: () -> Unit,
+) {
+    val context = LocalContext.current
+    var refreshTick by remember { mutableIntStateOf(0) }
+
+    val status = remember(refreshTick) { computeLauncherStatus(context) }
+
+    val launcherForResult = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult(),
+        onResult = { refreshTick++ },
+    )
+
+    fun openDefaultHomePicker() {
+        val intent = createDefaultHomePickerIntent(context)
+        if (intent != null) launcherForResult.launch(intent)
+        else refreshTick++
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .testTag("onboarding_screen"),
+    ) {
+        Text(text = stringResource(R.string.onboarding_title), style = MaterialTheme.typography.titleLarge)
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = stringResource(R.string.onboarding_instructions),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = MaterialTheme.typography.bodyMedium,
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(text = stringResource(R.string.onboarding_current_launcher), color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Spacer(modifier = Modifier.height(6.dp))
+        Text(text = status, style = MaterialTheme.typography.bodyLarge)
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            modifier = Modifier.fillMaxWidth().testTag("onboarding_open_default_launcher"),
+            onClick = { openDefaultHomePicker() },
+        ) {
+            Text(text = stringResource(R.string.onboarding_choose_default_launcher))
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        OutlinedButton(
+            modifier = Modifier.fillMaxWidth().testTag("onboarding_refresh_status"),
+            onClick = { refreshTick++ },
+        ) {
+            Text(text = stringResource(R.string.refresh))
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(text = stringResource(R.string.onboarding_settings_title), style = MaterialTheme.typography.titleMedium)
+        Spacer(modifier = Modifier.height(8.dp))
+
+        ThemeSettingsContent(
+            selected = selected,
+            onSetPalette = onSetPalette,
+            onSetTextSize = onSetTextSize,
+            onSetIconSize = onSetIconSize,
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        OutlinedButton(
+            modifier = Modifier.fillMaxWidth().testTag("onboarding_continue"),
+            onClick = onContinue,
+        ) {
+            Text(text = stringResource(R.string.continue_to_home))
+        }
+    }
+}
+
+private fun createDefaultHomePickerIntent(context: Context): Intent? {
+    // Best-effort: request ROLE_HOME on Android 10+ where supported.
+    if (Build.VERSION.SDK_INT >= 29) {
+        val roleManager = context.getSystemService(RoleManager::class.java)
+        if (roleManager != null && roleManager.isRoleAvailable(RoleManager.ROLE_HOME)) {
+            return roleManager.createRequestRoleIntent(RoleManager.ROLE_HOME)
+        }
+    }
+    // Fallback: open system UI where the user can change default Home app.
+    return Intent(Settings.ACTION_HOME_SETTINGS)
+}
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun HomeScreen(
@@ -312,30 +435,10 @@ private fun HomeScreen(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.testTag("home_page_indicator"),
         ) {
-            OutlinedButton(
-                modifier = Modifier.testTag("home_previous_page"),
-                onClick = {
-                    pageIndex = (pageIndex - 1).coerceAtLeast(0)
-                },
-                enabled = pageIndex > 0,
-            ) {
-                Text(text = stringResource(R.string.previous_page))
-            }
-            Spacer(modifier = Modifier.width(12.dp))
             Text(
                 text = stringResource(R.string.page_indicator, pageIndex + 1, spec.pageCount),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
-            Spacer(modifier = Modifier.width(12.dp))
-            OutlinedButton(
-                modifier = Modifier.testTag("home_next_page"),
-                onClick = {
-                    pageIndex = (pageIndex + 1).coerceAtMost(spec.pageCount - 1)
-                },
-                enabled = pageIndex < spec.pageCount - 1,
-            ) {
-                Text(text = stringResource(R.string.next_page))
-            }
             Spacer(modifier = Modifier.weight(1f))
             if (isRefreshingApps) {
                 CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
@@ -849,76 +952,105 @@ private fun ThemeSettingsScreen(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        Text(text = stringResource(R.string.theme_section_palette), color = MaterialTheme.colorScheme.onSurfaceVariant)
-        Spacer(modifier = Modifier.height(6.dp))
-
-        ThemeOptionRow(
-            tag = "theme_palette_system",
-            label = stringResource(R.string.theme_palette_system),
-            selected = selected.palette == ThemePalette.System,
-            previewSettings = selected.copy(palette = ThemePalette.System),
-            onClick = { onSetPalette(ThemePalette.System) },
-        )
-        ThemeOptionRow(
-            tag = "theme_palette_light",
-            label = stringResource(R.string.theme_palette_light),
-            selected = selected.palette == ThemePalette.Light,
-            previewSettings = selected.copy(palette = ThemePalette.Light),
-            onClick = { onSetPalette(ThemePalette.Light) },
-        )
-        ThemeOptionRow(
-            tag = "theme_palette_dark",
-            label = stringResource(R.string.theme_palette_dark),
-            selected = selected.palette == ThemePalette.Dark,
-            previewSettings = selected.copy(palette = ThemePalette.Dark),
-            onClick = { onSetPalette(ThemePalette.Dark) },
-        )
-        ThemeOptionRow(
-            tag = "theme_palette_high_contrast",
-            label = stringResource(R.string.theme_high_contrast),
-            selected = selected.palette == ThemePalette.HighContrast,
-            previewSettings = selected.copy(palette = ThemePalette.HighContrast),
-            onClick = { onSetPalette(ThemePalette.HighContrast) },
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-        Text(text = stringResource(R.string.theme_section_text), color = MaterialTheme.colorScheme.onSurfaceVariant)
-        Spacer(modifier = Modifier.height(6.dp))
-
-        ThemeOptionRow(
-            tag = "theme_text_normal",
-            label = stringResource(R.string.theme_text_normal),
-            selected = selected.textSize == TextSize.Normal,
-            previewSettings = selected.copy(textSize = TextSize.Normal),
-            onClick = { onSetTextSize(TextSize.Normal) },
-        )
-        ThemeOptionRow(
-            tag = "theme_text_large",
-            label = stringResource(R.string.theme_text_large),
-            selected = selected.textSize == TextSize.Large,
-            previewSettings = selected.copy(textSize = TextSize.Large),
-            onClick = { onSetTextSize(TextSize.Large) },
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-        Text(text = stringResource(R.string.theme_section_icons), color = MaterialTheme.colorScheme.onSurfaceVariant)
-        Spacer(modifier = Modifier.height(6.dp))
-
-        ThemeOptionRow(
-            tag = "theme_icons_normal",
-            label = stringResource(R.string.theme_icons_normal),
-            selected = selected.iconSize == IconSize.Normal,
-            previewSettings = selected.copy(iconSize = IconSize.Normal),
-            onClick = { onSetIconSize(IconSize.Normal) },
-        )
-        ThemeOptionRow(
-            tag = "theme_icons_large",
-            label = stringResource(R.string.theme_icons_large),
-            selected = selected.iconSize == IconSize.Large,
-            previewSettings = selected.copy(iconSize = IconSize.Large),
-            onClick = { onSetIconSize(IconSize.Large) },
+        ThemeSettingsContent(
+            selected = selected,
+            onSetPalette = onSetPalette,
+            onSetTextSize = onSetTextSize,
+            onSetIconSize = onSetIconSize,
         )
     }
+}
+
+@Composable
+private fun ThemeSettingsContent(
+    selected: ThemeSettings,
+    onSetPalette: (ThemePalette) -> Unit,
+    onSetTextSize: (TextSize) -> Unit,
+    onSetIconSize: (IconSize) -> Unit,
+) {
+    Text(text = stringResource(R.string.theme_section_palette), color = MaterialTheme.colorScheme.onSurfaceVariant)
+    Spacer(modifier = Modifier.height(6.dp))
+
+    ThemeOptionRow(
+        tag = "theme_palette_system",
+        label = stringResource(R.string.theme_palette_system),
+        selected = selected.palette == ThemePalette.System,
+        previewSettings = selected.copy(palette = ThemePalette.System),
+        onClick = { onSetPalette(ThemePalette.System) },
+    )
+    ThemeOptionRow(
+        tag = "theme_palette_light",
+        label = stringResource(R.string.theme_palette_light),
+        selected = selected.palette == ThemePalette.Light,
+        previewSettings = selected.copy(palette = ThemePalette.Light),
+        onClick = { onSetPalette(ThemePalette.Light) },
+    )
+    ThemeOptionRow(
+        tag = "theme_palette_dark",
+        label = stringResource(R.string.theme_palette_dark),
+        selected = selected.palette == ThemePalette.Dark,
+        previewSettings = selected.copy(palette = ThemePalette.Dark),
+        onClick = { onSetPalette(ThemePalette.Dark) },
+    )
+    ThemeOptionRow(
+        tag = "theme_palette_high_contrast",
+        label = stringResource(R.string.theme_high_contrast),
+        selected = selected.palette == ThemePalette.HighContrast,
+        previewSettings = selected.copy(palette = ThemePalette.HighContrast),
+        onClick = { onSetPalette(ThemePalette.HighContrast) },
+    )
+
+    Spacer(modifier = Modifier.height(12.dp))
+    Text(text = stringResource(R.string.theme_section_text), color = MaterialTheme.colorScheme.onSurfaceVariant)
+    Spacer(modifier = Modifier.height(6.dp))
+
+    ThemeOptionRow(
+        tag = "theme_text_small",
+        label = stringResource(R.string.theme_text_small),
+        selected = selected.textSize == TextSize.Small,
+        previewSettings = selected.copy(textSize = TextSize.Small),
+        onClick = { onSetTextSize(TextSize.Small) },
+    )
+    ThemeOptionRow(
+        tag = "theme_text_normal",
+        label = stringResource(R.string.theme_text_normal),
+        selected = selected.textSize == TextSize.Normal,
+        previewSettings = selected.copy(textSize = TextSize.Normal),
+        onClick = { onSetTextSize(TextSize.Normal) },
+    )
+    ThemeOptionRow(
+        tag = "theme_text_large",
+        label = stringResource(R.string.theme_text_large),
+        selected = selected.textSize == TextSize.Large,
+        previewSettings = selected.copy(textSize = TextSize.Large),
+        onClick = { onSetTextSize(TextSize.Large) },
+    )
+    ThemeOptionRow(
+        tag = "theme_text_larger",
+        label = stringResource(R.string.theme_text_larger),
+        selected = selected.textSize == TextSize.Larger,
+        previewSettings = selected.copy(textSize = TextSize.Larger),
+        onClick = { onSetTextSize(TextSize.Larger) },
+    )
+
+    Spacer(modifier = Modifier.height(12.dp))
+    Text(text = stringResource(R.string.theme_section_icons), color = MaterialTheme.colorScheme.onSurfaceVariant)
+    Spacer(modifier = Modifier.height(6.dp))
+
+    ThemeOptionRow(
+        tag = "theme_icons_normal",
+        label = stringResource(R.string.theme_icons_normal),
+        selected = selected.iconSize == IconSize.Normal,
+        previewSettings = selected.copy(iconSize = IconSize.Normal),
+        onClick = { onSetIconSize(IconSize.Normal) },
+    )
+    ThemeOptionRow(
+        tag = "theme_icons_large",
+        label = stringResource(R.string.theme_icons_large),
+        selected = selected.iconSize == IconSize.Large,
+        previewSettings = selected.copy(iconSize = IconSize.Large),
+        onClick = { onSetIconSize(IconSize.Large) },
+    )
 }
 
 @Composable
