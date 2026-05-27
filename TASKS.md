@@ -2,17 +2,17 @@
 
 ## Stage 0 — Documentation Foundation
 
-- [ ] Create repository named `core`
-- [ ] Add documentation pack
-- [ ] Review `README.md`
-- [ ] Review `docs/PROJECT_CONTEXT.md`
-- [ ] Review `docs/GREENFIELD_POLICY.md`
-- [ ] Review `docs/BASELINE_SCOPE.md`
-- [ ] Review `docs/PRODUCT_GUARDRAILS.md`
-- [ ] Review `AGENTS.md`
-- [ ] Review `GEMINI.md`
-- [ ] Review `.github/copilot-instructions.md`
-- [ ] Commit documentation as first commit
+- [x] Create repository named `core`
+- [x] Add documentation pack
+- [x] Review `README.md`
+- [x] Review `docs/PROJECT_CONTEXT.md`
+- [x] Review `docs/GREENFIELD_POLICY.md`
+- [x] Review `docs/BASELINE_SCOPE.md`
+- [x] Review `docs/PRODUCT_GUARDRAILS.md`
+- [x] Review `AGENTS.md`
+- [x] Review `GEMINI.md`
+- [x] Review `.github/copilot-instructions.md`
+- [x] Commit documentation as first commit
 
 ## Stage 1 — Android Project Skeleton
 
@@ -44,34 +44,34 @@
 
 ## Stage 4 — Fixed Home Grid
 
-- [ ] Define fixed home grid
-- [ ] Allow selecting home apps
-- [ ] Persist selected home apps
-- [ ] Show icons and labels on home
-- [ ] Launch apps from home
-- [ ] Reset to safe defaults
-- [ ] Verify restart persistence
+- [x] Define fixed home grid (3 pages, 3x3)
+- [x] Allow selecting home apps
+- [x] Persist selected home apps
+- [x] Show icons and labels on home
+- [x] Launch apps from home
+- [x] Reset to safe defaults
+- [x] Verify restart persistence
 
 ## Stage 5 — Theme Persistence
 
-- [ ] Add minimal theme list
-- [ ] Persist selected theme
-- [ ] Verify no flicker/revert behavior
-- [ ] Add tests for theme state
+- [x] Add minimal theme list (Default / High Contrast / Large Text)
+- [x] Persist selected theme
+- [x] Verify no flicker/revert behavior (manual + CI)
+- [x] Add tests for theme state
 
 ## Stage 6 — CI and Emulator Runtime
 
-- [ ] Add Android Code CI
-- [ ] Add Android Runtime Emulator CI
-- [ ] Capture screenshot artifact
-- [ ] Capture logcat artifact
-- [ ] Iterate until green
-- [ ] Produce final baseline verification report
+- [x] Add Android Code CI
+- [x] Add Android Runtime Emulator CI
+- [x] Capture screenshot artifact
+- [x] Capture logcat artifact
+- [x] Iterate until green
+- [x] Produce baseline verification report stub
 
 ## Stage 7 — Baseline Verdict
 
-- [ ] Run complete test suite
-- [ ] Run emulator workflow
+- [x] Run complete local test suite (build/unit/lint)
+- [x] Run emulator workflow (GitHub Actions)
 - [ ] Run manual smoke test if available
-- [ ] Write final report
-- [ ] Mark baseline GO / Conditional GO / NO-GO
+- [x] Finalize report with PASS/FAIL run IDs + verdict
+- [x] Mark baseline GO / Conditional GO / NO-GO
