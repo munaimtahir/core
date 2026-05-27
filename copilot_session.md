@@ -8,11 +8,19 @@ core
 
 ## Current goal
 
-Stage 1 CI closure + Stage 2: implement installed-app discovery and a simple app list (labels + icons + tap-to-launch) with safe fallbacks.
+Complete baseline MVP for `core v0.1` (Stages 1B through 9): 3-page fixed Home grid + customization + DataStore persistence + theme persistence + status/debug + reset + emulator runtime CI + final verification report.
 
 ## Current status
 
-Stage 1 CI closure completed and Stage 2 app discovery + app list implemented on branch `stage2-app-discovery` (PR #1 open).
+Stage 1B + Stage 2 + Stage 3 are implemented on branch `stage2-app-discovery` (PR #1 open).
+
+Remaining baseline stages to implement:
+- Stage 4: fixed 3-page Home grid
+- Stage 5: manual app organization/customization
+- Stage 6: theme persistence (Default / High Contrast / Large Text)
+- Stage 7: status/debug + reset options
+- Stage 8: emulator runtime CI workflow (install + launch + screenshot + logcat)
+- Stage 9: final baseline verification report
 
 ## Repo state (May 27, 2026)
 
@@ -22,33 +30,34 @@ Stage 1 CI closure completed and Stage 2 app discovery + app list implemented on
 
 ## Implementation plan (baseline-only)
 
-1. Stage 1 CI closure:
-   - Inspect `.github/workflows/android-code-ci.yml` and confirm it runs build, unit tests, and lint.
-   - Run local equivalents to match CI:
-     - `./gradlew clean assembleDebug`
-     - `./gradlew testDebugUnitTest`
-     - `./gradlew lintDebug`
-   - Commit Stage 1 Android skeleton changes.
-   - Commit the CI workflow change.
-   - If the repo has a GitHub remote + `gh` access, verify the latest Actions run is green after push.
-2. Stage 2 app discovery + app list:
-   - Add a small app model (label, component, package name, activity name, icon load path).
-   - Implement PackageManager-backed discovery:
-     - query `ACTION_MAIN` + `CATEGORY_LAUNCHER`
-     - load labels + icons with safe fallbacks
-     - sort alphabetically
-     - exclude this launcher app
-   - Add app launching abstraction with safe failure handling.
-   - Add a simple “All apps” screen reachable from Home:
-     - list icon + label, alphabetical
-     - tap launches app
-     - launch failures don’t crash (show a simple error message)
-   - Add unit tests for pure logic (sorting + fallback) and keep UI changes minimal.
-3. Re-run verification commands:
+1. Stage 1B preflight:
+   - Confirm Gradle + manifest + existing Code CI still pass locally.
+2. Stage 4 + 5 (Home grid + Customize):
+   - Define fixed grid model (3 pages, 3x3 per page).
+   - Implement persistent Home layout model (page+slot -> optional app ref).
+   - Build Home UI with page navigation, grid tiles, All Apps entry, Customize entry.
+   - Build Customize UI:
+     - select page
+     - select slot
+     - assign/replace/remove
+     - move between slots/pages (two-step select source, then destination)
+     - reset home layout
+3. Stage 6 (Theme persistence):
+   - Implement theme ID model + DataStore-backed repository as single source of truth.
+   - Add Theme Settings screen with exactly: Default / High Contrast / Large Text.
+4. Stage 7 (Status/Debug + Reset):
+   - Add Status screen (version, app count, theme, home slot count, conservative launcher status).
+   - Add Reset screen (reset home only, reset all baseline settings) with confirmation.
+5. Stage 8 (Emulator runtime CI):
+   - Add workflow to boot emulator, install APK, launch activity, capture screenshot + logcat, upload artifacts.
+6. Stage 9 (Final report):
+   - Add `docs/VERIFICATION/core-v0.1-baseline-report.md` describing verification and known limitations.
+7. Verification:
    - `./gradlew clean assembleDebug`
    - `./gradlew testDebugUnitTest`
    - `./gradlew lintDebug`
-4. Update this handoff with files changed, commands run, results, and GitHub Actions status (if verifiable).
+   - (If instrumentation tests added) `./gradlew connectedDebugAndroidTest` or document why not run.
+8. Update this handoff with files changed, commands run, results, and GitHub Actions status.
 
 ## Active principle
 
@@ -63,20 +72,35 @@ Do not reuse legacy code, architecture, workflows, UI flows, or state systems fr
 ## Task checklist
 
 - [x] Review baseline docs + agent rules
-- [x] Stage 1 CI closure: commit Android skeleton
-- [x] Stage 1 CI closure: commit Android Code CI workflow
-- [x] Stage 1 CI closure: verify GitHub Actions result (remote run)
-- [x] Stage 2: implement installed app discovery
-- [x] Stage 2: load app labels
-- [x] Stage 2: load app icons with fallback
-- [x] Stage 2: exclude self where appropriate
-- [x] Stage 2: app list UI (alphabetical) reachable from Home
-- [x] Stage 2: tap-to-launch with safe failure handling
+- [x] Stage 1B: commit Android skeleton
+- [x] Stage 1B: commit Android Code CI workflow
+- [x] Stage 1B: verify GitHub Actions result (remote run)
+- [x] Stage 2: installed app discovery
+- [x] Stage 3: All Apps list UI + app launching
+- [ ] Stage 4: fixed Home grid (3 pages) + stable navigation
+- [ ] Stage 5: Customize Home (assign/replace/remove/move/reset)
+- [ ] Stage 6: Theme settings + persistence (Default/High Contrast/Large Text)
+- [ ] Stage 7: Status/Debug screen + Reset options
+- [ ] Stage 8: Emulator runtime CI workflow
+- [ ] Stage 9: Final baseline verification report
 - [x] Add/adjust unit tests (practical, logic-focused)
-- [x] Run: `./gradlew clean assembleDebug`
-- [x] Run: `./gradlew testDebugUnitTest`
-- [x] Run: `./gradlew lintDebug`
-- [x] Update `copilot_session.md` with final results for this session
+- [ ] Run: `./gradlew clean assembleDebug`
+- [ ] Run: `./gradlew testDebugUnitTest`
+- [ ] Run: `./gradlew lintDebug`
+- [ ] Update `copilot_session.md` with final results for this session
+
+## Commands planned (this session)
+
+- `./gradlew clean assembleDebug`
+- `./gradlew testDebugUnitTest`
+- `./gradlew lintDebug`
+- `gh run watch ...` (Android Code CI + emulator runtime CI once added)
+
+## Known risks
+
+- DataStore schema/serialization errors causing crashes or state conflicts (mitigation: pure helpers + safe fallback on read).
+- Home grid UI overflow on small screens (mitigation: fixed grid with adaptive sizing + ellipsized labels).
+- Emulator runtime CI flakiness (mitigation: conservative timeouts + artifacts for diagnosis).
 
 ## Files inspected
 

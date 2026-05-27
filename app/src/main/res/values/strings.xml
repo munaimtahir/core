@@ -7,4 +7,41 @@
     <string name="back">Back</string>
     <string name="loading_apps">Loading apps...</string>
     <string name="no_apps_found">No apps found.</string>
+    <string name="previous_page">Previous</string>
+    <string name="next_page">Next</string>
+    <string name="page_indicator">Page %1$d of %2$d</string>
+    <string name="refresh">Refresh</string>
+    <string name="customize_home">Customize home</string>
+    <string name="theme_settings">Theme</string>
+    <string name="status_debug">Status</string>
+    <string name="reset_options">Reset</string>
+    <string name="empty_slot">Empty</string>
+    <string name="unavailable_app">Unavailable</string>
+    <string name="selected">Selected</string>
+    <string name="moving">Moving</string>
+    <string name="remove">Remove</string>
+    <string name="move">Move</string>
+    <string name="reset_home">Reset home</string>
+    <string name="tap_app_to_assign">Tap an app to assign it to the selected slot.</string>
+    <string name="reset_home_confirm">This will clear all home slots.</string>
+    <string name="reset">Reset</string>
+    <string name="cancel">Cancel</string>
+    <string name="page_short">Page %1$d</string>
+
+    <string name="theme_default">Default</string>
+    <string name="theme_high_contrast">High Contrast</string>
+    <string name="theme_large_text">Large Text</string>
+
+    <string name="status_app_version">App version</string>
+    <string name="status_launcher_state">Launcher status</string>
+    <string name="status_detected_app_count">Detected apps</string>
+    <string name="status_selected_theme">Selected theme</string>
+    <string name="status_selected_home_slots_count">Home slots filled</string>
+    <string name="launcher_state_unknown">Launcher status could not be confirmed on this device.</string>
+
+    <string name="reset_home_only">Reset home apps only</string>
+    <string name="reset_all_settings">Reset all baseline settings</string>
+    <string name="reset_confirm_title">Confirm reset</string>
+    <string name="reset_home_only_confirm">This will clear all home slots but keep your theme.</string>
+    <string name="reset_all_settings_confirm">This will clear all home slots and reset the theme to Default.</string>
 </resources>
