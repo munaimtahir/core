@@ -33,6 +33,17 @@ Core v0.1 baseline implementation is present on `main`:
 - CI: Android Code CI + Android Runtime Emulator CI
 - Verification report: `docs/VERIFICATION/core-v0.1-baseline-report.md`
 
+Current live-debug work in progress:
+
+- Onboarding is being split into a 3-step flow:
+  - Step 1: default launcher selection
+  - Step 2: theme and text size
+  - Step 3: page count and placement editor entry
+- Home screen setup shortcuts are being removed so setup is only surfaced in onboarding / dedicated screens
+- Home page count is now backed by DataStore and is intended to persist across restarts
+- Home screen now has a full-width top clock strip for time, date, and month/day
+- Home screen is being extended with a secondary network/status strip for signal, connection type, network name, and battery percentage
+
 ## Failure/fix log (Stage 8)
 
 Emulator runtime CI failed with `/usr/bin/sh` incompatibilities:
@@ -47,6 +58,17 @@ Emulator runtime CI failed with `/usr/bin/sh` incompatibilities:
 - `./gradlew lintDebug`: PASS
 - Device install: `adb install -r app/build/outputs/apk/debug/app-debug.apk`: PASS
 - Device launch: `adb shell am start -n com.easyui.core/.MainActivity`: PASS
+- Current onboarding/page-count cycle:
+  - `./gradlew assembleDebug`: PASS
+  - `./gradlew testDebugUnitTest`: PASS
+  - `./gradlew lintDebug`: PASS
+- Current clock-strip cycle:
+  - `./gradlew assembleDebug`: PASS
+- Current status-strip cycle:
+  - `./gradlew assembleDebug`: PASS
+  - `adb install -r app/build/outputs/apk/debug/app-debug.apk`: PASS
+  - `./gradlew testDebugUnitTest`: PASS
+  - `./gradlew lintDebug`: PASS
 
 ## GitHub Actions status (recent)
 
@@ -67,6 +89,7 @@ Emulator runtime CI failed with `/usr/bin/sh` incompatibilities:
 
 - Live Debug Mode Preparation section (below)
 - Keep the live debug ledger current as bugs are reported/verified
+- Finish verifying the onboarding 3-step refactor on-device if the user reports a runtime issue
 
 ## Live Debug Mode Preparation
 
@@ -153,6 +176,7 @@ Emulator runtime CI failed with `/usr/bin/sh` incompatibilities:
 - [ ] Record user verification results for BUG-001..BUG-004 in the ledger
 - [x] Record user verification result for BUG-005 in the ledger
 - [ ] Record user verification result for BUG-006 in the ledger
+- [ ] Record onboarding 3-step / persistent page count work in the ledger if needed
 
 ### Known risks / unknowns
 

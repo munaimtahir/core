@@ -4,9 +4,15 @@ import android.app.role.RoleManager
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.os.Build
+import android.os.BatteryManager
 import android.provider.Settings
+import android.telephony.TelephonyManager
 import android.view.View
 import android.widget.ImageView
 import androidx.activity.ComponentActivity
@@ -27,6 +33,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -35,6 +42,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -61,6 +70,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import com.easyui.core.apps.AppDiscovery
 import com.easyui.core.apps.AppIconLoader
 import com.easyui.core.apps.AppLauncher
@@ -130,6 +142,12 @@ private sealed interface Screen {
     data object ThemeSettings : Screen
     data object StatusDebug : Screen
     data object ResetOptions : Screen
+}
+
+private enum class OnboardingStep {
+    Launcher,
+    Appearance,
+    Layout,
 }
 
 @Composable
@@ -204,14 +222,19 @@ private fun AppRoot(
 
     LaunchedEffect(Unit) { refreshApps() }
     val layout by homeRepo.layoutFlow.collectAsState(initial = HomeLayout(spec = spec))
+    val pageCount = layout.spec.pageCount
 
     when (screen) {
         Screen.Onboarding -> OnboardingScreen(
             selected = themeSettings,
+            pageCount = pageCount,
             onSetPalette = { palette -> scope.launch { themeRepo.setPalette(palette) } },
             onSetTextSize = { size -> scope.launch { themeRepo.setTextSize(size) } },
             onSetIconSize = { size -> scope.launch { themeRepo.setIconSize(size) } },
-            onContinue = {
+            onIncreasePages = { scope.launch { homeRepo.increasePageCount() } },
+            onDecreasePages = { scope.launch { homeRepo.decreasePageCount() } },
+            onOpenPlacementEditor = { screen = Screen.CustomizeHome },
+            onFinish = {
                 scope.launch { onboardingRepo.markCompleted() }
                 screen = Screen.Home
             },
@@ -219,6 +242,7 @@ private fun AppRoot(
 
         Screen.Home -> HomeScreen(
             spec = spec,
+            pageCount = pageCount,
             layout = layout,
             apps = apps,
             isRefreshingApps = appsLoading,
@@ -236,8 +260,6 @@ private fun AppRoot(
             },
             lastError = lastError,
             onOpenAllApps = { lastError = null; screen = Screen.AllApps },
-            onOpenCustomize = { lastError = null; screen = Screen.CustomizeHome },
-            onOpenTheme = { lastError = null; screen = Screen.ThemeSettings },
             onOpenStatus = { lastError = null; screen = Screen.StatusDebug },
             onOpenReset = { lastError = null; screen = Screen.ResetOptions },
         )
@@ -265,6 +287,7 @@ private fun AppRoot(
 
         Screen.CustomizeHome -> CustomizeHomeScreen(
             spec = spec,
+            pageCount = pageCount,
             layout = layout,
             apps = apps,
             isLoadingApps = appsLoading,
@@ -304,7 +327,13 @@ private fun AppRoot(
         Screen.ResetOptions -> ResetOptionsScreen(
             onBack = { screen = Screen.Home },
             onResetHomeOnly = { scope.launch { homeRepo.resetHome() } },
-            onResetAll = { scope.launch { homeRepo.resetHome(); themeRepo.resetToDefault() } },
+            onResetAll = {
+                scope.launch {
+                    homeRepo.resetHome()
+                    homeRepo.setPageCount(spec.pageCount)
+                    themeRepo.resetToDefault()
+                }
+            },
         )
     }
 }
@@ -312,17 +341,21 @@ private fun AppRoot(
 @Composable
 private fun OnboardingScreen(
     selected: ThemeSettings,
+    pageCount: Int,
     onSetPalette: (ThemePalette) -> Unit,
     onSetTextSize: (TextSize) -> Unit,
     onSetIconSize: (IconSize) -> Unit,
-    onContinue: () -> Unit,
+    onIncreasePages: () -> Unit,
+    onDecreasePages: () -> Unit,
+    onOpenPlacementEditor: () -> Unit,
+    onFinish: () -> Unit,
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+    var step by remember { mutableStateOf(OnboardingStep.Launcher) }
     var refreshTick by remember { mutableIntStateOf(0) }
 
     val status = remember(refreshTick) { computeLauncherStatus(context) }
-    val isDefaultHome = remember(refreshTick) { isCoreDefaultHome(context) }
 
     val launcherForResult = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
@@ -330,21 +363,11 @@ private fun OnboardingScreen(
             scope.launch {
                 repeat(6) {
                     refreshTick++
-                    if (isCoreDefaultHome(context)) {
-                        onContinue()
-                        return@launch
-                    }
                     delay(300)
                 }
             }
         },
     )
-
-    LaunchedEffect(isDefaultHome) {
-        if (isDefaultHome) {
-            onContinue()
-        }
-    }
 
     fun openDefaultHomePicker() {
         val intent = createDefaultHomePickerIntent(context)
@@ -358,57 +381,134 @@ private fun OnboardingScreen(
             .padding(16.dp)
             .testTag("onboarding_screen"),
     ) {
-        Text(text = stringResource(R.string.onboarding_title), style = MaterialTheme.typography.titleLarge)
+        Text(
+            text = when (step) {
+                OnboardingStep.Launcher -> stringResource(R.string.onboarding_step_launcher_title)
+                OnboardingStep.Appearance -> stringResource(R.string.onboarding_step_appearance_title)
+                OnboardingStep.Layout -> stringResource(R.string.onboarding_step_layout_title)
+            },
+            style = MaterialTheme.typography.titleLarge,
+        )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = stringResource(R.string.onboarding_instructions),
+            text = when (step) {
+                OnboardingStep.Launcher -> stringResource(R.string.onboarding_step_launcher_body)
+                OnboardingStep.Appearance -> stringResource(R.string.onboarding_step_appearance_body)
+                OnboardingStep.Layout -> stringResource(R.string.onboarding_step_layout_body)
+            },
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             style = MaterialTheme.typography.bodyMedium,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text(text = stringResource(R.string.onboarding_current_launcher), color = MaterialTheme.colorScheme.onSurfaceVariant)
-        Spacer(modifier = Modifier.height(6.dp))
-        Text(text = status, style = MaterialTheme.typography.bodyLarge)
+        when (step) {
+            OnboardingStep.Launcher -> {
+                Text(text = stringResource(R.string.onboarding_current_launcher), color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Spacer(modifier = Modifier.height(6.dp))
+                Text(text = status, style = MaterialTheme.typography.bodyLarge)
 
-        Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-        Button(
-            modifier = Modifier.fillMaxWidth().testTag("onboarding_open_default_launcher"),
-            onClick = { openDefaultHomePicker() },
-        ) {
-            Text(text = stringResource(R.string.onboarding_choose_default_launcher))
+                Button(
+                    modifier = Modifier.fillMaxWidth().testTag("onboarding_open_default_launcher"),
+                    onClick = { openDefaultHomePicker() },
+                ) {
+                    Text(text = stringResource(R.string.onboarding_choose_default_launcher))
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                OutlinedButton(
+                    modifier = Modifier.fillMaxWidth().testTag("onboarding_refresh_status"),
+                    onClick = { refreshTick++ },
+                ) {
+                    Text(text = stringResource(R.string.refresh))
+                }
+            }
+
+            OnboardingStep.Appearance -> {
+                ThemeSettingsContent(
+                    selected = selected,
+                    onSetPalette = onSetPalette,
+                    onSetTextSize = onSetTextSize,
+                    onSetIconSize = onSetIconSize,
+                    showIconSize = false,
+                )
+            }
+
+            OnboardingStep.Layout -> {
+                Text(text = stringResource(R.string.onboarding_page_count_label), style = MaterialTheme.typography.titleMedium)
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(text = stringResource(R.string.onboarding_page_count_value, pageCount), style = MaterialTheme.typography.bodyLarge)
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    OutlinedButton(
+                        modifier = Modifier.weight(1f).testTag("onboarding_decrease_pages"),
+                        enabled = pageCount > 1,
+                        onClick = onDecreasePages,
+                    ) {
+                        Text(text = stringResource(R.string.page_decrease))
+                    }
+                    OutlinedButton(
+                        modifier = Modifier.weight(1f).testTag("onboarding_increase_pages"),
+                        enabled = pageCount < 5,
+                        onClick = onIncreasePages,
+                    ) {
+                        Text(text = stringResource(R.string.page_increase))
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                OutlinedButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = onOpenPlacementEditor,
+                ) {
+                    Text(text = stringResource(R.string.onboarding_open_placement_editor))
+                }
+            }
         }
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        OutlinedButton(
-            modifier = Modifier.fillMaxWidth().testTag("onboarding_refresh_status"),
-            onClick = { refreshTick++ },
-        ) {
-            Text(text = stringResource(R.string.refresh))
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(text = stringResource(R.string.onboarding_settings_title), style = MaterialTheme.typography.titleMedium)
-        Spacer(modifier = Modifier.height(8.dp))
-
-        ThemeSettingsContent(
-            selected = selected,
-            onSetPalette = onSetPalette,
-            onSetTextSize = onSetTextSize,
-            onSetIconSize = onSetIconSize,
-        )
 
         Spacer(modifier = Modifier.weight(1f))
 
-        OutlinedButton(
-            modifier = Modifier.fillMaxWidth().testTag("onboarding_continue"),
-            onClick = onContinue,
-        ) {
-            Text(text = stringResource(R.string.continue_to_home))
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            OutlinedButton(
+                modifier = Modifier.weight(1f).testTag("onboarding_back"),
+                enabled = step != OnboardingStep.Launcher,
+                onClick = {
+                    step = when (step) {
+                        OnboardingStep.Launcher -> OnboardingStep.Launcher
+                        OnboardingStep.Appearance -> OnboardingStep.Launcher
+                        OnboardingStep.Layout -> OnboardingStep.Appearance
+                    }
+                },
+            ) {
+                Text(text = stringResource(R.string.back))
+            }
+
+            Button(
+                modifier = Modifier.weight(1f).testTag("onboarding_next"),
+                onClick = {
+                    step = when (step) {
+                        OnboardingStep.Launcher -> OnboardingStep.Appearance
+                        OnboardingStep.Appearance -> OnboardingStep.Layout
+                        OnboardingStep.Layout -> {
+                            onFinish()
+                            OnboardingStep.Layout
+                        }
+                    }
+                },
+            ) {
+                Text(
+                    text = when (step) {
+                        OnboardingStep.Layout -> stringResource(R.string.onboarding_finish)
+                        else -> stringResource(R.string.next)
+                    },
+                )
+            }
         }
     }
 }
@@ -429,6 +529,7 @@ private fun createDefaultHomePickerIntent(context: Context): Intent? {
 @Composable
 private fun HomeScreen(
     spec: HomeGridSpec,
+    pageCount: Int,
     layout: HomeLayout,
     apps: List<LaunchableApp>,
     isRefreshingApps: Boolean,
@@ -438,13 +539,14 @@ private fun HomeScreen(
     onLaunch: (LaunchableApp) -> Unit,
     lastError: String?,
     onOpenAllApps: () -> Unit,
-    onOpenCustomize: () -> Unit,
-    onOpenTheme: () -> Unit,
     onOpenStatus: () -> Unit,
     onOpenReset: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var pageIndex by remember { mutableStateOf(0) }
+    LaunchedEffect(pageCount) { pageIndex = pageIndex.coerceAtMost(pageCount - 1) }
+    val clockState = rememberClockState()
+    val networkStatusState = rememberNetworkStatusState()
 
     val appMap = remember(apps) {
         apps.associateBy { "${it.packageName}|${it.activityName}" }
@@ -456,18 +558,16 @@ private fun HomeScreen(
             .padding(16.dp)
             .testTag("home_screen"),
     ) {
+        HomeClockStrip(clockState = clockState)
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        HomeStatusStrip(status = networkStatusState)
+
+        Spacer(modifier = Modifier.height(12.dp))
+
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = stringResource(R.string.home_title),
-                    style = MaterialTheme.typography.titleLarge,
-                )
-                Text(
-                    text = stringResource(R.string.home_subtitle),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
+            Spacer(modifier = Modifier.weight(1f))
             Button(
                 modifier = Modifier.testTag("home_all_apps_button"),
                 onClick = onOpenAllApps,
@@ -532,8 +632,8 @@ private fun HomeScreen(
                                 else -> pageIndex
                             }
                             dragAccumPx = 0f
-                            pageIndex = next
-                        },
+                    pageIndex = next.coerceAtMost(pageCount - 1)
+                },
                         onDragCancel = { dragAccumPx = 0f },
                     )
                 },
@@ -548,6 +648,7 @@ private fun HomeScreen(
                     iconLoader = iconLoader,
                     iconSize = iconSize,
                     app = resolved,
+                    showEmptyPlaceholder = false,
                     isUnavailable = ref != null && resolved == null,
                     onClick = {
                         if (resolved != null) onLaunch(resolved)
@@ -555,25 +656,6 @@ private fun HomeScreen(
                 )
             }
         }
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            OutlinedButton(
-                modifier = Modifier.weight(1f).testTag("home_customize_button"),
-                onClick = onOpenCustomize,
-            ) {
-                Text(text = stringResource(R.string.customize_home))
-            }
-            OutlinedButton(
-                modifier = Modifier.weight(1f).testTag("home_settings_button"),
-                onClick = onOpenTheme,
-            ) {
-                Text(text = stringResource(R.string.theme_settings))
-            }
-        }
-
-        Spacer(modifier = Modifier.height(10.dp))
 
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             OutlinedButton(
@@ -592,11 +674,225 @@ private fun HomeScreen(
     }
 }
 
+private data class ClockState(
+    val timeText: String,
+    val dateText: String,
+    val monthDayText: String,
+)
+
+@Composable
+private fun rememberClockState(): ClockState {
+    val context = LocalContext.current
+    val locale = context.resources.configuration.locales[0]
+    val timeFormatter = remember(locale) {
+        SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT, locale)
+    }
+    val dateFormatter = remember(locale) {
+        SimpleDateFormat.getDateInstance(SimpleDateFormat.MEDIUM, locale)
+    }
+    val monthDayFormatter = remember(locale) {
+        SimpleDateFormat("MMMM d", locale)
+    }
+    var nowMillis by remember { mutableStateOf(System.currentTimeMillis()) }
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            nowMillis = System.currentTimeMillis()
+            val delayMs = 60_000L - (nowMillis % 60_000L)
+            delay(delayMs.coerceIn(1_000L, 60_000L))
+        }
+    }
+
+    return remember(nowMillis, timeFormatter, dateFormatter, monthDayFormatter) {
+        val now = Date(nowMillis)
+        ClockState(
+            timeText = timeFormatter.format(now),
+            dateText = dateFormatter.format(now),
+            monthDayText = monthDayFormatter.format(now),
+        )
+    }
+}
+
+@Composable
+private fun HomeClockStrip(clockState: ClockState) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 112.dp)
+            .testTag("home_clock_strip"),
+        color = MaterialTheme.colorScheme.surfaceVariant,
+        tonalElevation = 1.dp,
+        shape = MaterialTheme.shapes.large,
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp, vertical = 16.dp),
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Text(
+                text = clockState.timeText,
+                style = MaterialTheme.typography.displaySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = clockState.dateText,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Text(
+                text = clockState.monthDayText,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+    }
+}
+
+private data class NetworkStatusState(
+    val simLabel: String,
+    val signalText: String,
+    val connectionText: String,
+    val networkNameText: String,
+    val batteryText: String,
+)
+
+@Composable
+private fun rememberNetworkStatusState(): NetworkStatusState {
+    val context = LocalContext.current
+    var now by remember { mutableStateOf(buildNetworkStatusState(context)) }
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            now = buildNetworkStatusState(context)
+            delay(15_000L)
+        }
+    }
+
+    return now
+}
+
+private fun buildNetworkStatusState(context: Context): NetworkStatusState {
+    val connectivityManager = context.getSystemService(ConnectivityManager::class.java)
+    val wifiManager = context.getSystemService(WifiManager::class.java)
+    val telephonyManager = context.getSystemService(TelephonyManager::class.java)
+
+    val activeNetwork = connectivityManager?.activeNetwork
+    val capabilities = connectivityManager?.getNetworkCapabilities(activeNetwork)
+    val isWifi = capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true
+    val isCellular = capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) == true
+    val hasInternet = capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+    val isValidated = capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED) == true
+    val isConnected = hasInternet && isValidated
+
+    val simCount = when {
+        telephonyManager == null -> 0
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> telephonyManager.activeModemCount
+        else -> 1
+    }
+    val simLabel = when {
+        simCount > 1 -> "SIM1 · SIM2"
+        simCount == 1 -> "SIM1"
+        else -> "SIM"
+    }
+
+    val signalText = when {
+        isWifi -> {
+            val level = wifiManager?.connectionInfo?.let { info ->
+                WifiManager.calculateSignalLevel(info.rssi, 5) + 1
+            }
+            if (level != null) "Signal $level/5" else "Signal Wi‑Fi"
+        }
+        isCellular -> "Signal mobile"
+        else -> "Signal unavailable"
+    }
+
+    val carrierName = telephonyManager?.networkOperatorName?.takeIf { it.isNotBlank() }
+    val wifiName = wifiManager?.connectionInfo?.ssid
+        ?.takeIf { !it.isNullOrBlank() && it != WifiManager.UNKNOWN_SSID }
+        ?.trim('"')
+    val connectionText = when {
+        isWifi -> if (isConnected) "Connected · Wi‑Fi" else "Wi‑Fi"
+        isCellular -> if (isConnected) "Connected · Mobile data" else "Mobile data"
+        else -> "Offline"
+    }
+    val networkNameText = when {
+        isWifi -> wifiName ?: "Wi‑Fi"
+        isCellular -> carrierName ?: "Mobile data"
+        else -> "No network"
+    }
+
+    val batteryText = readBatteryPercentage(context)?.let { "$it%" } ?: "Battery --"
+
+    return NetworkStatusState(
+        simLabel = simLabel,
+        signalText = signalText,
+        connectionText = connectionText,
+        networkNameText = networkNameText,
+        batteryText = batteryText,
+    )
+}
+
+private fun readBatteryPercentage(context: Context): Int? {
+    val intent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED)) ?: return null
+    val level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
+    val scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
+    if (level < 0 || scale <= 0) return null
+    return ((level * 100f) / scale).toInt().coerceIn(0, 100)
+}
+
+@Composable
+private fun HomeStatusStrip(status: NetworkStatusState) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 88.dp)
+            .testTag("home_status_strip"),
+        color = MaterialTheme.colorScheme.surfaceVariant,
+        tonalElevation = 1.dp,
+        shape = MaterialTheme.shapes.large,
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = "${status.simLabel} · ${status.signalText}",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                Text(
+                    text = status.batteryText,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = status.connectionText,
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+            Text(
+                text = status.networkNameText,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+    }
+}
+
 @Composable
 private fun HomeTile(
     iconLoader: AppIconLoader,
     iconSize: androidx.compose.ui.unit.Dp,
     app: LaunchableApp?,
+    showEmptyPlaceholder: Boolean,
     isUnavailable: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -604,7 +900,8 @@ private fun HomeTile(
     val title = when {
         app != null -> app.label
         isUnavailable -> stringResource(R.string.unavailable_app)
-        else -> stringResource(R.string.empty_slot)
+        showEmptyPlaceholder -> stringResource(R.string.empty_slot)
+        else -> ""
     }
 
     Column(
@@ -621,18 +918,25 @@ private fun HomeTile(
                 ImageView(ctx).apply { importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO }
             },
             update = { view ->
-                if (app != null) view.setImageDrawable(iconLoader.loadIcon(app))
-                else view.setImageResource(R.drawable.ic_app_placeholder)
+                if (app != null) {
+                    view.setImageDrawable(iconLoader.loadIcon(app))
+                } else if (showEmptyPlaceholder || isUnavailable) {
+                    view.setImageResource(R.drawable.ic_app_placeholder)
+                } else {
+                    view.setImageDrawable(null)
+                }
             },
         )
-        Text(
-            modifier = Modifier.padding(top = 6.dp),
-            text = title,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurface,
-        )
+        if (title.isNotEmpty()) {
+            Text(
+                modifier = Modifier.padding(top = 6.dp),
+                text = title,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+        }
     }
 }
 
@@ -756,6 +1060,7 @@ private fun AppRow(
 @Composable
 private fun CustomizeHomeScreen(
     spec: HomeGridSpec,
+    pageCount: Int,
     layout: HomeLayout,
     apps: List<LaunchableApp>,
     isLoadingApps: Boolean,
@@ -768,6 +1073,9 @@ private fun CustomizeHomeScreen(
     onRefreshApps: () -> Unit,
 ) {
     var pageIndex by remember { mutableStateOf(0) }
+    LaunchedEffect(pageCount) {
+        pageIndex = pageIndex.coerceAtMost(pageCount - 1)
+    }
     var selectedSlotIndex by remember { mutableStateOf<Int?>(null) }
     var moveFrom by remember { mutableStateOf<HomeSlotId?>(null) }
     var showResetConfirm by remember { mutableStateOf(false) }
@@ -796,7 +1104,7 @@ private fun CustomizeHomeScreen(
         Spacer(modifier = Modifier.height(12.dp))
 
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.testTag("customize_page_selector")) {
-            for (p in 0 until spec.pageCount) {
+            for (p in 0 until pageCount) {
                 val label = stringResource(R.string.page_short, p + 1)
                 OutlinedButton(
                     modifier = Modifier.testTag("customize_page_${p + 1}"),
@@ -843,8 +1151,11 @@ private fun CustomizeHomeScreen(
                         modifier = Modifier.size(iconSize),
                         factory = { ctx -> ImageView(ctx).apply { importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO } },
                         update = { view ->
-                            if (resolved != null) view.setImageDrawable(iconLoader.loadIcon(resolved))
-                            else view.setImageResource(R.drawable.ic_app_placeholder)
+                            if (resolved != null) {
+                                view.setImageDrawable(iconLoader.loadIcon(resolved))
+                            } else {
+                                view.setImageResource(R.drawable.ic_app_placeholder)
+                            }
                         },
                     )
                     Text(
@@ -989,10 +1300,13 @@ private fun ThemeSettingsScreen(
     onSetTextSize: (TextSize) -> Unit,
     onSetIconSize: (IconSize) -> Unit,
 ) {
+    val scrollState = rememberScrollState()
+    val scope = rememberCoroutineScope()
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
+            .verticalScroll(scrollState)
             .testTag("theme_settings_screen"),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -1007,11 +1321,27 @@ private fun ThemeSettingsScreen(
 
         Spacer(modifier = Modifier.height(12.dp))
 
+        OutlinedButton(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = {
+                // Bring the text-size controls into view on small screens.
+                // The scroll state is part of the same column, so this is predictable.
+                scope.launch {
+                    scrollState.animateScrollTo(scrollState.maxValue / 2)
+                }
+            },
+        ) {
+            Text(text = stringResource(R.string.theme_text_jump_label))
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
         ThemeSettingsContent(
             selected = selected,
             onSetPalette = onSetPalette,
             onSetTextSize = onSetTextSize,
             onSetIconSize = onSetIconSize,
+            showIconSize = true,
         )
     }
 }
@@ -1022,6 +1352,7 @@ private fun ThemeSettingsContent(
     onSetPalette: (ThemePalette) -> Unit,
     onSetTextSize: (TextSize) -> Unit,
     onSetIconSize: (IconSize) -> Unit,
+    showIconSize: Boolean = true,
 ) {
     Text(text = stringResource(R.string.theme_section_palette), color = MaterialTheme.colorScheme.onSurfaceVariant)
     Spacer(modifier = Modifier.height(6.dp))
@@ -1096,24 +1427,26 @@ private fun ThemeSettingsContent(
         onClick = { onSetTextSize(TextSize.Larger) },
     )
 
-    Spacer(modifier = Modifier.height(12.dp))
-    Text(text = stringResource(R.string.theme_section_icons), color = MaterialTheme.colorScheme.onSurfaceVariant)
-    Spacer(modifier = Modifier.height(6.dp))
+    if (showIconSize) {
+        Spacer(modifier = Modifier.height(12.dp))
+        Text(text = stringResource(R.string.theme_section_icons), color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Spacer(modifier = Modifier.height(6.dp))
 
-    ThemeOptionRow(
-        tag = "theme_icons_normal",
-        label = stringResource(R.string.theme_icons_normal),
-        selected = selected.iconSize == IconSize.Normal,
-        previewSettings = selected.copy(iconSize = IconSize.Normal),
-        onClick = { onSetIconSize(IconSize.Normal) },
-    )
-    ThemeOptionRow(
-        tag = "theme_icons_large",
-        label = stringResource(R.string.theme_icons_large),
-        selected = selected.iconSize == IconSize.Large,
-        previewSettings = selected.copy(iconSize = IconSize.Large),
-        onClick = { onSetIconSize(IconSize.Large) },
-    )
+        ThemeOptionRow(
+            tag = "theme_icons_normal",
+            label = stringResource(R.string.theme_icons_normal),
+            selected = selected.iconSize == IconSize.Normal,
+            previewSettings = selected.copy(iconSize = IconSize.Normal),
+            onClick = { onSetIconSize(IconSize.Normal) },
+        )
+        ThemeOptionRow(
+            tag = "theme_icons_large",
+            label = stringResource(R.string.theme_icons_large),
+            selected = selected.iconSize == IconSize.Large,
+            previewSettings = selected.copy(iconSize = IconSize.Large),
+            onClick = { onSetIconSize(IconSize.Large) },
+        )
+    }
 }
 
 @Composable

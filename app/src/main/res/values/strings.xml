@@ -15,6 +15,7 @@
     <string name="theme_settings">Theme</string>
     <string name="status_debug">Status</string>
     <string name="reset_options">Reset</string>
+    <string name="launcher_setup">Launcher setup</string>
     <string name="empty_slot">Empty</string>
     <string name="unavailable_app">Unavailable</string>
     <string name="selected">Selected</string>
@@ -27,6 +28,9 @@
     <string name="reset">Reset</string>
     <string name="cancel">Cancel</string>
     <string name="page_short">Page %1$d</string>
+    <string name="page_increase">Add page</string>
+    <string name="page_decrease">Remove page</string>
+    <string name="next">Next</string>
 
     <string name="theme_default">Default</string>
     <string name="theme_large_text">Large Text</string>
@@ -43,6 +47,7 @@
     <string name="theme_section_palette">Theme</string>
     <string name="theme_section_text">Text size</string>
     <string name="theme_section_icons">Icon size</string>
+    <string name="theme_text_jump_label">Jump to text size</string>
     <string name="theme_palette_system">System default</string>
     <string name="theme_palette_light">Light</string>
     <string name="theme_palette_dark">Dark</string>
@@ -73,9 +78,16 @@
     <string name="reset_all_settings_confirm">This will clear all home slots and reset the theme to Default.</string>
 
     <string name="onboarding_title">Set up Core Launcher</string>
-    <string name="onboarding_instructions">To use Core as your Home screen, set it as your default Home app in Android settings.</string>
+    <string name="onboarding_step_launcher_title">Step 1: Default launcher</string>
+    <string name="onboarding_step_launcher_body">Choose Core as your default Home app.</string>
+    <string name="onboarding_step_appearance_title">Step 2: Theme and text</string>
+    <string name="onboarding_step_appearance_body">Pick the palette and launcher text size.</string>
+    <string name="onboarding_step_layout_title">Step 3: Pages and placement</string>
+    <string name="onboarding_step_layout_body">Choose how many home pages you want and open the app placement editor.</string>
     <string name="onboarding_current_launcher">Current default Home app</string>
     <string name="onboarding_choose_default_launcher">Choose default Home app</string>
-    <string name="onboarding_settings_title">Preferences</string>
-    <string name="continue_to_home">Continue to Home</string>
+    <string name="onboarding_page_count_label">Home page count</string>
+    <string name="onboarding_page_count_value">%1$d pages</string>
+    <string name="onboarding_open_placement_editor">Open app placement editor</string>
+    <string name="onboarding_finish">Finish setup</string>
 </resources>
