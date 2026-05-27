@@ -63,6 +63,13 @@ Theme selection must be stored in one place and read consistently.
 
 No competing theme state should exist.
 
+## Current keys (v0.1)
+
+DataStore Preferences keys:
+
+- `theme_id`
+- `home_slot_{pageIndex}_{slotIndex}` (value: `packageName|activityName`)
+
 ## Privacy
 
 Baseline data stays on device.

@@ -26,6 +26,7 @@ The home screen should include:
 The home grid must:
 
 - stay fixed
+- stay within 3 pages maximum in v0.1
 - avoid dynamic reshuffling
 - avoid empty visible placeholders
 - avoid complex gestures

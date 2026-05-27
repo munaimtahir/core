@@ -36,6 +36,10 @@ Responsible for:
 - loading icons
 - safe fallback handling
 
+Implementation (current):
+
+- `app/src/main/java/com/easyui/core/apps/`
+
 ### 3. App launcher
 
 Responsible for:
@@ -43,6 +47,10 @@ Responsible for:
 - resolving launch intents
 - opening target apps
 - handling launch failure safely
+
+Implementation (current):
+
+- `app/src/main/java/com/easyui/core/apps/`
 
 ### 4. Home model
 
@@ -53,6 +61,10 @@ Responsible for:
 - default layout
 - validation of selected apps
 
+Implementation (current):
+
+- `app/src/main/java/com/easyui/core/home/`
+
 ### 5. Settings storage
 
 Responsible for:
@@ -62,6 +74,10 @@ Responsible for:
 - safe reset
 - storage fallback
 
+Implementation (current):
+
+- DataStore: `app/src/main/java/com/easyui/core/storage/`
+
 ### 6. Theme system
 
 Responsible for:
@@ -70,6 +86,10 @@ Responsible for:
 - stable theme state
 - one source of truth
 - consistent visual tokens
+
+Implementation (current):
+
+- `app/src/main/java/com/easyui/core/theme/`
 
 ### 7. Baseline UI
 
