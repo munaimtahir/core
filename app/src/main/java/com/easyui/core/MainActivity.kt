@@ -24,6 +24,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -64,15 +65,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 import com.easyui.core.apps.AppDiscovery
 import com.easyui.core.apps.AppIconLoader
 import com.easyui.core.apps.AppLauncher
@@ -428,13 +428,36 @@ private fun OnboardingScreen(
             }
 
             OnboardingStep.Appearance -> {
-                ThemeSettingsContent(
-                    selected = selected,
-                    onSetPalette = onSetPalette,
-                    onSetTextSize = onSetTextSize,
-                    onSetIconSize = onSetIconSize,
-                    showIconSize = false,
-                )
+                val appearanceScrollState = rememberScrollState()
+                val appearanceScope = rememberCoroutineScope()
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f, fill = false)
+                        .verticalScroll(appearanceScrollState),
+                ) {
+                    OutlinedButton(
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = {
+                            appearanceScope.launch {
+                                appearanceScrollState.animateScrollTo(appearanceScrollState.maxValue / 2)
+                            }
+                        },
+                    ) {
+                        Text(text = stringResource(R.string.theme_text_jump_label))
+                    }
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    ThemeSettingsContent(
+                        selected = selected,
+                        onSetPalette = onSetPalette,
+                        onSetTextSize = onSetTextSize,
+                        onSetIconSize = onSetIconSize,
+                        showIconSize = false,
+                    )
+                }
             }
 
             OnboardingStep.Layout -> {
@@ -547,6 +570,7 @@ private fun HomeScreen(
     LaunchedEffect(pageCount) { pageIndex = pageIndex.coerceAtMost(pageCount - 1) }
     val clockState = rememberClockState()
     val networkStatusState = rememberNetworkStatusState()
+    var clockTapCount by remember { mutableStateOf(0) }
 
     val appMap = remember(apps) {
         apps.associateBy { "${it.packageName}|${it.activityName}" }
@@ -558,11 +582,24 @@ private fun HomeScreen(
             .padding(16.dp)
             .testTag("home_screen"),
     ) {
-        HomeClockStrip(clockState = clockState)
+        HomeStatusStrip(status = networkStatusState)
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        HomeStatusStrip(status = networkStatusState)
+        HomeClockStrip(
+            clockState = clockState,
+            modifier = Modifier.pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = {
+                        clockTapCount += 1
+                        if (clockTapCount >= 5) {
+                            clockTapCount = 0
+                            onOpenStatus()
+                        }
+                    },
+                )
+            },
+        )
 
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -714,9 +751,9 @@ private fun rememberClockState(): ClockState {
 }
 
 @Composable
-private fun HomeClockStrip(clockState: ClockState) {
+private fun HomeClockStrip(clockState: ClockState, modifier: Modifier = Modifier) {
     Surface(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .heightIn(min = 112.dp)
             .testTag("home_clock_strip"),
@@ -726,7 +763,8 @@ private fun HomeClockStrip(clockState: ClockState) {
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+            .fillMaxWidth()
+            .heightIn(min = 112.dp)
                 .padding(horizontal = 20.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.Center,
         ) {

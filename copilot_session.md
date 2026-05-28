@@ -43,6 +43,9 @@ Current live-debug work in progress:
 - Home page count is now backed by DataStore and is intended to persist across restarts
 - Home screen now has a full-width top clock strip for time, date, and month/day
 - Home screen is being extended with a secondary network/status strip for signal, connection type, network name, and battery percentage
+- Onboarding appearance step now scrolls independently so theme options do not trap the user
+- Home clock now supports a hidden 5-tap entry point to reopen onboarding/setup
+- Home top area now shows status strip above the clock strip
 
 ## Failure/fix log (Stage 8)
 
@@ -69,6 +72,10 @@ Emulator runtime CI failed with `/usr/bin/sh` incompatibilities:
   - `adb install -r app/build/outputs/apk/debug/app-debug.apk`: PASS
   - `./gradlew testDebugUnitTest`: PASS
   - `./gradlew lintDebug`: PASS
+- Current onboarding-scroll cycle:
+  - `./gradlew assembleDebug`: PASS
+- Current hidden-entry cycle:
+  - `./gradlew assembleDebug`: PASS
 
 ## GitHub Actions status (recent)
 
