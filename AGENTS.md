@@ -32,6 +32,7 @@ Read:
 6. `docs/ARCHITECTURE.md`
 7. `docs/TESTING/TESTING_STRATEGY.md`
 8. `docs/DEFINITION_OF_DONE.md`
+9. `docs/LAUNCHER_CUSTOMIZATION_SCOPE.md`
 
 ## Mandatory first action
 
@@ -64,6 +65,42 @@ During v0.1, do not implement:
 - premium unlock
 - ads
 - kiosk/device-owner behavior
+
+## Launcher customization rule
+
+Launcher-level customization is allowed only within the current stage.
+
+Allowed launcher-level customization may include:
+
+- home screen layout
+- app list
+- app icons and labels
+- fixed grid
+- page options
+- themes
+- quick access panel inside launcher
+- top information bar inside launcher
+- search
+- widgets
+- contact shortcuts
+- accessibility presets
+
+Do not implement or claim:
+
+- real Android status bar replacement
+- notification shade replacement
+- Quick Settings replacement
+- system settings replacement
+- direct restricted Wi-Fi/mobile-data control
+- full device lockdown
+- kiosk/device-owner behavior in normal launcher mode
+
+If a requested feature touches Android system UI, classify it before implementation as:
+
+- launcher-level allowed feature
+- product-variant feature
+- advanced managed-device feature
+- not allowed for normal launcher
 
 ## Verification rule
 

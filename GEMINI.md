@@ -28,7 +28,8 @@ Before coding:
 4. Read `docs/BASELINE_SCOPE.md`
 5. Read `docs/PRODUCT_GUARDRAILS.md`
 6. Read `docs/ARCHITECTURE.md`
-7. Create or update `copilot_session.md`
+7. Read `docs/LAUNCHER_CUSTOMIZATION_SCOPE.md`
+8. Create or update `copilot_session.md`
 
 ## Allowed baseline work
 
@@ -67,6 +68,27 @@ Do not add:
 - ads
 - subscriptions
 - kiosk/device-owner claims
+- real status bar replacement
+- notification shade replacement
+- Quick Settings replacement
+- restricted Wi-Fi/mobile-data control
+- full device lockdown claims
+
+## Customization boundary
+
+You may build launcher-level UI and behavior.
+
+You may not build or claim Android system UI replacement.
+
+A custom top bar inside the launcher is allowed.
+
+Replacing the real Android status bar is not allowed.
+
+A launcher quick access panel is allowed.
+
+Replacing Android Quick Settings is not allowed.
+
+Phone, contact, widget, search, and accessibility features are allowed only when they match the current stage and are documented.
 
 ## Verification
 

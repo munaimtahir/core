@@ -1,0 +1,78 @@
+You are working inside the brand-new Android launcher foundation repository named `core`.
+
+This is a greenfield project. Do not reuse legacy code, architecture, workflows, UI flows, or state systems from any previous launcher or app project.
+
+Task:
+
+Update the documentation pack to include the finalized launcher customization boundary.
+
+Actions:
+
+1. Create a new file:
+
+   docs/LAUNCHER_CUSTOMIZATION_SCOPE.md
+
+2. Add the full launcher customization scope document with these sections:
+
+   - Purpose
+   - Core principle
+   - Build in core v0.1
+   - Allowed after baseline GO
+   - Product-variant features
+   - Do not build as normal launcher features
+   - Feature staging rule
+   - Final product boundary statement
+
+3. Update README.md documentation map to include:
+
+   docs/LAUNCHER_CUSTOMIZATION_SCOPE.md
+
+4. Update docs/PROJECT_CONTEXT.md with a new section:
+
+   Launcher customization truth
+
+5. Update docs/PRODUCT_GUARDRAILS.md with:
+
+   Guardrail 9 — Launcher customization boundary
+
+6. Update docs/ROADMAP.md with:
+
+   Stage 5B — Launcher Customization Planning
+
+7. Update TASKS.md with:
+
+   Stage 8 — Post-Baseline Launcher Customization Planning
+   Stage 9 — Product Variant Planning
+
+8. Update AGENTS.md required reading to include:
+
+   docs/LAUNCHER_CUSTOMIZATION_SCOPE.md
+
+9. Update GEMINI.md required reading to include:
+
+   docs/LAUNCHER_CUSTOMIZATION_SCOPE.md
+
+10. Update copilot_session.md with:
+
+   - goal
+   - files changed
+   - documentation updates completed
+   - remaining implementation work
+   - final verdict
+
+Critical rules:
+
+- Keep core v0.1 small.
+- Do not move advanced customization into baseline.
+- Do not add caregiver, parent, child, school, office, or senior-specific features into baseline.
+- Do not claim control over Android system UI.
+- Do not claim replacement of the real status bar, notification shade, Quick Settings, system settings, or full device lockdown.
+- Keep all wording consistent with the greenfield policy and baseline-first approach.
+
+End with:
+
+Summary:
+Files changed:
+Verification:
+Remaining issues:
+Final verdict: GO / Conditional GO / NO-GO

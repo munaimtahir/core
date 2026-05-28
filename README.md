@@ -89,6 +89,7 @@ Important files:
 - `docs/GREENFIELD_POLICY.md`
 - `docs/BASELINE_SCOPE.md`
 - `docs/PRODUCT_GUARDRAILS.md`
+- `docs/LAUNCHER_CUSTOMIZATION_SCOPE.md`
 - `docs/ROADMAP.md`
 - `docs/ARCHITECTURE.md`
 - `docs/DATA_STORAGE.md`
