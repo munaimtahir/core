@@ -159,6 +159,31 @@ Exit criteria:
 - no Android system UI replacement claims
 - no kiosk/MDM behavior added to normal launcher scope
 
+## Stage 5C — MVP Customization and Runtime Patch
+
+Goal:
+
+Complete the implementation of groups A-H from the customization scope and stabilize runtime behavior.
+
+Includes:
+
+- Group A: Home screen customization (grid fix, page count, label toggle)
+- Group B: App drawer customization (search, layout modes, favorites)
+- Group C: Theme and appearance (expanded palettes, accents, shapes, motion)
+- Group D: Quick access panel (system shortcuts, app intents)
+- Group E: Top bar improvements (battery, network)
+- Group F: Notifications (launcher shortcut, test notification)
+- Group G: Dialer and contacts (phone shortcuts, favorite contact tiles)
+- Group H: Widgets (built-in local widgets)
+- Flashlight shortcut
+
+Exit criteria:
+
+- all features implemented and documented
+- grid size bug fixed with Option A migration
+- build/test/lint pass
+- FINAL_REPORT.md created
+
 ## Stage 6 — First Product Variant Planning
 
 Start only after:

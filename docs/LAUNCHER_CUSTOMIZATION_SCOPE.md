@@ -129,25 +129,28 @@ These features are allowed launcher-level customizations, but they must not bloc
 
 ## Home screen customization
 
+Implemented in `Core Launcher MVP A-F + Runtime Patch`:
+
+- Number of home pages (1-9).
+- Grid size options (2x2, 3x3, 4x4).
+- App assignment migration (Option A: Packing).
+- Favorite contact tiles (Name + Phone).
+- Local widgets (Clock, Date, Note).
+- Label visibility toggle (Show/Hide).
+- Page indicators.
+- Top launcher information strip (Battery, Network).
+
 Allowed after baseline:
 
-- Number of home pages.
-- Grid size options.
 - Tile size options.
 - Icon size options.
 - Label size options.
-- Hide/show labels.
-- Page indicators.
 - Home screen search bar.
 - Favorite apps row.
 - Bottom dock row.
-- Background color.
+- Background color selection.
 - Wallpaper/background image.
-- Simple clock/date area.
-- Battery indicator inside launcher.
-- Wi-Fi indicator inside launcher.
 - Weather summary.
-- Notes/reminder tile.
 - Calendar/event tile.
 
 Delay until later:
@@ -159,19 +162,19 @@ Delay until later:
 
 ## App drawer customization
 
-Allowed after baseline:
+Implemented:
 
-- Search installed apps.
-- Recent apps section.
-- Favorite apps section.
+- Search installed apps by label.
 - App drawer list/grid switch.
-- Large-icon drawer mode.
-- Compact drawer mode.
-- Manual refresh.
-- Auto-refresh when apps are installed or removed.
+- Favorite apps section (long-click to toggle).
+- Manual refresh action.
 
 Allowed later:
 
+- Recent apps section.
+- Large-icon drawer mode.
+- Compact drawer mode.
+- Auto-refresh when apps are installed or removed.
 - App folders.
 - App categories.
 - Manual grouping.
@@ -179,17 +182,15 @@ Allowed later:
 
 ## Theme and appearance customization
 
-Allowed after baseline:
+Implemented:
 
-- Light theme.
-- Dark theme.
-- More contrast presets.
-- Custom accent color.
+- Light / Dark / High Contrast themes.
+- Custom accent color presets (6 colors).
 - Font size options.
 - Icon size options.
-- Tile shape options.
+- Tile shape options (Soft, Extra, Square).
 - Reduced motion option.
-- Accessibility appearance presets.
+- Label visibility toggle.
 
 Product-specific themes must wait for their product variant:
 
@@ -201,7 +202,7 @@ Product-specific themes must wait for their product variant:
 
 ## Launcher quick access panel
 
-Allowed after baseline:
+Implemented:
 
 - Quick access panel inside launcher.
 - Wi-Fi settings shortcut.
@@ -210,11 +211,13 @@ Allowed after baseline:
 - Sound/volume settings shortcut.
 - Accessibility settings shortcut.
 - Battery settings shortcut.
+- Launcher Notification settings shortcut.
+- Android Settings main screen shortcut.
 - Camera shortcut.
 - Phone shortcut.
 - Messages shortcut.
-- Flashlight action where supported.
-- App-specific shortcuts.
+- Browser shortcut.
+- Flashlight toggle (with hardware check).
 
 Important boundary:
 
@@ -222,14 +225,16 @@ These are launcher shortcuts or launcher actions. They do not replace the real A
 
 ## Custom top launcher information bar
 
-Allowed after baseline:
+Implemented:
 
 - Custom top bar inside launcher.
 - Time display.
 - Date display.
-- Battery text/icon inside launcher.
-- Wi-Fi status text/icon inside launcher.
-- Mobile signal indicator inside launcher.
+- Battery percentage inside launcher.
+- Wi-Fi/Network status summary.
+
+Allowed later:
+
 - Weather summary.
 - Settings icon.
 - Search icon.
@@ -240,33 +245,15 @@ Important boundary:
 
 This is not the real Android status bar. It is a launcher-designed information area.
 
-## Notification-related features
-
-Allowed later:
-
-- Show the launcher app's own notifications.
-- Notification settings shortcut.
-- Notification shortcut button.
-- Simple in-launcher notification viewer.
-- Notification listener integration, only after permission planning.
-
-Not allowed as normal launcher features:
-
-- Replace Android notification shade.
-- Block notification shade.
-- Control all system notifications without user permission.
-
 ## Phone, dialer, and contact features
 
-Allowed after baseline:
+Implemented:
 
 - Phone app tile.
-- Dialer shortcut.
-- Open dial screen with number.
-- Favorite contact tiles.
+- Dial number shortcut (ACTION_DIAL).
+- Favorite contact tiles (Name + Phone).
 - SMS shortcut.
-- WhatsApp shortcut.
-- Emergency contact tile in senior/guardian variant.
+- Contact shortcut picker (manual entry for MVP).
 
 Allowed only as separate advanced work:
 
@@ -278,15 +265,19 @@ These should not be part of the baseline launcher.
 
 ## Widgets
 
+Implemented:
+
+- Level 2: Built-in local widgets.
+- Clock widget.
+- Date widget.
+- Notes placeholder widget.
+
 Allowed later:
 
-- Widget host support.
-- Clock widget.
 - Weather widget.
 - Calendar widget.
-- Notes widget.
 - Custom launcher widgets.
-- Third-party Android widgets.
+- Third-party Android AppWidgets (AppWidgetHost).
 
 Widgets must be delayed until the baseline is stable because widget hosting adds complexity.
 

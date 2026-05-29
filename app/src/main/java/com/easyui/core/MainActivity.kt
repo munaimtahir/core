@@ -1,16 +1,16 @@
 package com.easyui.core
 
-import android.app.role.RoleManager
 import android.app.Activity
+import android.app.role.RoleManager
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.wifi.WifiManager
-import android.os.Bundle
-import android.os.Build
 import android.os.BatteryManager
+import android.os.Build
+import android.os.Bundle
 import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.view.View
@@ -40,10 +40,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
@@ -57,23 +57,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import java.text.SimpleDateFormat
-import java.util.Date
 import com.easyui.core.apps.AppDiscovery
 import com.easyui.core.apps.AppIconLoader
 import com.easyui.core.apps.AppLauncher
@@ -83,25 +81,32 @@ import com.easyui.core.apps.PackageManagerAppDiscovery
 import com.easyui.core.apps.PackageManagerAppIconLoader
 import com.easyui.core.apps.PackageManagerAppLauncher
 import com.easyui.core.home.AppComponentRef
+import com.easyui.core.home.ContactAction
 import com.easyui.core.home.HomeGridSpec
 import com.easyui.core.home.HomeLayout
 import com.easyui.core.home.HomeLayoutRepository
 import com.easyui.core.home.HomeSlotId
+import com.easyui.core.home.HomeTileContent
+import com.easyui.core.home.LocalWidgetType
 import com.easyui.core.onboarding.OnboardingRepository
 import com.easyui.core.theme.IconSize
 import com.easyui.core.theme.TextSize
+import com.easyui.core.theme.ThemeAccent
+import com.easyui.core.theme.ThemeBackground
 import com.easyui.core.theme.ThemePalette
 import com.easyui.core.theme.ThemeRepository
 import com.easyui.core.theme.ThemeSettings
-import com.easyui.core.theme.ThemeAccent
 import com.easyui.core.theme.ThemeTileShape
-import com.easyui.core.theme.ThemeBackground
 import com.easyui.core.ui.theme.CoreTheme
+import java.text.SimpleDateFormat
+import java.util.Date
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.flow.MutableStateFlow
+
+
 
 private enum class LaunchOrigin {
     LauncherIcon,
@@ -138,6 +143,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
 private sealed interface Screen {
     data object Onboarding : Screen
     data object Home : Screen
@@ -147,6 +153,8 @@ private sealed interface Screen {
     data object StatusDebug : Screen
     data object ResetOptions : Screen
     data object QuickAccess : Screen
+    data object Contacts : Screen
+    data object Widgets : Screen
 }
 
 private enum class OnboardingStep {
@@ -251,7 +259,7 @@ private fun AppRoot(
         )
 
         Screen.Home -> HomeScreen(
-            spec = spec,
+            spec = layout.spec,
             pageCount = pageCount,
             layout = layout,
             apps = apps,
@@ -274,6 +282,8 @@ private fun AppRoot(
             onOpenCustomize = { lastError = null; screen = Screen.CustomizeHome },
             onOpenTheme = { lastError = null; screen = Screen.ThemeSettings },
             onOpenQuickAccess = { lastError = null; screen = Screen.QuickAccess },
+            onOpenContacts = { lastError = null; screen = Screen.Contacts },
+            onOpenWidgets = { lastError = null; screen = Screen.Widgets },
             onOpenStatus = { lastError = null; screen = Screen.StatusDebug },
             onOpenReset = { lastError = null; screen = Screen.ResetOptions },
         )
@@ -305,7 +315,7 @@ private fun AppRoot(
         )
 
         Screen.CustomizeHome -> CustomizeHomeScreen(
-            spec = spec,
+            spec = layout.spec,
             pageCount = pageCount,
             layout = layout,
             apps = apps,
@@ -314,8 +324,8 @@ private fun AppRoot(
             iconSize = homeIconSize,
             showLabels = showLabels,
             onBack = { screen = Screen.Home },
-            onSetSlot = { slot, ref ->
-                scope.launch { homeRepo.setSlot(slot, ref) }
+            onSetSlot = { slot, content ->
+                scope.launch { homeRepo.setSlot(slot, content) }
             },
             onMove = { from, to ->
                 scope.launch {
@@ -364,6 +374,26 @@ private fun AppRoot(
 
         Screen.QuickAccess -> QuickAccessScreen(
             onBack = { screen = Screen.Home }
+        )
+
+        Screen.Contacts -> ContactsScreen(
+            onBack = { screen = Screen.Home },
+            onAddContact = { name, phone, action ->
+                val slot = layout.firstEmptySlot()
+                if (slot != null) {
+                    scope.launch { homeRepo.setSlot(slot, HomeTileContent.Contact(name, phone, action)) }
+                }
+            }
+        )
+
+        Screen.Widgets -> WidgetsScreen(
+            onBack = { screen = Screen.Home },
+            onAddWidget = { type ->
+                val slot = layout.firstEmptySlot()
+                if (slot != null) {
+                    scope.launch { homeRepo.setSlot(slot, HomeTileContent.Widget(type)) }
+                }
+            }
         )
     }
 }
@@ -598,10 +628,13 @@ private fun HomeScreen(
     onOpenCustomize: () -> Unit,
     onOpenTheme: () -> Unit,
     onOpenQuickAccess: () -> Unit,
+    onOpenContacts: () -> Unit,
+    onOpenWidgets: () -> Unit,
     onOpenStatus: () -> Unit,
     onOpenReset: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
     var pageIndex by remember { mutableStateOf(0) }
     LaunchedEffect(pageCount) { pageIndex = pageIndex.coerceAtMost(pageCount - 1) }
     val clockState = rememberClockState()
@@ -713,24 +746,45 @@ private fun HomeScreen(
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            itemsIndexed(items = layout.pages[pageIndex]) { slotIndex, ref ->
-                val resolved = ref?.let { appMap["${it.packageName}|${it.activityName}"] }
+            itemsIndexed(items = layout.pages[pageIndex]) { slotIndex, content ->
+                val resolvedApp = (content as? HomeTileContent.App)?.let { appMap["${it.ref.packageName}|${it.ref.activityName}"] }
 
                 HomeTile(
                     modifier = Modifier.testTag("home_slot_page_${pageIndex}_slot_$slotIndex"),
                     iconLoader = iconLoader,
                     iconSize = iconSize,
-                    app = resolved,
+                    content = content,
+                    resolvedApp = resolvedApp,
                     showEmptyPlaceholder = false,
-                    isUnavailable = ref != null && resolved == null,
+                    isUnavailable = content is HomeTileContent.App && resolvedApp == null,
                     showLabels = showLabels,
                     onClick = {
-                        if (resolved != null) onLaunch(resolved)
+                        when (content) {
+                            is HomeTileContent.App -> resolvedApp?.let { onLaunch(it) }
+                            is HomeTileContent.Contact -> onLaunchContact(context, content)
+                            is HomeTileContent.Widget -> {} 
+                            else -> {}
+                        }
                     },
                 )
             }
         }
 
+        Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            OutlinedButton(
+                modifier = Modifier.weight(1f).testTag("home_contacts_button"),
+                onClick = onOpenContacts,
+            ) {
+                Text(text = "Contacts")
+            }
+            OutlinedButton(
+                modifier = Modifier.weight(1f).testTag("home_widgets_button"),
+                onClick = onOpenWidgets,
+            ) {
+                Text(text = "Widgets")
+            }
+        }
+        Spacer(modifier = Modifier.height(10.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             OutlinedButton(
                 modifier = Modifier.weight(1f).testTag("home_customize_button"),
@@ -981,7 +1035,8 @@ private fun HomeStatusStrip(status: NetworkStatusState) {
 private fun HomeTile(
     iconLoader: AppIconLoader,
     iconSize: androidx.compose.ui.unit.Dp,
-    app: LaunchableApp?,
+    content: HomeTileContent?,
+    resolvedApp: LaunchableApp?,
     showEmptyPlaceholder: Boolean,
     isUnavailable: Boolean,
     showLabels: Boolean,
@@ -989,7 +1044,9 @@ private fun HomeTile(
     modifier: Modifier = Modifier,
 ) {
     val title = when {
-        app != null -> app.label
+        content is HomeTileContent.App && resolvedApp != null -> resolvedApp.label
+        content is HomeTileContent.Contact -> content.name
+        content is HomeTileContent.Widget -> content.type.name
         isUnavailable -> stringResource(R.string.unavailable_app)
         showEmptyPlaceholder -> stringResource(R.string.empty_slot)
         else -> ""
@@ -998,7 +1055,7 @@ private fun HomeTile(
     Column(
         modifier = modifier
             .aspectRatio(1f)
-            .clickable(enabled = app != null, onClick = onClick)
+            .clickable(enabled = content != null, onClick = onClick)
             .padding(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -1006,15 +1063,32 @@ private fun HomeTile(
         AndroidView(
             modifier = Modifier.size(iconSize),
             factory = { ctx ->
-                ImageView(ctx).apply { importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO }
+                ImageView(ctx).apply { 
+                    importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO 
+                    isClickable = false
+                    isFocusable = false
+                }
             },
             update = { view ->
-                if (app != null) {
-                    view.setImageDrawable(iconLoader.loadIcon(app))
-                } else if (showEmptyPlaceholder || isUnavailable) {
-                    view.setImageResource(R.drawable.ic_app_placeholder)
-                } else {
-                    view.setImageDrawable(null)
+                when {
+                    content is HomeTileContent.App && resolvedApp != null -> {
+                        view.setImageDrawable(iconLoader.loadIcon(resolvedApp))
+                    }
+                    content is HomeTileContent.Contact -> {
+                        view.setImageResource(android.R.drawable.ic_menu_myplaces)
+                    }
+                    content is HomeTileContent.Widget -> {
+                        view.setImageResource(android.R.drawable.ic_menu_today)
+                    }
+                    isUnavailable -> {
+                        view.setImageResource(android.R.drawable.ic_dialog_alert)
+                    }
+                    showEmptyPlaceholder -> {
+                        view.setImageResource(R.drawable.ic_app_placeholder)
+                    }
+                    else -> {
+                        view.setImageDrawable(null)
+                    }
                 }
             },
         )
@@ -1240,7 +1314,7 @@ private fun CustomizeHomeScreen(
     iconSize: androidx.compose.ui.unit.Dp,
     showLabels: Boolean,
     onBack: () -> Unit,
-    onSetSlot: (HomeSlotId, AppComponentRef?) -> Unit,
+    onSetSlot: (HomeSlotId, HomeTileContent?) -> Unit,
     onMove: (HomeSlotId, HomeSlotId) -> Unit,
     onResetHome: () -> Unit,
     onSetGridSize: (Int, Int) -> Unit,
@@ -1308,9 +1382,9 @@ private fun CustomizeHomeScreen(
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            itemsIndexed(items = layout.pages[pageIndex]) { i, ref ->
+            itemsIndexed(items = layout.pages[pageIndex]) { i, content ->
                 val slot = HomeSlotId(pageIndex, i)
-                val resolved = ref?.let { appMap["${it.packageName}|${it.activityName}"] }
+                val resolved = (content as? HomeTileContent.App)?.let { appMap["${it.ref.packageName}|${it.ref.activityName}"] }
                 val isSelected = selectedSlotIndex == i
                 val isMoveSource = moveFrom == slot
 
@@ -1332,18 +1406,29 @@ private fun CustomizeHomeScreen(
                         modifier = Modifier.size(iconSize),
                         factory = { ctx -> ImageView(ctx).apply { importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO } },
                         update = { view ->
-                            if (resolved != null) {
-                                view.setImageDrawable(iconLoader.loadIcon(resolved))
-                            } else {
-                                view.setImageResource(R.drawable.ic_app_placeholder)
+                            when {
+                                content is HomeTileContent.App && resolved != null -> {
+                                    view.setImageDrawable(iconLoader.loadIcon(resolved))
+                                }
+                                content is HomeTileContent.Contact -> {
+                                    view.setImageResource(android.R.drawable.ic_menu_myplaces)
+                                }
+                                content is HomeTileContent.Widget -> {
+                                    view.setImageResource(android.R.drawable.ic_menu_today)
+                                }
+                                else -> {
+                                    view.setImageResource(R.drawable.ic_app_placeholder)
+                                }
                             }
                         },
                     )
                     Text(
                         modifier = Modifier.padding(top = 6.dp),
                         text = when {
-                            resolved != null -> resolved.label
-                            ref != null -> stringResource(R.string.unavailable_app)
+                            content is HomeTileContent.App && resolved != null -> resolved.label
+                            content is HomeTileContent.App && content.ref != null -> stringResource(R.string.unavailable_app)
+                            content is HomeTileContent.Contact -> content.name
+                            content is HomeTileContent.Widget -> content.type.name
                             else -> stringResource(R.string.empty_slot)
                         },
                         maxLines = 2,
@@ -1428,9 +1513,9 @@ private fun CustomizeHomeScreen(
                     onClick = {
                         val idx = selectedSlotIndex ?: return@AppRow
                         val slot = HomeSlotId(pageIndex, idx)
-                        val ref = AppComponentRef(app.packageName, app.activityName)
+                        val content = HomeTileContent.App(AppComponentRef(app.packageName, app.activityName))
                         moveFrom = null
-                        onSetSlot(slot, ref)
+                        onSetSlot(slot, content)
                     },
                 )
             }
@@ -2111,6 +2196,26 @@ private fun QuickAccessScreen(onBack: () -> Unit) {
         Text("System Settings", style = MaterialTheme.typography.titleMedium)
         Spacer(modifier = Modifier.height(8.dp))
 
+                val hasFlashlight = remember { context.packageManager.hasSystemFeature(android.content.pm.PackageManager.FEATURE_CAMERA_FLASH) }
+        var flashlightOn by remember { mutableStateOf(false) }
+
+        OutlinedButton(
+            modifier = Modifier.fillMaxWidth().testTag("quick_access_flashlight"),
+            enabled = hasFlashlight,
+            onClick = {
+                val cm = context.getSystemService(android.hardware.camera2.CameraManager::class.java)
+                try {
+                    val id = cm.cameraIdList.firstOrNull()
+                    if (id != null) {
+                        flashlightOn = !flashlightOn
+                        cm.setTorchMode(id, flashlightOn)
+                    }
+                } catch (e: Exception) {}
+            }
+        ) {
+            Text(if (!hasFlashlight) "Flashlight (No Hardware)" else if (flashlightOn) "Flashlight: ON" else "Flashlight: OFF")
+        }
+        Spacer(modifier = Modifier.height(8.dp))
         OutlinedButton(modifier = Modifier.fillMaxWidth().testTag("quick_access_wifi_settings"), onClick = { launchSafe(Intent(Settings.ACTION_WIFI_SETTINGS)) }) { Text("Wi-Fi Settings") }
         OutlinedButton(modifier = Modifier.fillMaxWidth().testTag("quick_access_bluetooth_settings"), onClick = { launchSafe(Intent(Settings.ACTION_BLUETOOTH_SETTINGS)) }) { Text("Bluetooth Settings") }
         OutlinedButton(modifier = Modifier.fillMaxWidth().testTag("quick_access_display_settings"), onClick = { launchSafe(Intent(Settings.ACTION_DISPLAY_SETTINGS)) }) { Text("Display Settings") }
@@ -2198,3 +2303,48 @@ private fun AppGridItem(
     }
 }
 
+
+
+private fun onLaunchContact(context: Context, contact: HomeTileContent.Contact) {
+    val intent = when (contact.action) {
+        ContactAction.Dial -> Intent(Intent.ACTION_DIAL, android.net.Uri.parse("tel:${contact.phone}"))
+        ContactAction.SMS -> Intent(Intent.ACTION_SENDTO, android.net.Uri.parse("smsto:${contact.phone}"))
+    }
+    try {
+        context.startActivity(intent.apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) })
+    } catch (e: Exception) {}
+}
+
+@Composable
+private fun ContactsScreen(onBack: () -> Unit, onAddContact: (String, String, ContactAction) -> Unit) {
+    var name by remember { mutableStateOf("") }
+    var phone by remember { mutableStateOf("") }
+    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text("Add Contact Shortcut", style = MaterialTheme.typography.titleLarge)
+            Spacer(modifier = Modifier.weight(1f))
+            Text(modifier = Modifier.clickable(onClick = onBack).padding(8.dp), text = "Back", color = MaterialTheme.colorScheme.primary)
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        androidx.compose.material3.OutlinedTextField(value = name, onValueChange = { name = it }, label = { Text("Name") }, modifier = Modifier.fillMaxWidth().testTag("contact_name_field"))
+        androidx.compose.material3.OutlinedTextField(value = phone, onValueChange = { phone = it }, label = { Text("Phone") }, modifier = Modifier.fillMaxWidth().testTag("contact_phone_field"))
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(modifier = Modifier.fillMaxWidth().testTag("add_contact_dial"), onClick = { if (name.isNotEmpty() && phone.isNotEmpty()) { onAddContact(name, phone, ContactAction.Dial); onBack() } }) { Text("Add Dial Shortcut") }
+        Button(modifier = Modifier.fillMaxWidth().testTag("add_contact_sms"), onClick = { if (name.isNotEmpty() && phone.isNotEmpty()) { onAddContact(name, phone, ContactAction.SMS); onBack() } }) { Text("Add SMS Shortcut") }
+    }
+}
+
+@Composable
+private fun WidgetsScreen(onBack: () -> Unit, onAddWidget: (LocalWidgetType) -> Unit) {
+    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text("Add Local Widget", style = MaterialTheme.typography.titleLarge)
+            Spacer(modifier = Modifier.weight(1f))
+            Text(modifier = Modifier.clickable(onClick = onBack).padding(8.dp), text = "Back", color = MaterialTheme.colorScheme.primary)
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        OutlinedButton(modifier = Modifier.fillMaxWidth().testTag("add_widget_clock"), onClick = { onAddWidget(LocalWidgetType.Clock); onBack() }) { Text("Clock Widget") }
+        OutlinedButton(modifier = Modifier.fillMaxWidth().testTag("add_widget_date"), onClick = { onAddWidget(LocalWidgetType.Date); onBack() }) { Text("Date Widget") }
+        OutlinedButton(modifier = Modifier.fillMaxWidth().testTag("add_widget_note"), onClick = { onAddWidget(LocalWidgetType.Note); onBack() }) { Text("Note Widget") }
+    }
+}

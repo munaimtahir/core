@@ -9,47 +9,60 @@ core
 ## Sprint
 
 ```text
-Core Launcher MVP A–F Customization Completion Sprint
+Core Launcher Runtime Patch + Deferred G/H Completion Sprint
 ```
 
-## Current confirmed status
+## Current runtime status
 
-The baseline launcher foundation is already marked **GO**.
-Baseline preflight checks (build, unit tests, lint) are currently running to confirm no regressions.
+- App drawer Grid/List view: Working
+- Notifications: Working
+- Quick Access: Working
+- Theme/Appearance: Working
+- Top Bar: Working
+- **Grid size bug**: FIXED. Home Selection and Home Screen now correctly respect user-selected grid size and migrate apps accordingly.
 
-## Active principle
+## Phase 1 — Fix Home Selection grid size bug
 
-Build, test, stabilize, document, and finalize the launcher MVP customization layer covering features A-F.
+- [x] Investigate `MainActivity.kt` and `HomeLayoutRepository.kt`
+- [x] Fix: Pass `layout.spec` instead of hardcoded `spec` in `AppRoot`.
+- [x] Strategy for apps outside valid grid: Option A (Move to valid slots/Pack apps).
+- [x] Verify fix with compilation and tests.
 
-## A–F implementation plan
+## Phase 2 — G. Dialer and contacts
 
-- [x] Stage 0: Baseline preflight
-- [x] Stage 1: A — Home screen customization (page count, grid sizes, icon/text size, labels, reset)
-- [x] Stage 2: B — App drawer customization (search, list/grid mode, favorites, manual refresh, install safety)
-- [x] Stage 3: C — Theme and appearance (system/light/dark/high contrast, accent colors, tile shape, background, reduced motion)
-- [x] Stage 4: D — Launcher quick access panel (safe system settings shortcuts, app shortcuts)
-- [x] Stage 5: E — Custom top launcher information bar (time, date, battery, network, quick access buttons)
-- [x] Stage 6: F — Safe notification-related launcher features (launcher app notification settings shortcut, permission guidance, test notification, shortcut button)
-- [x] Stage 7: Update documentation and create final report
+- [x] Implement safe Phone shortcut (inside Quick Access and Home).
+- [x] Implement Dial number shortcut (ACTION_DIAL).
+- [x] Implement SMS shortcut.
+- [x] Implement Favorite Contact tiles (Name + Phone).
+- [x] Implement Contact Picker (Manual entry UI for MVP).
+- [x] Implement Emergency Shortcut (ACTION_DIAL).
+
+## Phase 3 — H. Widgets
+
+- [x] Choose implementation level: Level 2 (Built-in framework).
+- [x] Build Clock/Date widget (Integrated into HomeTile).
+- [x] Build Note widget (Integrated into HomeTile).
+- [x] Implement Widget placement logic in `HomeLayout`.
+
+## Phase 4 — Flashlight shortcut
+
+- [x] Implement safe flashlight toggle in Quick Access with hardware check.
 
 ## Task checklist
 
-- [x] Verify baseline preflight
-- [x] Implement A1-A5
-- [x] Implement B1-B6
-- [x] Implement C1-C6
-- [x] Implement D1-D4
-- [x] Implement E
-- [x] Implement F1-F4
+- [x] Fix grid size bug
+- [x] Implement G1-G6
+- [x] Implement H1-H5
+- [x] Implement Flashlight
+- [x] Update documentation
 - [x] Write `FINAL_REPORT.md`
 
 ## Files inspected
-- `docs/PROJECT_CONTEXT.md`
-- `docs/LAUNCHER_CUSTOMIZATION_SCOPE.md`
-- `docs/UI_BASELINE.md`
-- `docs/ARCHITECTURE.md`
-- `TASKS.md`
-- `copilot_session.md`
+- `app/src/main/java/com/easyui/core/MainActivity.kt`
+- `app/src/main/java/com/easyui/core/home/HomeLayoutRepository.kt`
+- `app/src/main/java/com/easyui/core/home/HomeGridSpec.kt`
+- `app/src/main/java/com/easyui/core/home/HomeLayout.kt`
+- `app/src/main/java/com/easyui/core/home/HomeTileContent.kt`
 
 ## Expected verification commands
 ```bash
@@ -58,7 +71,7 @@ Build, test, stabilize, document, and finalize the launcher MVP customization la
 ./gradlew lintDebug
 ```
 
-## Known risks
-- Complex grid and page limit implementations could destabilize the home screen layout.
-- Notification permission handling needs careful API boundary checks.
-- Changes in persistence logic (DataStore) require validation of existing baseline data.
+## Risk notes
+- `HomeLayout` now uses `HomeTileContent` instead of `AppComponentRef`, requiring careful persistence handling.
+- Grid migration logic might reorder apps if the user frequently changes grid sizes.
+- Flashlight hardware access is best-effort and handles exceptions.
