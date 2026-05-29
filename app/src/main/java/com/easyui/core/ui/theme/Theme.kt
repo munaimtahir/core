@@ -11,6 +11,9 @@ import androidx.compose.ui.unit.sp
 import com.easyui.core.theme.TextSize
 import com.easyui.core.theme.ThemePalette
 import com.easyui.core.theme.ThemeSettings
+import com.easyui.core.theme.ThemeAccent
+import com.easyui.core.theme.ThemeBackground
+import androidx.compose.ui.graphics.Color
 
 private val CoreDarkColorScheme = darkColorScheme(
     background = CoreDarkBackground,
@@ -35,9 +38,41 @@ fun CoreTheme(
         ThemePalette.System -> isSystemInDarkTheme()
         ThemePalette.Light -> false
         ThemePalette.Dark -> true
+        ThemePalette.HighContrast -> true // HighContrast uses dark mode baseline but pure black
     }
 
-    val colors = if (useDark) CoreDarkColorScheme else CoreLightColorScheme
+    val primaryColor = when (settings.accent) {
+        ThemeAccent.Default -> if (useDark) AccentDefaultDark else AccentDefaultLight
+        ThemeAccent.Blue -> AccentBlue
+        ThemeAccent.Green -> AccentGreen
+        ThemeAccent.Purple -> AccentPurple
+        ThemeAccent.Orange -> AccentOrange
+        ThemeAccent.Red -> AccentRed
+    }
+
+    var baseColors = if (useDark) CoreDarkColorScheme else CoreLightColorScheme
+    
+    // Apply background overrides
+    baseColors = when {
+        settings.palette == ThemePalette.HighContrast -> {
+            baseColors.copy(
+                background = BgPitchBlack,
+                surface = BgPitchBlack,
+                onSurface = BgPureWhite,
+                onSurfaceVariant = Color.White.copy(alpha = 0.8f),
+                primary = primaryColor
+            )
+        }
+        else -> {
+            val bg = when (settings.background) {
+                ThemeBackground.SolidDark -> BgSolidDark
+                ThemeBackground.SolidLight -> BgSolidLight
+                ThemeBackground.PitchBlack -> BgPitchBlack
+                ThemeBackground.Default -> baseColors.background
+            }
+            baseColors.copy(background = bg, primary = primaryColor)
+        }
+    }
 
     val typography = when (settings.textSize) {
         TextSize.Small -> scaleTypography(MaterialTheme.typography, 0.9f)
@@ -47,7 +82,7 @@ fun CoreTheme(
     }
 
     MaterialTheme(
-        colorScheme = colors,
+        colorScheme = baseColors,
         typography = typography,
         content = content,
     )

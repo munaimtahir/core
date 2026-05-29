@@ -66,6 +66,13 @@
     <string name="theme_text_scale_larger">Scale 1.32x</string>
     <string name="theme_icons_normal">Normal icons</string>
     <string name="theme_icons_large">Large icons</string>
+    <string name="theme_section_labels">App labels</string>
+    <string name="theme_labels_show">Show labels</string>
+    <string name="theme_labels_hide">Hide labels</string>
+    <string name="grid_size_label">Grid size</string>
+    <string name="grid_2x2">2x2</string>
+    <string name="grid_3x3">3x3</string>
+    <string name="grid_4x4">4x4</string>
     <string name="theme_preview_title">Preview</string>
     <string name="theme_preview_scale">Text scale: %1$.2fx</string>
     <string name="theme_preview_row_primary">Example item</string>
@@ -90,4 +97,31 @@
     <string name="onboarding_page_count_value">%1$d pages</string>
     <string name="onboarding_open_placement_editor">Open app placement editor</string>
     <string name="onboarding_finish">Finish setup</string>
+    <string name="theme_section_accent">Accent color</string>
+    <string name="theme_accent_default">Default</string>
+    <string name="theme_accent_blue">Blue</string>
+    <string name="theme_accent_green">Green</string>
+    <string name="theme_accent_purple">Purple</string>
+    <string name="theme_accent_orange">Orange</string>
+    <string name="theme_accent_red">Red</string>
+    
+    <string name="theme_section_shape">Tile shape</string>
+    <string name="theme_shape_soft">Soft rounded</string>
+    <string name="theme_shape_extra">Extra rounded</string>
+    <string name="theme_shape_square">Square</string>
+
+    <string name="theme_section_background">Background</string>
+    <string name="theme_bg_default">Default</string>
+    <string name="theme_bg_dark">Solid Dark</string>
+    <string name="theme_bg_light">Solid Light</string>
+    <string name="theme_bg_black">Pitch Black</string>
+    
+    <string name="theme_section_motion">Motion</string>
+    <string name="theme_motion_normal">Normal motion</string>
+    <string name="theme_motion_reduced">Reduced motion</string>
+
+    <string name="theme_palette_high_contrast">High Contrast</string>
+    <string name="appearance">Appearance</string>
+    <string name="quick_access">Quick Access</string>
+    <string name="quick_access_panel">Quick Access Panel</string>
 </resources>

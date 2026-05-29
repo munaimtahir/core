@@ -6,99 +6,59 @@
 core
 ```
 
-## Current goal
+## Sprint
 
-Initialize a brand-new Android launcher foundation project.
+```text
+Core Launcher MVP A–F Customization Completion Sprint
+```
 
-## Current status
+## Current confirmed status
 
-Documentation pack prepared.
-
-No Android project skeleton has been created yet.
+The baseline launcher foundation is already marked **GO**.
+Baseline preflight checks (build, unit tests, lint) are currently running to confirm no regressions.
 
 ## Active principle
 
-Build the stable baseline first.
+Build, test, stabilize, document, and finalize the launcher MVP customization layer covering features A-F.
 
-Do not add product-specific variants until the launcher foundation is verified.
+## A–F implementation plan
 
-## Greenfield reminder
-
-Do not reuse legacy code, architecture, workflows, UI flows, or state systems from any existing project.
+- [x] Stage 0: Baseline preflight
+- [x] Stage 1: A — Home screen customization (page count, grid sizes, icon/text size, labels, reset)
+- [x] Stage 2: B — App drawer customization (search, list/grid mode, favorites, manual refresh, install safety)
+- [x] Stage 3: C — Theme and appearance (system/light/dark/high contrast, accent colors, tile shape, background, reduced motion)
+- [x] Stage 4: D — Launcher quick access panel (safe system settings shortcuts, app shortcuts)
+- [x] Stage 5: E — Custom top launcher information bar (time, date, battery, network, quick access buttons)
+- [x] Stage 6: F — Safe notification-related launcher features (launcher app notification settings shortcut, permission guidance, test notification, shortcut button)
+- [x] Stage 7: Update documentation and create final report
 
 ## Task checklist
 
-- [ ] Create new GitHub repository named `core`
-- [ ] Add documentation pack
-- [ ] Commit documentation as first commit
-- [ ] Create clean Android project skeleton
-- [ ] Configure launcher/home intent
-- [ ] Add minimal home screen
-- [ ] Add initial build workflow
-- [ ] Verify build
-- [ ] Verify unit tests
-- [ ] Verify lint
-- [ ] Add emulator runtime workflow
-- [ ] Create baseline verification report
+- [x] Verify baseline preflight
+- [x] Implement A1-A5
+- [x] Implement B1-B6
+- [x] Implement C1-C6
+- [x] Implement D1-D4
+- [x] Implement E
+- [x] Implement F1-F4
+- [x] Write `FINAL_REPORT.md`
 
 ## Files inspected
+- `docs/PROJECT_CONTEXT.md`
+- `docs/LAUNCHER_CUSTOMIZATION_SCOPE.md`
+- `docs/UI_BASELINE.md`
+- `docs/ARCHITECTURE.md`
+- `TASKS.md`
+- `copilot_session.md`
 
-None yet.
+## Expected verification commands
+```bash
+./gradlew clean assembleDebug
+./gradlew testDebugUnitTest
+./gradlew lintDebug
+```
 
-## Files changed
-
-Documentation pack only.
-
-## Commands run
-
-None yet.
-
-## Verification results
-
-Not yet applicable.
-
-## Remaining issues
-
-Android project has not yet been created.
-
-## Next recommended step
-
-Create the GitHub repository named `core`, add this documentation pack, and commit it before coding begins.
-
-
----
-
-## Documentation update — launcher customization scope
-
-## Goal
-
-Add the finalized launcher customization boundary to the `core` documentation pack.
-
-## Files changed
-
-- `docs/LAUNCHER_CUSTOMIZATION_SCOPE.md` added
-- `README.md` updated
-- `docs/PROJECT_CONTEXT.md` updated
-- `docs/PRODUCT_GUARDRAILS.md` updated
-- `docs/ROADMAP.md` updated
-- `TASKS.md` updated
-- `AGENTS.md` updated
-- `GEMINI.md` updated
-- `CODEX_PROMPT_STARTER.md` updated
-
-## Documentation updates completed
-
-- Baseline v0.1 features are clearly separated from post-baseline customization.
-- Product variant features are separated from generic `core` foundation.
-- Android system UI boundaries are documented.
-- Status bar, notification shade, Quick Settings, restricted toggles, and full lockdown claims are explicitly excluded from normal launcher scope.
-
-## Remaining implementation work
-
-No Android implementation work has been performed yet.
-
-Next implementation stage remains: create a clean Android project skeleton and configure launcher/home intent.
-
-## Final verdict
-
-GO for documentation update.
+## Known risks
+- Complex grid and page limit implementations could destabilize the home screen layout.
+- Notification permission handling needs careful API boundary checks.
+- Changes in persistence logic (DataStore) require validation of existing baseline data.

@@ -23,6 +23,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -92,6 +93,9 @@ import com.easyui.core.theme.TextSize
 import com.easyui.core.theme.ThemePalette
 import com.easyui.core.theme.ThemeRepository
 import com.easyui.core.theme.ThemeSettings
+import com.easyui.core.theme.ThemeAccent
+import com.easyui.core.theme.ThemeTileShape
+import com.easyui.core.theme.ThemeBackground
 import com.easyui.core.ui.theme.CoreTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -142,6 +146,7 @@ private sealed interface Screen {
     data object ThemeSettings : Screen
     data object StatusDebug : Screen
     data object ResetOptions : Screen
+    data object QuickAccess : Screen
 }
 
 private enum class OnboardingStep {
@@ -181,6 +186,9 @@ private fun AppRoot(
     val spec = remember { HomeGridSpec(pageCount = 3, columns = 3, rows = 3) }
     val homeRepo = remember { HomeLayoutRepository(context, spec) }
     val onboardingRepo = remember { OnboardingRepository(context) }
+    val appDrawerRepo = remember { com.easyui.core.apps.AppDrawerRepository(context) }
+    val isDrawerGridMode by appDrawerRepo.isGridModeFlow.collectAsState(initial = false)
+    val drawerFavorites by appDrawerRepo.favoritesFlow.collectAsState(initial = emptySet())
 
     val discovery: AppDiscovery = remember { PackageManagerAppDiscovery(context) }
     val launcher: AppLauncher = remember { PackageManagerAppLauncher(context) }
@@ -188,6 +196,7 @@ private fun AppRoot(
 
     val homeIconSize = remember(themeSettings.iconSize) { homeIconDp(themeSettings.iconSize) }
     val listIconSize = remember(themeSettings.iconSize) { listIconDp(themeSettings.iconSize) }
+    val showLabels = themeSettings.showLabels
 
     var screen by remember {
         mutableStateOf(
@@ -231,6 +240,7 @@ private fun AppRoot(
             onSetPalette = { palette -> scope.launch { themeRepo.setPalette(palette) } },
             onSetTextSize = { size -> scope.launch { themeRepo.setTextSize(size) } },
             onSetIconSize = { size -> scope.launch { themeRepo.setIconSize(size) } },
+            onSetShowLabels = { show -> scope.launch { themeRepo.setShowLabels(show) } },
             onIncreasePages = { scope.launch { homeRepo.increasePageCount() } },
             onDecreasePages = { scope.launch { homeRepo.decreasePageCount() } },
             onOpenPlacementEditor = { screen = Screen.CustomizeHome },
@@ -248,6 +258,7 @@ private fun AppRoot(
             isRefreshingApps = appsLoading,
             iconLoader = iconLoader,
             iconSize = homeIconSize,
+            showLabels = showLabels,
             onRefreshApps = {
                 lastError = null
                 scope.launch { refreshApps() }
@@ -260,6 +271,9 @@ private fun AppRoot(
             },
             lastError = lastError,
             onOpenAllApps = { lastError = null; screen = Screen.AllApps },
+            onOpenCustomize = { lastError = null; screen = Screen.CustomizeHome },
+            onOpenTheme = { lastError = null; screen = Screen.ThemeSettings },
+            onOpenQuickAccess = { lastError = null; screen = Screen.QuickAccess },
             onOpenStatus = { lastError = null; screen = Screen.StatusDebug },
             onOpenReset = { lastError = null; screen = Screen.ResetOptions },
         )
@@ -269,11 +283,16 @@ private fun AppRoot(
             isLoading = appsLoading,
             iconLoader = iconLoader,
             iconSize = listIconSize,
+            showLabels = showLabels,
             onBack = { screen = Screen.Home },
             onRefresh = {
                 lastError = null
                 scope.launch { refreshApps() }
             },
+            isGridMode = isDrawerGridMode,
+            favorites = drawerFavorites,
+            onToggleGridMode = { scope.launch { appDrawerRepo.setGridMode(it) } },
+            onToggleFavorite = { app -> scope.launch { appDrawerRepo.toggleFavorite(app.packageName, app.activityName) } },
             onLaunch = { app ->
                 when (val result = launcher.launch(app)) {
                     is LaunchResult.Success -> Unit
@@ -293,6 +312,7 @@ private fun AppRoot(
             isLoadingApps = appsLoading,
             iconLoader = iconLoader,
             iconSize = homeIconSize,
+            showLabels = showLabels,
             onBack = { screen = Screen.Home },
             onSetSlot = { slot, ref ->
                 scope.launch { homeRepo.setSlot(slot, ref) }
@@ -306,6 +326,7 @@ private fun AppRoot(
                 }
             },
             onResetHome = { scope.launch { homeRepo.resetHome() } },
+            onSetGridSize = { c, r -> scope.launch { homeRepo.setGridSize(c, r) } },
             onRefreshApps = { scope.launch { refreshApps() } },
         )
 
@@ -315,6 +336,11 @@ private fun AppRoot(
             onSetPalette = { palette -> scope.launch { themeRepo.setPalette(palette) } },
             onSetTextSize = { size -> scope.launch { themeRepo.setTextSize(size) } },
             onSetIconSize = { size -> scope.launch { themeRepo.setIconSize(size) } },
+            onSetShowLabels = { show -> scope.launch { themeRepo.setShowLabels(show) } },
+            onSetAccent = { a -> scope.launch { themeRepo.setAccent(a) } },
+            onSetTileShape = { s -> scope.launch { themeRepo.setTileShape(s) } },
+            onSetBackground = { b -> scope.launch { themeRepo.setBackground(b) } },
+            onSetReducedMotion = { m -> scope.launch { themeRepo.setReducedMotion(m) } },
         )
 
         Screen.StatusDebug -> StatusDebugScreen(
@@ -335,6 +361,10 @@ private fun AppRoot(
                 }
             },
         )
+
+        Screen.QuickAccess -> QuickAccessScreen(
+            onBack = { screen = Screen.Home }
+        )
     }
 }
 
@@ -345,6 +375,7 @@ private fun OnboardingScreen(
     onSetPalette: (ThemePalette) -> Unit,
     onSetTextSize: (TextSize) -> Unit,
     onSetIconSize: (IconSize) -> Unit,
+    onSetShowLabels: (Boolean) -> Unit,
     onIncreasePages: () -> Unit,
     onDecreasePages: () -> Unit,
     onOpenPlacementEditor: () -> Unit,
@@ -455,6 +486,7 @@ private fun OnboardingScreen(
                         onSetPalette = onSetPalette,
                         onSetTextSize = onSetTextSize,
                         onSetIconSize = onSetIconSize,
+                        onSetShowLabels = {},
                         showIconSize = false,
                     )
                 }
@@ -477,7 +509,7 @@ private fun OnboardingScreen(
                     }
                     OutlinedButton(
                         modifier = Modifier.weight(1f).testTag("onboarding_increase_pages"),
-                        enabled = pageCount < 5,
+                        enabled = pageCount < 9,
                         onClick = onIncreasePages,
                     ) {
                         Text(text = stringResource(R.string.page_increase))
@@ -558,10 +590,14 @@ private fun HomeScreen(
     isRefreshingApps: Boolean,
     iconLoader: AppIconLoader,
     iconSize: androidx.compose.ui.unit.Dp,
+    showLabels: Boolean,
     onRefreshApps: () -> Unit,
     onLaunch: (LaunchableApp) -> Unit,
     lastError: String?,
     onOpenAllApps: () -> Unit,
+    onOpenCustomize: () -> Unit,
+    onOpenTheme: () -> Unit,
+    onOpenQuickAccess: () -> Unit,
     onOpenStatus: () -> Unit,
     onOpenReset: () -> Unit,
     modifier: Modifier = Modifier,
@@ -687,6 +723,7 @@ private fun HomeScreen(
                     app = resolved,
                     showEmptyPlaceholder = false,
                     isUnavailable = ref != null && resolved == null,
+                    showLabels = showLabels,
                     onClick = {
                         if (resolved != null) onLaunch(resolved)
                     },
@@ -696,16 +733,31 @@ private fun HomeScreen(
 
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             OutlinedButton(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(1f).testTag("home_customize_button"),
+                onClick = onOpenCustomize,
+            ) {
+                Text(text = stringResource(R.string.customize_home))
+            }
+            OutlinedButton(
+                modifier = Modifier.weight(1f).testTag("home_appearance_button"),
+                onClick = onOpenTheme,
+            ) {
+                Text(text = stringResource(R.string.appearance))
+            }
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            OutlinedButton(
+                modifier = Modifier.weight(1f).testTag("home_quick_access_button"),
+                onClick = onOpenQuickAccess,
+            ) {
+                Text(text = stringResource(R.string.quick_access))
+            }
+            OutlinedButton(
+                modifier = Modifier.weight(1f).testTag("home_status_button"),
                 onClick = onOpenStatus,
             ) {
                 Text(text = stringResource(R.string.status_debug))
-            }
-            OutlinedButton(
-                modifier = Modifier.weight(1f),
-                onClick = onOpenReset,
-            ) {
-                Text(text = stringResource(R.string.reset_options))
             }
         }
     }
@@ -932,6 +984,7 @@ private fun HomeTile(
     app: LaunchableApp?,
     showEmptyPlaceholder: Boolean,
     isUnavailable: Boolean,
+    showLabels: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -965,7 +1018,7 @@ private fun HomeTile(
                 }
             },
         )
-        if (title.isNotEmpty()) {
+        if (title.isNotEmpty() && showLabels) {
             Text(
                 modifier = Modifier.padding(top = 6.dp),
                 text = title,
@@ -984,10 +1037,17 @@ private fun AllAppsScreen(
     isLoading: Boolean,
     iconLoader: AppIconLoader,
     iconSize: androidx.compose.ui.unit.Dp,
+    showLabels: Boolean,
+    isGridMode: Boolean,
+    favorites: Set<String>,
+    onToggleGridMode: (Boolean) -> Unit,
+    onToggleFavorite: (LaunchableApp) -> Unit,
     onBack: () -> Unit,
     onRefresh: () -> Unit,
     onLaunch: (LaunchableApp) -> Unit,
 ) {
+    var searchQuery by remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -1012,6 +1072,14 @@ private fun AllAppsScreen(
 
         Spacer(modifier = Modifier.height(12.dp))
 
+        androidx.compose.material3.OutlinedTextField(
+            value = searchQuery,
+            onValueChange = { searchQuery = it },
+            modifier = Modifier.fillMaxWidth().testTag("app_drawer_search"),
+            placeholder = { Text("Search apps") },
+            singleLine = true
+        )
+
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
                 modifier = Modifier
@@ -1019,6 +1087,15 @@ private fun AllAppsScreen(
                     .padding(8.dp)
                     .testTag("all_apps_refresh"),
                 text = stringResource(R.string.refresh),
+                color = MaterialTheme.colorScheme.primary,
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                modifier = Modifier
+                    .clickable { onToggleGridMode(!isGridMode) }
+                    .padding(8.dp)
+                    .testTag("app_drawer_layout_toggle"),
+                text = if (isGridMode) "List View" else "Grid View",
                 color = MaterialTheme.colorScheme.primary,
             )
         }
@@ -1039,7 +1116,11 @@ private fun AllAppsScreen(
             return
         }
 
-        if (apps.isEmpty()) {
+        val filteredApps = apps.filter { it.label.contains(searchQuery, ignoreCase = true) }
+        val favoriteApps = filteredApps.filter { favorites.contains("${it.packageName}|${it.activityName}") }
+        val otherApps = filteredApps.filterNot { favorites.contains("${it.packageName}|${it.activityName}") }
+
+        if (filteredApps.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text(
                     text = stringResource(R.string.no_apps_found),
@@ -1049,25 +1130,76 @@ private fun AllAppsScreen(
             return
         }
 
-        LazyColumn(modifier = Modifier.testTag("all_apps_list")) {
-            items(items = apps, key = { "${it.packageName}/${it.activityName}" }) { app ->
-                AppRow(app = app, iconLoader = iconLoader, iconSize = iconSize, onClick = { onLaunch(app) })
+        if (isGridMode) {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(4),
+                modifier = Modifier.testTag("all_apps_list"),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                if (favoriteApps.isNotEmpty()) {
+                    item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(maxLineSpan) }) {
+                        Text(
+                            text = "Favorites",
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(vertical = 8.dp).testTag("app_drawer_favorites_section")
+                        )
+                    }
+                    itemsIndexed(items = favoriteApps, key = { _, app -> "fav_${app.packageName}/${app.activityName}" }) { _, app ->
+                        AppGridItem(app, iconLoader, iconSize, showLabels, onLaunch, onToggleFavorite, isFavorite = true)
+                    }
+                }
+                if (favoriteApps.isNotEmpty() && otherApps.isNotEmpty()) {
+                    item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(maxLineSpan) }) {
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
+                }
+                itemsIndexed(items = otherApps, key = { _, app -> "${app.packageName}/${app.activityName}" }) { _, app ->
+                    AppGridItem(app, iconLoader, iconSize, showLabels, onLaunch, onToggleFavorite, isFavorite = false)
+                }
+            }
+        } else {
+            LazyColumn(modifier = Modifier.testTag("all_apps_list")) {
+                if (favoriteApps.isNotEmpty()) {
+                    item {
+                        Text(
+                            text = "Favorites",
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(vertical = 8.dp).testTag("app_drawer_favorites_section")
+                        )
+                    }
+                    items(items = favoriteApps, key = { "fav_${it.packageName}/${it.activityName}" }) { app ->
+                        AppRow(app = app, iconLoader = iconLoader, iconSize = iconSize, showLabels = showLabels, onClick = { onLaunch(app) }, onLongClick = { onToggleFavorite(app) })
+                    }
+                }
+                if (favoriteApps.isNotEmpty() && otherApps.isNotEmpty()) {
+                    item {
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
+                }
+                items(items = otherApps, key = { "${it.packageName}/${it.activityName}" }) { app ->
+                    AppRow(app = app, iconLoader = iconLoader, iconSize = iconSize, showLabels = showLabels, onClick = { onLaunch(app) }, onLongClick = { onToggleFavorite(app) })
+                }
             }
         }
+
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun AppRow(
     app: LaunchableApp,
     iconLoader: AppIconLoader,
     iconSize: androidx.compose.ui.unit.Dp,
+    showLabels: Boolean,
     onClick: () -> Unit,
+    onLongClick: () -> Unit = {},
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
+            .combinedClickable(onClick = onClick, onLongClick = onLongClick)
             .padding(vertical = 10.dp, horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -1088,10 +1220,12 @@ private fun AppRow(
             },
         )
         Spacer(modifier = Modifier.width(12.dp))
-        Text(
-            text = app.label,
-            style = MaterialTheme.typography.bodyLarge,
-        )
+        if (showLabels) {
+            Text(
+                text = app.label,
+                style = MaterialTheme.typography.bodyLarge,
+            )
+        }
     }
 }
 
@@ -1104,10 +1238,12 @@ private fun CustomizeHomeScreen(
     isLoadingApps: Boolean,
     iconLoader: AppIconLoader,
     iconSize: androidx.compose.ui.unit.Dp,
+    showLabels: Boolean,
     onBack: () -> Unit,
     onSetSlot: (HomeSlotId, AppComponentRef?) -> Unit,
     onMove: (HomeSlotId, HomeSlotId) -> Unit,
     onResetHome: () -> Unit,
+    onSetGridSize: (Int, Int) -> Unit,
     onRefreshApps: () -> Unit,
 ) {
     var pageIndex by remember { mutableStateOf(0) }
@@ -1139,8 +1275,15 @@ private fun CustomizeHomeScreen(
             )
         }
 
+        
         Spacer(modifier = Modifier.height(12.dp))
-
+        Text(text = stringResource(R.string.grid_size_label), style = MaterialTheme.typography.titleMedium)
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.testTag("customize_grid_selector")) {
+            OutlinedButton(onClick = { onSetGridSize(2, 2) }, modifier = Modifier.testTag("grid_2x2")) { Text(stringResource(R.string.grid_2x2)) }
+            OutlinedButton(onClick = { onSetGridSize(3, 3) }, modifier = Modifier.testTag("grid_3x3")) { Text(stringResource(R.string.grid_3x3)) }
+            OutlinedButton(onClick = { onSetGridSize(4, 4) }, modifier = Modifier.testTag("grid_4x4")) { Text(stringResource(R.string.grid_4x4)) }
+        }
+        Spacer(modifier = Modifier.height(12.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.testTag("customize_page_selector")) {
             for (p in 0 until pageCount) {
                 val label = stringResource(R.string.page_short, p + 1)
@@ -1281,6 +1424,7 @@ private fun CustomizeHomeScreen(
                     app = app,
                     iconLoader = iconLoader,
                     iconSize = iconSize,
+                    showLabels = showLabels,
                     onClick = {
                         val idx = selectedSlotIndex ?: return@AppRow
                         val slot = HomeSlotId(pageIndex, idx)
@@ -1337,6 +1481,11 @@ private fun ThemeSettingsScreen(
     onSetPalette: (ThemePalette) -> Unit,
     onSetTextSize: (TextSize) -> Unit,
     onSetIconSize: (IconSize) -> Unit,
+    onSetShowLabels: (Boolean) -> Unit,
+    onSetAccent: (ThemeAccent) -> Unit,
+    onSetTileShape: (ThemeTileShape) -> Unit,
+    onSetBackground: (ThemeBackground) -> Unit,
+    onSetReducedMotion: (Boolean) -> Unit,
 ) {
     val scrollState = rememberScrollState()
     val scope = rememberCoroutineScope()
@@ -1379,6 +1528,11 @@ private fun ThemeSettingsScreen(
             onSetPalette = onSetPalette,
             onSetTextSize = onSetTextSize,
             onSetIconSize = onSetIconSize,
+            onSetShowLabels = onSetShowLabels,
+            onSetAccent = onSetAccent,
+            onSetTileShape = onSetTileShape,
+            onSetBackground = onSetBackground,
+            onSetReducedMotion = onSetReducedMotion,
             showIconSize = true,
         )
     }
@@ -1390,6 +1544,11 @@ private fun ThemeSettingsContent(
     onSetPalette: (ThemePalette) -> Unit,
     onSetTextSize: (TextSize) -> Unit,
     onSetIconSize: (IconSize) -> Unit,
+    onSetShowLabels: (Boolean) -> Unit,
+    onSetAccent: (ThemeAccent) -> Unit = {},
+    onSetTileShape: (ThemeTileShape) -> Unit = {},
+    onSetBackground: (ThemeBackground) -> Unit = {},
+    onSetReducedMotion: (Boolean) -> Unit = {},
     showIconSize: Boolean = true,
 ) {
     Text(text = stringResource(R.string.theme_section_palette), color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -1415,6 +1574,13 @@ private fun ThemeSettingsContent(
         selected = selected.palette == ThemePalette.Dark,
         previewSettings = selected.copy(palette = ThemePalette.Dark),
         onClick = { onSetPalette(ThemePalette.Dark) },
+    )
+    ThemeOptionRow(
+        tag = "theme_palette_high_contrast",
+        label = stringResource(R.string.theme_palette_high_contrast),
+        selected = selected.palette == ThemePalette.HighContrast,
+        previewSettings = selected.copy(palette = ThemePalette.HighContrast),
+        onClick = { onSetPalette(ThemePalette.HighContrast) },
     )
 
     Spacer(modifier = Modifier.height(12.dp))
@@ -1484,7 +1650,91 @@ private fun ThemeSettingsContent(
             previewSettings = selected.copy(iconSize = IconSize.Large),
             onClick = { onSetIconSize(IconSize.Large) },
         )
+
+        Spacer(modifier = Modifier.height(12.dp))
+        Text(text = stringResource(R.string.theme_section_labels), color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Spacer(modifier = Modifier.height(6.dp))
+
+        ThemeOptionRow(
+            tag = "theme_labels_show",
+            label = stringResource(R.string.theme_labels_show),
+            selected = selected.showLabels == true,
+            previewSettings = selected.copy(showLabels = true),
+            onClick = { onSetShowLabels(true) },
+        )
+        ThemeOptionRow(
+            tag = "theme_labels_hide",
+            label = stringResource(R.string.theme_labels_hide),
+            selected = selected.showLabels == false,
+            previewSettings = selected.copy(showLabels = false),
+            onClick = { onSetShowLabels(false) },
+        )
+
     }
+
+    Spacer(modifier = Modifier.height(12.dp))
+    Text(text = stringResource(R.string.theme_section_accent), color = MaterialTheme.colorScheme.onSurfaceVariant)
+    Spacer(modifier = Modifier.height(6.dp))
+    val accents = listOf(ThemeAccent.Default, ThemeAccent.Blue, ThemeAccent.Green, ThemeAccent.Purple, ThemeAccent.Orange, ThemeAccent.Red)
+    val accentLabels = listOf(R.string.theme_accent_default, R.string.theme_accent_blue, R.string.theme_accent_green, R.string.theme_accent_purple, R.string.theme_accent_orange, R.string.theme_accent_red)
+    accents.forEachIndexed { i, acc ->
+        ThemeOptionRow(
+            tag = "theme_accent_${acc.storageValue}",
+            label = stringResource(accentLabels[i]),
+            selected = selected.accent == acc,
+            previewSettings = selected.copy(accent = acc),
+            onClick = { onSetAccent(acc) }
+        )
+    }
+
+    Spacer(modifier = Modifier.height(12.dp))
+    Text(text = stringResource(R.string.theme_section_shape), color = MaterialTheme.colorScheme.onSurfaceVariant)
+    Spacer(modifier = Modifier.height(6.dp))
+    val shapes = listOf(ThemeTileShape.SoftRounded, ThemeTileShape.ExtraRounded, ThemeTileShape.Square)
+    val shapeLabels = listOf(R.string.theme_shape_soft, R.string.theme_shape_extra, R.string.theme_shape_square)
+    for (i in shapes.indices) {
+        val shp = shapes[i]
+        ThemeOptionRow(
+            tag = "theme_shape_${shp.storageValue}",
+            label = stringResource(shapeLabels[i]),
+            selected = selected.tileShape == shp,
+            previewSettings = selected.copy(tileShape = shp),
+            onClick = { onSetTileShape(shp) }
+        )
+    }
+
+    Spacer(modifier = Modifier.height(12.dp))
+    Text(text = stringResource(R.string.theme_section_background), color = MaterialTheme.colorScheme.onSurfaceVariant)
+    Spacer(modifier = Modifier.height(6.dp))
+    val backgrounds = listOf(ThemeBackground.Default, ThemeBackground.SolidDark, ThemeBackground.SolidLight, ThemeBackground.PitchBlack)
+    val bgLabels = listOf(R.string.theme_bg_default, R.string.theme_bg_dark, R.string.theme_bg_light, R.string.theme_bg_black)
+    backgrounds.forEachIndexed { i, bg ->
+        ThemeOptionRow(
+            tag = "theme_bg_${bg.storageValue}",
+            label = stringResource(bgLabels[i]),
+            selected = selected.background == bg,
+            previewSettings = selected.copy(background = bg),
+            onClick = { onSetBackground(bg) }
+        )
+    }
+
+    Spacer(modifier = Modifier.height(12.dp))
+    Text(text = stringResource(R.string.theme_section_motion), color = MaterialTheme.colorScheme.onSurfaceVariant)
+    Spacer(modifier = Modifier.height(6.dp))
+    ThemeOptionRow(
+        tag = "theme_motion_normal",
+        label = stringResource(R.string.theme_motion_normal),
+        selected = selected.reducedMotion == false,
+        previewSettings = selected.copy(reducedMotion = false),
+        onClick = { onSetReducedMotion(false) }
+    )
+    ThemeOptionRow(
+        tag = "theme_motion_reduced",
+        label = stringResource(R.string.theme_motion_reduced),
+        selected = selected.reducedMotion == true,
+        previewSettings = selected.copy(reducedMotion = true),
+        onClick = { onSetReducedMotion(true) }
+    )
 }
 
 @Composable
@@ -1631,7 +1881,55 @@ private fun StatusDebugScreen(
             value = "${themeSettings.palette.storageValue}, ${themeSettings.textSize.storageValue}, ${themeSettings.iconSize.storageValue}",
         )
         StatusRow(tag = "status_selected_home_slots_count", label = stringResource(R.string.status_selected_home_slots_count), value = homeSlotsCount.toString())
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        val launcher = androidx.activity.compose.rememberLauncherForActivityResult(
+            contract = androidx.activity.result.contract.ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                postTestNotification(context)
+            }
+        }
+
+        Button(
+            modifier = Modifier.fillMaxWidth().testTag("notification_test_button"),
+            onClick = {
+                if (android.os.Build.VERSION.SDK_INT >= 33) {
+                    if (context.checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                        postTestNotification(context)
+                    } else {
+                        launcher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+                    }
+                } else {
+                    postTestNotification(context)
+                }
+            }
+        ) {
+            Text("Send test notification")
+        }
     }
+}
+
+private fun postTestNotification(context: Context) {
+    val manager = context.getSystemService(android.app.NotificationManager::class.java)
+    if (android.os.Build.VERSION.SDK_INT >= 26) {
+        val channel = android.app.NotificationChannel(
+            "core_test",
+            "Core Launcher Test",
+            android.app.NotificationManager.IMPORTANCE_DEFAULT
+        )
+        manager?.createNotificationChannel(channel)
+    }
+
+    val notification = androidx.core.app.NotificationCompat.Builder(context, "core_test")
+        .setSmallIcon(R.mipmap.ic_launcher_round)
+        .setContentTitle("Core Launcher test notification")
+        .setContentText("This is a safe test notification.")
+        .setPriority(androidx.core.app.NotificationCompat.PRIORITY_DEFAULT)
+        .build()
+
+    manager?.notify(1001, notification)
 }
 
 private fun computeLauncherStatus(context: Context): String {
@@ -1777,3 +2075,126 @@ private fun ResetOptionsScreen(
 }
 
 private enum class ResetKind { HomeOnly, AllSettings }
+
+@Composable
+private fun QuickAccessScreen(onBack: () -> Unit) {
+    val context = LocalContext.current
+    val scrollState = rememberScrollState()
+
+    fun launchSafe(intent: Intent) {
+        try {
+            context.startActivity(intent.apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) })
+        } catch (e: Exception) {
+            // Safe fallback
+        }
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .verticalScroll(scrollState)
+            .testTag("quick_access_root")
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(text = stringResource(R.string.quick_access_panel), style = MaterialTheme.typography.titleLarge)
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                modifier = Modifier.clickable(onClick = onBack).padding(8.dp),
+                text = stringResource(R.string.back),
+                color = MaterialTheme.colorScheme.primary,
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text("System Settings", style = MaterialTheme.typography.titleMedium)
+        Spacer(modifier = Modifier.height(8.dp))
+
+        OutlinedButton(modifier = Modifier.fillMaxWidth().testTag("quick_access_wifi_settings"), onClick = { launchSafe(Intent(Settings.ACTION_WIFI_SETTINGS)) }) { Text("Wi-Fi Settings") }
+        OutlinedButton(modifier = Modifier.fillMaxWidth().testTag("quick_access_bluetooth_settings"), onClick = { launchSafe(Intent(Settings.ACTION_BLUETOOTH_SETTINGS)) }) { Text("Bluetooth Settings") }
+        OutlinedButton(modifier = Modifier.fillMaxWidth().testTag("quick_access_display_settings"), onClick = { launchSafe(Intent(Settings.ACTION_DISPLAY_SETTINGS)) }) { Text("Display Settings") }
+        OutlinedButton(modifier = Modifier.fillMaxWidth().testTag("quick_access_sound_settings"), onClick = { launchSafe(Intent(Settings.ACTION_SOUND_SETTINGS)) }) { Text("Sound Settings") }
+        OutlinedButton(modifier = Modifier.fillMaxWidth().testTag("quick_access_accessibility_settings"), onClick = { launchSafe(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)) }) { Text("Accessibility Settings") }
+        OutlinedButton(modifier = Modifier.fillMaxWidth().testTag("quick_access_battery_settings"), onClick = { launchSafe(Intent(Intent.ACTION_POWER_USAGE_SUMMARY)) }) { Text("Battery Settings") }
+        OutlinedButton(modifier = Modifier.fillMaxWidth().testTag("quick_access_notification_settings"), onClick = {
+            val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+                putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+            }
+            launchSafe(intent)
+        }) { Text("Launcher Notifications") }
+        OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = { launchSafe(Intent(Settings.ACTION_SETTINGS)) }) { Text("All Settings") }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text("Apps", style = MaterialTheme.typography.titleMedium)
+        Spacer(modifier = Modifier.height(8.dp))
+
+        OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = {
+            val i = Intent(android.provider.MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA)
+            launchSafe(i)
+        }) { Text("Camera") }
+        OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = { launchSafe(Intent(Intent.ACTION_DIAL)) }) { Text("Phone") }
+        OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = {
+            val i = Intent(Intent.ACTION_MAIN).apply { addCategory(Intent.CATEGORY_APP_MESSAGING) }
+            launchSafe(i)
+        }) { Text("Messages") }
+        OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = {
+            val i = Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://www.google.com"))
+            launchSafe(i)
+        }) { Text("Browser") }
+    }
+}
+
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun AppGridItem(
+    app: LaunchableApp,
+    iconLoader: AppIconLoader,
+    iconSize: androidx.compose.ui.unit.Dp,
+    showLabels: Boolean,
+    onClick: (LaunchableApp) -> Unit,
+    onLongClick: (LaunchableApp) -> Unit,
+    isFavorite: Boolean,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .combinedClickable(onClick = { onClick(app) }, onLongClick = { onLongClick(app) })
+            .padding(4.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Box(contentAlignment = Alignment.TopEnd) {
+            AndroidView(
+                modifier = Modifier.size(iconSize),
+                factory = { ctx ->
+                    android.widget.ImageView(ctx).apply {
+                        importantForAccessibility = android.view.View.IMPORTANT_FOR_ACCESSIBILITY_NO
+                    }
+                },
+                update = { view ->
+                    view.setImageDrawable(iconLoader.loadIcon(app))
+                },
+            )
+            if (isFavorite) {
+                Text(
+                    text = "★",
+                    color = MaterialTheme.colorScheme.primary,
+                    style = MaterialTheme.typography.labelSmall,
+                    modifier = Modifier.background(MaterialTheme.colorScheme.surface, shape = MaterialTheme.shapes.small).padding(2.dp)
+                )
+            }
+        }
+        if (showLabels) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = app.label,
+                style = MaterialTheme.typography.bodySmall,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
+    }
+}
+
