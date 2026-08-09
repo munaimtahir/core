@@ -1,5 +1,20 @@
 # Roadmap
 
+## Current status — 2026-08-09
+
+`core v0.1` has completed the launcher foundation and the planned launcher-level MVP customization/runtime patch. The final audit repaired the Gradle wrapper, migrated stale tests, fixed the spec-dependent default home layout, repaired connected UI smoke tests, exposed Reset, and verified build/unit/lint/instrumentation/runtime evidence. See `docs/VERIFICATION/core-v0.1-baseline-report.md` for command-level evidence.
+
+Completed current launcher-level scope includes:
+
+- launcher HOME role, stable home surface, app discovery/icons/launching
+- persistent pages and 2x2/3x3/4x4 grids with migration/packing
+- app drawer search, Grid/List modes, and favorites
+- themes/appearance, top information strip, Quick Access, notifications test flow
+- contacts/dial/SMS shortcuts, built-in Clock/Date/Note tiles, and flashlight handling
+- visible reset flow and connected Compose smoke coverage
+
+Future product variants and managed-device work remain deferred until a separate product scope is approved.
+
 ## Stage 0 — Documentation Foundation
 
 Goal:
@@ -182,7 +197,7 @@ Exit criteria:
 - all features implemented and documented
 - grid size bug fixed with Option A migration
 - build/test/lint pass
-- FINAL_REPORT.md created
+- final baseline verification report created
 
 ## Stage 6 — First Product Variant Planning
 

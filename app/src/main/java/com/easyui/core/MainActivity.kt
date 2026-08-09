@@ -248,7 +248,6 @@ private fun AppRoot(
             onSetPalette = { palette -> scope.launch { themeRepo.setPalette(palette) } },
             onSetTextSize = { size -> scope.launch { themeRepo.setTextSize(size) } },
             onSetIconSize = { size -> scope.launch { themeRepo.setIconSize(size) } },
-            onSetShowLabels = { show -> scope.launch { themeRepo.setShowLabels(show) } },
             onIncreasePages = { scope.launch { homeRepo.increasePageCount() } },
             onDecreasePages = { scope.launch { homeRepo.decreasePageCount() } },
             onOpenPlacementEditor = { screen = Screen.CustomizeHome },
@@ -405,7 +404,6 @@ private fun OnboardingScreen(
     onSetPalette: (ThemePalette) -> Unit,
     onSetTextSize: (TextSize) -> Unit,
     onSetIconSize: (IconSize) -> Unit,
-    onSetShowLabels: (Boolean) -> Unit,
     onIncreasePages: () -> Unit,
     onDecreasePages: () -> Unit,
     onOpenPlacementEditor: () -> Unit,
@@ -812,6 +810,12 @@ private fun HomeScreen(
                 onClick = onOpenStatus,
             ) {
                 Text(text = stringResource(R.string.status_debug))
+            }
+            OutlinedButton(
+                modifier = Modifier.weight(1f).testTag("home_reset_button"),
+                onClick = onOpenReset,
+            ) {
+                Text(text = stringResource(R.string.reset))
             }
         }
     }
@@ -1426,7 +1430,7 @@ private fun CustomizeHomeScreen(
                         modifier = Modifier.padding(top = 6.dp),
                         text = when {
                             content is HomeTileContent.App && resolved != null -> resolved.label
-                            content is HomeTileContent.App && content.ref != null -> stringResource(R.string.unavailable_app)
+                            content is HomeTileContent.App -> stringResource(R.string.unavailable_app)
                             content is HomeTileContent.Contact -> content.name
                             content is HomeTileContent.Widget -> content.type.name
                             else -> stringResource(R.string.empty_slot)

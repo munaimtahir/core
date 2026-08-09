@@ -1,0 +1,168 @@
+--------- beginning of main
+08-09 18:32:26.647  6237  6237 I com.easyui.core: Using CollectorTypeCMC GC.
+08-09 18:32:26.648  6237  6237 W com.easyui.core: Unexpected CPU variant for x86: x86_64.
+08-09 18:32:26.648  6237  6237 W com.easyui.core: Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, goldmont-without-sha-xsaves, tremont, kabylake, default
+08-09 18:32:26.652   465   475 I adbd    : jdwp connection from 6237
+08-09 18:32:26.661  6237  6237 D nativeloader: Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+--------- beginning of system
+08-09 18:32:26.676   587   714 D ActivityManager: freezing 1971 com.google.android.as.oss
+08-09 18:32:26.681   587   922 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+08-09 18:32:26.682   587   922 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+08-09 18:32:26.682   587   922 D InetDiagMessage: Destroyed live tcp sockets for uids={10133} in 1ms
+08-09 18:32:26.690  6237  6237 D CompatChangeReporter: Compat change id reported: 242716250; UID 10217; state: ENABLED
+08-09 18:32:26.712  6237  6237 W ziparchive: Unable to open '/data/app/~~MLTW6sYlwkoBOqCOBKNJDA==/com.easyui.core-JmziP3Xj5HtW8Dkj96IV7A==/base.dm': No such file or directory
+08-09 18:32:26.712  6237  6237 W ziparchive: Unable to open '/data/app/~~MLTW6sYlwkoBOqCOBKNJDA==/com.easyui.core-JmziP3Xj5HtW8Dkj96IV7A==/base.dm': No such file or directory
+08-09 18:32:26.742   587   714 D ActivityManager: freezing 1616 com.google.android.googlequicksearchbox:search
+08-09 18:32:26.744   587   714 D ActivityManager: freezing 3943 com.google.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0
+08-09 18:32:26.769   587   611 E IPCThreadState: Binder transaction failure. id: 491389, BR_*: 29189, error: -22 (Invalid argument)
+08-09 18:32:26.770   587   611 W ActivityManager: pid 587 system sent binder code 9 with flags 1 to frozen apps and got error -32
+--------- beginning of kernel
+08-09 18:32:26.888     0     0 I binder  : 611:587 cannot find target node
+08-09 18:32:26.889     0     0 I binder  : 587:611 transaction async to 0:0 failed 491389/29189/-22, size 80-0 line 3344
+08-09 18:32:26.780   587   610 D AutofillManagerService: Close system dialogs
+08-09 18:32:26.786   587   611 W ActivityTaskManager: callingPackage for (uid=-1, pid=0) has no WPC
+08-09 18:32:26.788   587   611 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_USER_ASPECT_RATIO_OVERRIDE
+08-09 18:32:26.788   587   611 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_USER_ASPECT_RATIO_FULLSCREEN_OVERRIDE
+08-09 18:32:26.788   587   611 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_ORIENTATION_OVERRIDE
+08-09 18:32:26.789   587   611 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_RESIZEABLE_ACTIVITY_OVERRIDES
+08-09 18:32:26.789   587   611 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_MIN_ASPECT_RATIO_OVERRIDE
+08-09 18:32:26.789   587   611 V GrammaticalInflectionUtils: AttributionSource: AttributionSource { uid = 10217, packageName = null, attributionTag = null, token = android.os.Binder@cdcff6d, deviceId = 0, next = null } does not have READ_SYSTEM_GRAMMATICAL_GENDER permission.
+08-09 18:32:26.790  1001  1001 I vol.VolumeDialogImpl: mDialog.dismiss() reason: volume_controller from: com.android.systemui.volume.VolumeDialogImpl$7.onDismissRequested:3
+08-09 18:32:26.796   587   611 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ENABLE_FAKE_FOCUS
+08-09 18:32:26.801   587   611 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.HOME] flg=0x10000100 cmp=com.easyui.core/.MainActivity (has extras)} with LAUNCH_SINGLE_TASK from uid 0 (BAL_ALLOW_ALLOWLISTED_UID) result code=3
+08-09 18:32:26.806  1001  1075 D WindowManagerShell: onActivityRestartAttempt: ComponentInfo{com.easyui.core/com.easyui.core.MainActivity}
+08-09 18:32:26.991   587   922 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+08-09 18:32:26.992   587   922 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+08-09 18:32:26.992   587   922 D InetDiagMessage: Destroyed live tcp sockets for uids={99000} in 2ms
+08-09 18:32:27.323  6237  6237 D nativeloader: Configuring clns-7 for other apk /data/app/~~MLTW6sYlwkoBOqCOBKNJDA==/com.easyui.core-JmziP3Xj5HtW8Dkj96IV7A==/base.apk. target_sdk_version=34, uses_libraries=, library_path=/data/app/~~MLTW6sYlwkoBOqCOBKNJDA==/com.easyui.core-JmziP3Xj5HtW8Dkj96IV7A==/lib/x86_64:/data/app/~~MLTW6sYlwkoBOqCOBKNJDA==/com.easyui.core-JmziP3Xj5HtW8Dkj96IV7A==/base.apk!/lib/x86_64, permitted_path=/data:/mnt/expand:/data/user/0/com.easyui.core
+08-09 18:32:27.350  6237  6237 V GraphicsEnvironment: Currently set values for:
+08-09 18:32:27.350  6237  6237 V GraphicsEnvironment:   angle_gl_driver_selection_pkgs=[]
+08-09 18:32:27.350  6237  6237 V GraphicsEnvironment:   angle_gl_driver_selection_values=[]
+08-09 18:32:27.350  6237  6237 V GraphicsEnvironment: Global.Settings values are invalid: number of packages: 0, number of values: 0
+08-09 18:32:27.350  6237  6237 V GraphicsEnvironment: Neither updatable production driver nor prerelease driver is supported.
+08-09 18:32:27.520   587   922 W IPCThreadState: Sending oneway calls to frozen process.
+08-09 18:32:27.522   587   922 W IPCThreadState: Sending oneway calls to frozen process.
+08-09 18:32:27.523   587   922 W IPCThreadState: Sending oneway calls to frozen process.
+08-09 18:32:27.523   587   922 W IPCThreadState: Sending oneway calls to frozen process.
+08-09 18:32:27.524   587   922 W IPCThreadState: Sending oneway calls to frozen process.
+08-09 18:32:27.524   587   922 W IPCThreadState: Sending oneway calls to frozen process.
+08-09 18:32:27.525  1321  1998 I ChimeraSrvcProxy: NullBinder for android.net.action.RECOMMEND_NETWORKS triggering remote TransactionTooLargeException due to Service without Chimera impl
+08-09 18:32:27.525  1321  1998 W .gms.persistent: Large reply transaction of 1056768 bytes, interface descriptor , code 1
+08-09 18:32:27.529   587   922 W IPCThreadState: Sending oneway calls to frozen process.
+08-09 18:32:27.529   587   922 W IPCThreadState: Sending oneway calls to frozen process.
+08-09 18:32:27.529  3801  4059 I BugleRcsEngine: handleMessage processing message:[NOTIFY_UPTIME_IGNORE_STATE_CHANGED] with [non-null]:RcsEngineImpl reference [CONTEXT log_prefix="RcsEngineImpl[DUAL_REG]:[3812d890-0380]>Handler" thread_id=65 ]
+08-09 18:32:27.531  3801  3899 I BugleRcsEngine: Connected state: [1], networkType: [WIFI] [CONTEXT thread_id=59 ]
+08-09 18:32:27.536  6237  6237 W HWUI    : Unknown dataspace 0
+08-09 18:32:27.538  3801  4059 I BugleRcsEngine: No RCS Configuration was found in Bugle for simID: redacted-pii:sim_id[chars:20,last3:897] [CONTEXT log_prefix="ProvisioningEngineDataRetriever" thread_id=65 ]
+08-09 18:32:28.186   587  1915 D CompatChangeReporter: Compat change id reported: 161145287; UID 10217; state: ENABLED
+08-09 18:32:28.256  6237  6237 W com.easyui.core: Method boolean androidx.compose.runtime.snapshots.SnapshotStateList.conditionalUpdate(boolean, kotlin.jvm.functions.Function1) failed lock verification and will run slower.
+08-09 18:32:28.256  6237  6237 W com.easyui.core: Common causes for lock verification issues are non-optimized dex code
+08-09 18:32:28.256  6237  6237 W com.easyui.core: and incorrect proguard optimizations.
+08-09 18:32:28.256  6237  6237 W com.easyui.core: Method boolean androidx.compose.runtime.snapshots.SnapshotStateList.conditionalUpdate$default(androidx.compose.runtime.snapshots.SnapshotStateList, boolean, kotlin.jvm.functions.Function1, int, java.lang.Object) failed lock verification and will run slower.
+08-09 18:32:28.256  6237  6237 W com.easyui.core: Method java.lang.Object androidx.compose.runtime.snapshots.SnapshotStateList.mutate(kotlin.jvm.functions.Function1) failed lock verification and will run slower.
+08-09 18:32:28.257  6237  6237 W com.easyui.core: Method void androidx.compose.runtime.snapshots.SnapshotStateList.update(boolean, kotlin.jvm.functions.Function1) failed lock verification and will run slower.
+08-09 18:32:28.257  6237  6237 W com.easyui.core: Method void androidx.compose.runtime.snapshots.SnapshotStateList.update$default(androidx.compose.runtime.snapshots.SnapshotStateList, boolean, kotlin.jvm.functions.Function1, int, java.lang.Object) failed lock verification and will run slower.
+08-09 18:32:28.353  6237  6243 I com.easyui.core: Compiler allocated 5174KB to compile void android.view.ViewRootImpl.performTraversals()
+08-09 18:32:28.542  6237  6237 W WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+08-09 18:32:28.542  6237  6237 W WindowOnBackDispatcher: Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+08-09 18:32:28.548   587  1915 D CoreBackPreview: Window{7587a97 u0 com.easyui.core/com.easyui.core.MainActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@79baa69, mPriority=0, mIsAnimationCallback=false}
+08-09 18:32:28.916  6237  6258 I EGL_emulation: Opening libGLESv1_CM_emulation.so
+08-09 18:32:28.917  6237  6258 I EGL_emulation: Opening libGLESv2_emulation.so
+08-09 18:32:28.929   587   614 W ActivityTaskManager: Unable to send transaction to client proc com.easyui.core: no app thread
+08-09 18:32:28.946  6237  6258 W HWUI    : Failed to initialize 101010-2 format, error = EGL_SUCCESS
+08-09 18:32:29.152     0     0 I servicemanager: Caller(pid=6237,uid=10217,sid=u:r:untrusted_app:s0:c217,c256,c512,c768) Could not find android.hardware.graphics.allocator.IAllocator/default in the VINTF manifest. No alternative instances declared in VINTF.
+08-09 18:32:29.049   171   171 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@4.0::IMapper/default in either framework or device VINTF manifest.
+08-09 18:32:29.050  6237  6258 I Gralloc4: mapper 4.x is not supported
+08-09 18:32:30.083  1001  1244 V WindowManagerShell: onTransitionReady(transaction=2521145804454)
+08-09 18:32:30.084   587   610 W ziparchive: Unable to open '/data/app/~~MLTW6sYlwkoBOqCOBKNJDA==/com.easyui.core-JmziP3Xj5HtW8Dkj96IV7A==/base.dm': No such file or directory
+08-09 18:32:30.086  1001  1075 V WindowManagerShell: onTransitionReady (#49) android.os.BinderProxy@a37edeb: {id=49 t=CLOSE f=0x0 trk=0 r=[0@Point(0, 0)] c=[{WCT{android.window.IWindowContainerToken$Stub$Proxy@b54631d} m=OPEN f=MOVE_TO_TOP leash=Surface(name=Task=26)/@0xf06f306 sb=Rect(0, 0 - 1080, 2340) eb=Rect(0, 0 - 1080, 2340) d=0 taskParent=-1},{WCT{android.window.IWindowContainerToken$Stub$Proxy@e8f3992} m=CLOSE f=NONE leash=Surface(name=Task=25)/@0xa57dc7 sb=Rect(0, 0 - 1080, 2340) eb=Rect(0, 0 - 1080, 2340) d=0 taskParent=-1}]}
+08-09 18:32:30.088   587   610 I ActivityTaskManager: Displayed com.easyui.core/.MainActivity for user 0: +3s570ms
+08-09 18:32:30.088   587   610 V WindowManager: Sent Transition (#49) createdAt=08-09 18:32:26.487 via request=TransitionRequestInfo { type = CLOSE, triggerTask = TaskInfo{userId=0 taskId=25 displayId=0 isRunning=false baseIntent=Intent { act=android.intent.action.MAIN cat=[android.intent.category.HOME] flg=0x10000100 cmp=com.easyui.core/.MainActivity } baseActivity=null topActivity=null origActivity=null realActivity=ComponentInfo{com.easyui.core/com.easyui.core.MainActivity} numActivities=0 lastActiveTime=555493 supportsMultiWindow=false resizeMode=0 isResizeable=false minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{RemoteToken{bd26de7 Task{d35b3b8 #25 type=home A=10217:com.easyui.core}}} topActivityType=2 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(0, 136 - 0, 0) topActivityInfo=null launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=true isVisible=true isVisibleRequested=true isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false topActivityEligibleForLetterboxEducation= falseisLetterboxEducationEnabled= false isLetterboxDoubleTapEnabled= false topActivityEligibleForUserAspectRatioButton= false topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false cameraCompatTaskInfo=CameraCompatTaskInfo { cameraCompatControlState=hidden freeformCameraCompatMode=inactive}}}, pipTask = null, remoteTransition = null, displayChange = null, flags = 0, debugId = 49 }
+08-09 18:32:30.088   587   610 V WindowManager:     startWCT=WindowContainerTransaction { changes = {} hops = [] errorCallbackToken=null taskFragmentOrganizer=null }
+08-09 18:32:30.089   587   610 V WindowManager:     info={id=49 t=CLOSE f=0x0 trk=0 r=[0@Point(0, 0)] c=[
+08-09 18:32:30.089   587   610 V WindowManager:         {WCT{RemoteToken{cad8bab Task{a0f5906 #26 type=home A=10217:com.easyui.core}}} m=OPEN f=MOVE_TO_TOP leash=Surface(name=Task=26)/@0xe7dc01c sb=Rect(0, 0 - 1080, 2340) eb=Rect(0, 0 - 1080, 2340) d=0 taskParent=-1},
+08-09 18:32:30.089   587   610 V WindowManager:         {WCT{RemoteToken{bd26de7 Task{d35b3b8 #25 type=home A=10217:com.easyui.core}}} m=CLOSE f=NONE leash=Surface(name=Task=25)/@0xc597ae8 sb=Rect(0, 0 - 1080, 2340) eb=Rect(0, 0 - 1080, 2340) d=0 taskParent=-1}
+08-09 18:32:30.089   587   610 V WindowManager:     ]}
+08-09 18:32:30.089  1001  1075 V WindowManagerShell: Playing animation for (#49) android.os.BinderProxy@a37edeb@0
+08-09 18:32:30.089  1001  1075 V WindowManagerShell:  try handler com.android.wm.shell.transition.DefaultMixedHandler@eb59395
+08-09 18:32:30.089  1001  1075 V WindowManagerShell:  try handler com.android.wm.shell.keyguard.KeyguardTransitionHandler@856caa
+08-09 18:32:30.089  1001  1075 V WindowManagerShell:  try handler com.android.wm.shell.pip.PipTransition@567409b
+08-09 18:32:30.089  1001  1075 V WindowManagerShell:  try handler com.android.wm.shell.activityembedding.ActivityEmbeddingController@587ec38
+08-09 18:32:30.089  1001  1075 V WindowManagerShell:  try handler com.android.wm.shell.recents.RecentsTransitionHandler@28d411
+08-09 18:32:30.090  1001  1075 V ShellRecents: RecentsTransitionHandler.startAnimation: no controller found
+08-09 18:32:30.090  1001  1075 V WindowManagerShell:  try handler com.android.wm.shell.splitscreen.StageCoordinator@825a976
+08-09 18:32:30.090  1001  1075 V WindowManagerShell:  try handler com.android.wm.shell.transition.RemoteTransitionHandler@8ef4b77
+08-09 18:32:30.090  1001  1075 V WindowManagerShell: Transition doesn't have explicit remote, search filters for match for {id=49 t=CLOSE f=0x0 trk=0 r=[0@Point(0, 0)] c=[{WCT{android.window.IWindowContainerToken$Stub$Proxy@b54631d} m=OPEN f=MOVE_TO_TOP leash=Surface(name=Task=26)/@0xf06f306 sb=Rect(0, 0 - 1080, 2340) eb=Rect(0, 0 - 1080, 2340) d=0 taskParent=-1},{WCT{android.window.IWindowContainerToken$Stub$Proxy@e8f3992} m=CLOSE f=NONE leash=Surface(name=Task=25)/@0xa57dc7 sb=Rect(0, 0 - 1080, 2340) eb=Rect(0, 0 - 1080, 2340) d=0 taskParent=-1}]}
+08-09 18:32:30.091  1001  1075 V WindowManagerShell:  Checking filter Pair{{types=[] flags=0x0] notFlags=0x0 checks=[{atype=undefined independent=true modes=[OPEN,TO_FRONT] flags=IN_TASK_WITH_EMBEDDED_ACTIVITY mustBeTask=false order=ANY topActivity=ComponentInfo{com.google.android.apps.nexuslauncher/com.google.android.apps.nexuslauncher.NexusLauncherActivity} launchCookie=null},{atype=undefined independent=true modes=[CLOSE,TO_BACK] flags=IN_TASK_WITH_EMBEDDED_ACTIVITY mustBeTask=false order=ANY topActivity=null launchCookie=null}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@ec3e50c, appThread = android.app.IApplicationThread$Stub$Proxy@c7a5e55, debugName = OverlaySwipeBack }}
+08-09 18:32:30.091  1001  1075 V WindowManagerShell:  Checking filter Pair{{types=[] flags=0x0] notFlags=0x0 checks=[{atype=dream independent=true modes=[OPEN,TO_FRONT] flags=NONE mustBeTask=false order=ANY topActivity=null launchCookie=null},{atype=home independent=true modes=[CLOSE,TO_BACK] flags=NONE mustBeTask=false order=ANY topActivity=null launchCookie=null}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@396406a, appThread = android.app.IApplicationThread$Stub$Proxy@a95e95b, debugName = LauncherToDream }}
+08-09 18:32:30.091  1001  1075 V WindowManagerShell:  Checking filter Pair{{types=[] flags=0x0] notFlags=0x100 checks=[{atype=home independent=true modes=[OPEN,TO_FRONT] flags=NONE mustBeTask=false order=TOP topActivity=ComponentInfo{com.google.android.apps.nexuslauncher/com.google.android.apps.nexuslauncher.NexusLauncherActivity} launchCookie=null},{atype=standard independent=true modes=[CLOSE,TO_BACK] flags=NONE mustBeTask=false order=ANY topActivity=null launchCookie=null}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@65045f8, appThread = android.app.IApplicationThread$Stub$Proxy@b4f8ad1, debugName = QuickstepLaunchHome }}
+08-09 18:32:30.091  1001  1075 V WindowManagerShell:  Delegate animation for (#49) to null
+08-09 18:32:30.091  1001  1075 V WindowManagerShell:  try handler com.android.wm.shell.transition.DefaultTransitionHandler@beb93e4
+08-09 18:32:30.092  1001  1075 V WindowManagerShell: start default transition animation, info = {id=49 t=CLOSE f=0x0 trk=0 r=[0@Point(0, 0)] c=[{WCT{android.window.IWindowContainerToken$Stub$Proxy@b54631d} m=OPEN f=MOVE_TO_TOP leash=Surface(name=Task=26)/@0xf06f306 sb=Rect(0, 0 - 1080, 2340) eb=Rect(0, 0 - 1080, 2340) d=0 taskParent=-1},{WCT{android.window.IWindowContainerToken$Stub$Proxy@e8f3992} m=CLOSE f=NONE leash=Surface(name=Task=25)/@0xa57dc7 sb=Rect(0, 0 - 1080, 2340) eb=Rect(0, 0 - 1080, 2340) d=0 taskParent=-1}]}
+08-09 18:32:30.093  1001  1075 V WindowManagerShell: loadAnimation: anim=android.view.animation.AnimationSet@cd91419 animAttr=0xb type=CLOSE isEntrance=false
+08-09 18:32:30.100  1001  1075 V WindowManagerShell: loadAnimation: anim=android.view.animation.AnimationSet@1c468ea animAttr=0xa type=CLOSE isEntrance=true
+08-09 18:32:30.109  1001  1082 W Looper  : Drained
+08-09 18:32:30.110  1001  1075 V WindowManagerShell:  animated by com.android.wm.shell.transition.DefaultTransitionHandler@beb93e4
+08-09 18:32:30.119  6237  6249 I HWUI    : Davey! duration=2701ms; Flags=1, FrameTimelineVsyncId=51350, IntendedVsync=567417240417, Vsync=567583907077, InputEventId=0, HandleInputStart=567592529723, AnimationStart=567592548197, PerformTraversalsStart=567592852451, DrawStart=569130256324, FrameDeadline=567433907083, FrameInterval=567591879089, FrameStartTime=16666666, SyncQueued=569162226118, SyncStart=569162716543, IssueDrawCommandsStart=569163214724, SwapBuffers=569761345048, FrameCompleted=570118983972, DequeueBufferDuration=8327, QueueBufferDuration=342419, GpuCompleted=570118983972, SwapBuffersCompleted=570102096629, DisplayPresentTime=0, CommandSubmissionCompleted=569761345048, 
+08-09 18:32:30.138  1280  1680 D EGL_emulation: app_time_stats: avg=1533.31ms min=3.17ms max=13080.95ms count=9
+08-09 18:32:30.140  6237  6237 I Choreographer: Skipped 146 frames!  The application may be doing too much work on its main thread.
+08-09 18:32:30.237  1001  1082 W Looper  : Slow delivery took 30ms wmshell.anim h=android.view.Choreographer$FrameHandler c=android.view.Choreographer$FrameDisplayEventReceiver@47c36bd m=0
+08-09 18:32:30.245  1001  1082 W Looper  : Drained
+08-09 18:32:30.333   587  1915 W UserManagerService: Requested status bar icon for non-badged user 0
+08-09 18:32:30.574  1001  1082 W Looper  : Slow delivery took 34ms wmshell.anim h=android.view.Choreographer$FrameHandler c=android.view.Choreographer$FrameDisplayEventReceiver@47c36bd m=0
+08-09 18:32:30.581  1001  1082 W Looper  : Drained
+08-09 18:32:30.626  1001  1075 V WindowManagerShell: Transition animation finished (aborted=false), notifying core (#49) android.os.BinderProxy@a37edeb@0
+08-09 18:32:30.631   587  3422 W ActivityManager: pid 587 system sent binder code 7 with flags 1 to frozen apps and got error -32
+08-09 18:32:30.631   587  3422 D ActivityManager: Too many transaction errors, throttling freezer binder callback.
+08-09 18:32:30.650   587  3422 W WindowManager: Exception thrown during dispatchAppVisibility Window{7168d93 u0 com.easyui.core/com.easyui.core.MainActivity EXITING}
+08-09 18:32:30.650   587  3422 W WindowManager: android.os.DeadObjectException
+08-09 18:32:30.650   587  3422 W WindowManager: 	at android.os.BinderProxy.transactNative(Native Method)
+08-09 18:32:30.650   587  3422 W WindowManager: 	at android.os.BinderProxy.transact(BinderProxy.java:586)
+08-09 18:32:30.650   587  3422 W WindowManager: 	at android.view.IWindow$Stub$Proxy.dispatchAppVisibility(IWindow.java:553)
+08-09 18:32:30.650   587  3422 W WindowManager: 	at com.android.server.wm.WindowState.sendAppVisibilityToClients(WindowState.java:3253)
+08-09 18:32:30.650   587  3422 W WindowManager: 	at com.android.server.wm.WindowContainer.sendAppVisibilityToClients(WindowContainer.java:1289)
+08-09 18:32:30.650   587  3422 W WindowManager: 	at com.android.server.wm.WindowToken.setClientVisible(WindowToken.java:403)
+08-09 18:32:30.650   587  3422 W WindowManager: 	at com.android.server.wm.ActivityRecord.setClientVisible(ActivityRecord.java:7166)
+08-09 18:32:30.650   587  3422 W WindowManager: 	at com.android.server.wm.ActivityRecord.postApplyAnimation(ActivityRecord.java:5881)
+08-09 18:32:30.650   587  3422 W WindowManager: 	at com.android.server.wm.ActivityRecord.commitVisibility(ActivityRecord.java:5823)
+08-09 18:32:30.650   587  3422 W WindowManager: 	at com.android.server.wm.Transition.finishTransition(Transition.java:1286)
+08-09 18:32:30.650   587  3422 W WindowManager: 	at com.android.server.wm.TransitionController.finishTransition(TransitionController.java:937)
+08-09 18:32:30.650   587  3422 W WindowManager: 	at com.android.server.wm.WindowOrganizerController.finishTransition(WindowOrganizerController.java:494)
+08-09 18:32:30.650   587  3422 W WindowManager: 	at android.window.IWindowOrganizerController$Stub.onTransact(IWindowOrganizerController.java:289)
+08-09 18:32:30.650   587  3422 W WindowManager: 	at com.android.server.wm.WindowOrganizerController.onTransact(WindowOrganizerController.java:204)
+08-09 18:32:30.650   587  3422 W WindowManager: 	at android.os.Binder.execTransactInternal(Binder.java:1505)
+08-09 18:32:30.650   587  3422 W WindowManager: 	at android.os.Binder.execTransact(Binder.java:1444)
+08-09 18:32:30.650   587  3422 W Process : Unable to open /proc/5864/status
+08-09 18:32:30.658   587   610 V WindowManager: Finish Transition (#49): created at 08-09 18:32:26.487 collect-started=0.089ms request-sent=0.206ms started=29.721ms ready=311.2ms sent=3589.218ms finished=4140.028ms
+08-09 18:32:30.683  1280  1280 I TopTaskTracker: onTaskRemoved: taskId=25
+08-09 18:32:30.684  1001  1075 V WindowManagerShell: Track 0 became idle
+08-09 18:32:30.684  1001  1075 V WindowManagerShell: All active transition animations finished
+08-09 18:32:30.684  1001  1075 W Looper  : Slow dispatch took 58ms wmshell.main h=android.os.Handler c=com.android.wm.shell.transition.DefaultTransitionHandler$$ExternalSyntheticLambda0@2366b7 m=0
+08-09 18:32:30.686   587  1915 W UserManagerService: Requested status bar icon for non-badged user 0
+08-09 18:32:30.687  1280  1280 I TopTaskTracker: onTaskRemoved: taskId=25
+08-09 18:32:30.716  1280  1280 I TopTaskTracker: onTaskRemoved: taskId=24
+08-09 18:32:30.716  1280  1280 I TopTaskTracker: onTaskRemoved: taskId=24
+08-09 18:32:30.717   587  1915 W UserManagerService: Requested status bar icon for non-badged user 0
+08-09 18:32:30.718   587  1915 W UserManagerService: Requested status bar icon for non-badged user 0
+08-09 18:32:30.722  1321  2034 I FontLog : Received query Noto Color Emoji Compat, URI content://com.google.android.gms.fonts [CONTEXT service_id=132 ]
+08-09 18:32:30.722  1321  2034 I FontLog : Query [emojicompat-emoji-font] resolved to {Noto Color Emoji Compat, wdth 100.0, wght 400, ital 0.0, bestEffort false} [CONTEXT service_id=132 ]
+08-09 18:32:30.725   457   457 E BpTransactionCompletedListener: Failed to transact (-32)
+08-09 18:32:30.726   388   439 I netd    : tetherGetStats() -> {[]} <1.85ms>
+08-09 18:32:30.763  1321  2034 I FontLog : Fetch {Noto Color Emoji Compat, wdth 100.0, wght 400, ital 0.0, bestEffort false} end status Status{statusCode=SUCCESS, resolution=null} [CONTEXT service_id=132 ]
+08-09 18:32:30.835  1321  2034 I FontLog : Pulling font file for id = 15, cache size = 5 [CONTEXT service_id=132 ]
+08-09 18:32:30.843  1321  2034 I FontLog : Pulling font file for id = 15, cache size = 5 [CONTEXT service_id=132 ]
+08-09 18:32:31.304  6285  6285 W BpBinder: Linking to death on android.gui.ISurfaceComposer but there are no threads (yet?) listening to incoming transactions. See ProcessState::startThreadPool and ProcessState::setThreadPoolMaxThreadCount. Generally you should setup the binder threadpool before other initialization steps.
+08-09 18:32:31.306  6285  6285 W ProcessState: Extra binder thread started, but 0 threads requested. Do not use *startThreadPool when zero threads are requested.
+08-09 18:32:31.516     0     0 I servicemanager: Caller(pid=6285,uid=2000,sid=u:r:shell:s0) Could not find android.hardware.graphics.allocator.IAllocator/default in the VINTF manifest. No alternative instances declared in VINTF.
+08-09 18:32:31.401   171   171 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@4.0::IMapper/default in either framework or device VINTF manifest.
+08-09 18:32:31.401  6285  6286 I Gralloc4: mapper 4.x is not supported
+08-09 18:32:32.035  6237  6237 I Choreographer: Skipped 82 frames!  The application may be doing too much work on its main thread.
+08-09 18:32:32.049   587   734 I ImeTracker: com.easyui.core:b32cb287: onRequestHide at ORIGIN_SERVER reason HIDE_UNSPECIFIED_WINDOW fromUser false
+08-09 18:32:32.049   587   734 I ImeTracker: com.easyui.core:b32cb287: onCancelled at PHASE_SERVER_SHOULD_HIDE
+08-09 18:32:32.068  6237  6271 I HWUI    : Davey! duration=4344ms; Flags=0, FrameTimelineVsyncId=51380, IntendedVsync=567733907071, Vsync=570167240307, InputEventId=0, HandleInputStart=570183608710, AnimationStart=570183611335, PerformTraversalsStart=570603465706, DrawStart=570603596849, FrameDeadline=570150573641, FrameInterval=570183210941, FrameStartTime=16666666, SyncQueued=570626433652, SyncStart=570634315539, IssueDrawCommandsStart=570634468287, SwapBuffers=571835597622, FrameCompleted=572086589034, DequeueBufferDuration=6293, QueueBufferDuration=280567, GpuCompleted=572086589034, SwapBuffersCompleted=572065157152, DisplayPresentTime=0, CommandSubmissionCompleted=571835597622, 
+08-09 18:32:32.121  1442  1442 I GoogleInputMethodService: GoogleInputMethodService.onFinishInput():3157 
+08-09 18:32:32.125  1442  1442 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2248 repeatCheckTimes = 0, locked = false
+08-09 18:32:32.125  1442  1442 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1986 onStartInput(EditorInfo{EditorInfo{packageName=com.easyui.core, inputType=0, inputTypeString=NULL, enableLearning=false, autoCorrection=false, autoComplete=false, imeOptions=0, privateImeOptions=null, actionName=UNSPECIFIED, actionLabel=null, initialSelStart=-1, initialSelEnd=-1, initialCapsMode=0, label=null, fieldId=0, fieldName=null, extras=null, hintText=null, hintLocales=[]}}, false)
+08-09 18:32:32.126  1442  1442 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2248 repeatCheckTimes = 1, locked = false
+08-09 18:32:32.126  1442  1442 I AndroidIME: InputBundleManager.loadActiveInputBundleId():450 loadActiveInputBundleId: und-Latn-x-password, password
+08-09 18:32:32.127   587  1797 W PackageConfigPersister: App-specific configuration not found for packageName: com.easyui.core and userId: 0

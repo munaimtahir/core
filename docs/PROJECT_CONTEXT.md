@@ -4,6 +4,8 @@
 
 `core` is a brand-new Android launcher foundation project.
 
+As of 2026-08-09, the foundation also contains the verified launcher-level MVP customization documented in `docs/LAUNCHER_CUSTOMIZATION_SCOPE.md`; this does not make `core` a product variant or managed-device system.
+
 It will provide the shared foundation for a future family of simplified launcher products.
 
 ## Purpose

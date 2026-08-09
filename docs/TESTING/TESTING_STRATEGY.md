@@ -6,6 +6,10 @@
 
 The baseline is not complete until it can be verified repeatedly.
 
+## Current verification status — 2026-08-09
+
+The final audit passed the repository wrapper, clean build, debug unit tests, lint, and `connectedDebugAndroidTest` on the Android 15 `Android_15_Test` AVD. Runtime screenshots, activity state, HOME resolution, and logcat evidence are stored under `docs/VERIFICATION/artifacts/2026-08-09/`.
+
 ## Required verification layers
 
 ### 1. Build

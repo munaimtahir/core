@@ -1,14 +1,8 @@
 # GitHub Workflows
 
-Workflows will be added after the Android project skeleton exists.
+The Android workflows are present and use the repository-local Gradle wrapper.
 
-Trigger policy:
-
-- All workflows must be manual only using `workflow_dispatch`.
-- Do not add `push`, `pull_request`, or `pull_request_target` triggers.
-- Workflows must not auto-run on commit or PR events.
-
-Planned workflows:
+Current workflows:
 
 1. Android Code CI
    - build
@@ -23,4 +17,4 @@ Planned workflows:
    - collect logcat
    - upload artifacts
 
-Do not add workflow files until the Android project structure and Gradle commands are known.
+Both workflows also support `workflow_dispatch`; code/runtime checks run on push and pull requests according to their workflow definitions.

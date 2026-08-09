@@ -1,0 +1,409 @@
+--------- beginning of main
+08-09 18:29:32.133  1321  5841 I Fitness : FitCleanupIntentOperation received Intent android.intent.action.PACKAGE_CHANGED [CONTEXT service_id=17 ]
+08-09 18:29:32.202  1780  2959 I Icing   : IndexChimeraService.getServiceInterface callingPackage=com.google.android.gms componentName=AppsCorpus serviceId=36
+08-09 18:29:32.213  1780  1780 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.feedback.internal.IFeedbackService dat=chimera-action:/... cmp=com.google.android.gms/.chimera.GmsBoundBrokerService }
+08-09 18:29:32.213  1780  1780 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.feedback.internal.IFeedbackService dat=chimera-action:/... cmp=com.google.android.gms/.chimera.GmsBoundBrokerService }
+08-09 18:29:32.224  1780  3035 I Icing   : Usage reports ok 0, Failed Usage reports 0, indexed 0, rejected 0
+08-09 18:29:32.246  1780  2078 I Icing   : IndexChimeraService.getServiceInterface callingPackage=com.google.android.gms componentName=null serviceId=30
+08-09 18:29:32.282  1780  3035 I Icing   : Usage reports ok 0, Failed Usage reports 0, indexed 0, rejected 0
+08-09 18:29:32.306  1780  3035 I Icing   : Indexing com.google.android.gms-apps from com.google.android.gms
+08-09 18:29:32.316  1780  3035 I Icing   : Indexing done com.google.android.gms-apps
+08-09 18:29:32.317  1780  2910 I Icing   : Indexing com.google.android.gms-apps from com.google.android.gms
+08-09 18:29:32.318  1780  2910 I Icing   : Indexing done com.google.android.gms-apps
+--------- beginning of system
+08-09 18:29:32.349   587  1915 W ActivityTaskManager: callingPackage for (uid=2000, pid=5861) has no WPC
+08-09 18:29:32.351   587  1915 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_USER_ASPECT_RATIO_OVERRIDE
+08-09 18:29:32.352   587  1915 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_USER_ASPECT_RATIO_FULLSCREEN_OVERRIDE
+08-09 18:29:32.352   587  1915 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_ORIENTATION_OVERRIDE
+08-09 18:29:32.358   587  1915 V GrammaticalInflectionUtils: AttributionSource: AttributionSource { uid = 10217, packageName = null, attributionTag = null, token = android.os.Binder@cdcff6d, deviceId = 0, next = null } does not have READ_SYSTEM_GRAMMATICAL_GENDER permission.
+08-09 18:29:32.361   587  1915 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_RESIZEABLE_ACTIVITY_OVERRIDES
+08-09 18:29:32.366   587  1915 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_MIN_ASPECT_RATIO_OVERRIDE
+08-09 18:29:32.372  1001  1075 W Looper  : Drained
+08-09 18:29:32.386   587  1915 V SplashScreenExceptionList: SplashScreen checking exception for package com.easyui.core (target sdk:34) -> false
+08-09 18:29:32.390   587  1915 I ActivityTaskManager: START u0 {flg=0x10000000 cmp=com.easyui.core/.MainActivity} with LAUNCH_SINGLE_TASK from uid 2000 (BAL_ALLOW_PERMISSION) result code=0
+08-09 18:29:32.401   587   613 V GrammaticalInflectionUtils: AttributionSource: AttributionSource { uid = 10217, packageName = null, attributionTag = null, token = android.os.Binder@cdcff6d, deviceId = 0, next = null } does not have READ_SYSTEM_GRAMMATICAL_GENDER permission.
+08-09 18:29:32.403  1001  1075 V WindowManagerShell: Transition requested (#46): android.os.BinderProxy@4ed2ddd TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=24 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=com.easyui.core/.MainActivity } baseActivity=ComponentInfo{com.easyui.core/com.easyui.core.MainActivity} topActivity=ComponentInfo{com.easyui.core/com.easyui.core.MainActivity} origActivity=null realActivity=ComponentInfo{com.easyui.core/com.easyui.core.MainActivity} numActivities=1 lastActiveTime=392431 supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{android.window.IWindowContainerToken$Stub$Proxy@2e40d52} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(0, 136 - 0, 0) topActivityInfo=ActivityInfo{694d823 com.easyui.core.MainActivity} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=false isVisible=false isVisibleRequested=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false topActivityEligibleForLetterboxEducation= falseisLetterboxEducationEnabled= true isLetterboxDoubleTapEnabled= false topActivityEligibleForUserAspectRatioButton= false topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=1080 topActivityLetterboxHeight=2340 isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false cameraCompatTaskInfo=CameraCompatTaskInfo { cameraCompatControlState=hidden freeformCameraCompatMode=inactive}}}, pipTask = null, remoteTransition = null, displayChange = null, flags = 0, debugId = 46 }
+08-09 18:29:32.409  1280  1280 W SplitSelectStateCtor: Missing session instanceIds
+08-09 18:29:32.409  1280  1280 D StatsLog: LAUNCHER_SPLIT_SELECTION_EXIT_INTERRUPTED
+08-09 18:29:32.422   587  1106 I AppsFilter: interaction: PackageSetting{7f875fe com.android.microdroid.empty_payload/10196} -> PackageSetting{ce76570 com.easyui.core/10217} BLOCKED
+08-09 18:29:32.430   457   457 I BpBinder: onLastStrongRef automatically unlinking death recipients: 
+08-09 18:29:32.437  1001  1075 W Looper  : Slow dispatch took 35ms wmshell.main h=android.os.Handler c=com.android.wm.shell.transition.Transitions$TransitionPlayerImpl$$ExternalSyntheticLambda1@54ce120 m=0
+08-09 18:29:32.437  1001  1075 W Looper  : Slow delivery took 46ms wmshell.main h=android.os.Handler c=null m=16
+08-09 18:29:32.443  1280  1280 I TopTaskTracker: onTaskMovedToFront: (moved taskInfo to front) taskId=24, baseIntent=Intent { flg=0x10000000 cmp=com.easyui.core/.MainActivity }
+08-09 18:29:32.444  1001  1075 D WindowManagerShell: setLauncherKeepClearAreaHeight: visible=false, height=552
+08-09 18:29:32.472   587   951 I AppWidgetServiceImpl: Received broadcast: android.intent.action.PACKAGE_UNSTOPPED on user 0
+08-09 18:29:32.473   587   951 I AppWidgetServiceImpl: Updating package stopped masked state for uid 10217 package com.easyui.core isStopped false
+08-09 18:29:32.475  1001  1075 W Looper  : Drained
+08-09 18:29:32.494   388   439 I netd    : tetherGetStats() -> {[]} <3.07ms>
+08-09 18:29:32.494   389   389 D Zygote  : Forked child process 5864
+08-09 18:29:32.495   587   623 W ActivityManager: Slow operation: 59ms so far, now at startProcess: returned from zygote!
+08-09 18:29:32.495   587   623 W ActivityManager: Slow operation: 59ms so far, now at startProcess: done updating battery stats
+08-09 18:29:32.495   587   623 W ActivityManager: Slow operation: 59ms so far, now at startProcess: building log message
+08-09 18:29:32.495   587   623 I ActivityManager: Start proc 5864:com.easyui.core/u0a217 for next-top-activity {com.easyui.core/com.easyui.core.MainActivity}
+08-09 18:29:32.495   587   623 W ActivityManager: Slow operation: 60ms so far, now at startProcess: starting to update pids map
+08-09 18:29:32.497   587   623 W ActivityManager: Slow operation: 61ms so far, now at startProcess: done updating pids map
+08-09 18:29:32.545  5864  5864 I com.easyui.core: Late-enabling -Xcheck:jni
+08-09 18:29:32.597  5864  5864 I com.easyui.core: Using CollectorTypeCMC GC.
+08-09 18:29:32.601  5864  5864 W com.easyui.core: Unexpected CPU variant for x86: x86_64.
+08-09 18:29:32.601  5864  5864 W com.easyui.core: Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, goldmont-without-sha-xsaves, tremont, kabylake, default
+08-09 18:29:32.619   465   475 I adbd    : jdwp connection from 5864
+08-09 18:29:32.673  1001  1094 D SplashScreenView: Build android.window.SplashScreenView{2d0794e V.E...... ......ID 0,0-0,0}
+08-09 18:29:32.673  1001  1094 D SplashScreenView: Icon: view: android.widget.ImageView{80d9a6f V.ED..... ......I. 0,0-0,0 #1020504 android:id/splashscreen_icon_view} drawable: com.android.wm.shell.startingsurface.SplashscreenIconDrawableFactory$ImmobileIconDrawable@3b2c37c size: 440
+08-09 18:29:32.673  1001  1094 D SplashScreenView: Branding: view: android.view.View{8953405 G.ED..... ......I. 0,0-0,0 #1020503 android:id/splashscreen_branding_view} drawable: null size w: 0 h: 0
+08-09 18:29:32.683  5864  5864 D nativeloader: Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+08-09 18:29:32.704   587   606 D CoreBackPreview: Window{6f3b21e u0 Splash Screen com.easyui.core}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@9f230cc, mPriority=0, mIsAnimationCallback=false}
+08-09 18:29:32.805  1280  1680 D EGL_emulation: app_time_stats: avg=222.70ms min=81.10ms max=834.92ms count=7
+08-09 18:29:32.906   587  1106 W ActivityManager: Slow operation: 67ms so far, now at attachApplicationLocked: after updateOomAdjLocked
+08-09 18:29:33.101  5864  5864 D CompatChangeReporter: Compat change id reported: 242716250; UID 10217; state: ENABLED
+08-09 18:29:33.168  1548  1548 W JobService: onNetworkChanged() not implemented in com.google.android.apps.miphone.aiai.common.superpacks.impl.AiAiPersistentDownloadJobService. Must override in a subclass.
+08-09 18:29:33.174  3801  3899 I BugleRcsEngine: Connected state: [1], networkType: [WIFI] [CONTEXT thread_id=59 ]
+08-09 18:29:33.175  3801  4059 I BugleRcsEngine: handleMessage processing message:[NOTIFY_UPTIME_IGNORE_STATE_CHANGED] with [non-null]:RcsEngineImpl reference [CONTEXT log_prefix="RcsEngineImpl[DUAL_REG]:[3812d890-0380]>Handler" thread_id=65 ]
+08-09 18:29:33.189  1321  2449 I ChimeraSrvcProxy: NullBinder for android.net.action.RECOMMEND_NETWORKS triggering remote TransactionTooLargeException due to Service without Chimera impl
+08-09 18:29:33.189  1321  2449 W .gms.persistent: Large reply transaction of 1056768 bytes, interface descriptor , code 1
+08-09 18:29:33.223  5864  5864 W ziparchive: Unable to open '/data/app/~~MLTW6sYlwkoBOqCOBKNJDA==/com.easyui.core-JmziP3Xj5HtW8Dkj96IV7A==/base.dm': No such file or directory
+08-09 18:29:33.224   388   439 I netd    : tetherGetStats() -> {[]} <0.78ms>
+08-09 18:29:33.225  5864  5864 W ziparchive: Unable to open '/data/app/~~MLTW6sYlwkoBOqCOBKNJDA==/com.easyui.core-JmziP3Xj5HtW8Dkj96IV7A==/base.dm': No such file or directory
+08-09 18:29:33.226  1001  1093 I Choreographer: Skipped 31 frames!  The application may be doing too much work on its main thread.
+08-09 18:29:33.268  1001  1135 V WindowManagerShell: onTransitionReady(transaction=2521145804171)
+08-09 18:29:33.269  1001  1075 V WindowManagerShell: onTransitionReady (#46) android.os.BinderProxy@4ed2ddd: {id=46 t=OPEN f=0x0 trk=0 r=[0@Point(0, 0)] c=[{WCT{android.window.IWindowContainerToken$Stub$Proxy@d592403} m=OPEN f=NONE leash=Surface(name=Task=24)/@0x57e0614 sb=Rect(0, 0 - 1080, 2340) eb=Rect(0, 0 - 1080, 2340) d=0 taskParent=-1},{WCT{android.window.IWindowContainerToken$Stub$Proxy@53f6f80} m=TO_BACK f=SHOW_WALLPAPER leash=Surface(name=Task=1)/@0x3fadebd sb=Rect(0, 0 - 1080, 2340) eb=Rect(0, 0 - 1080, 2340) d=0 taskParent=-1}]}
+08-09 18:29:33.272  1001  1075 V WindowManagerShell: Playing animation for (#46) android.os.BinderProxy@4ed2ddd@0
+08-09 18:29:33.272  1001  1075 V WindowManagerShell:  try handler com.android.wm.shell.transition.DefaultMixedHandler@eb59395
+08-09 18:29:33.273  1001  1075 V WindowManagerShell:  try handler com.android.wm.shell.keyguard.KeyguardTransitionHandler@856caa
+08-09 18:29:33.273  1001  1075 V WindowManagerShell:  try handler com.android.wm.shell.pip.PipTransition@567409b
+08-09 18:29:33.273  1001  1075 V WindowManagerShell:  try handler com.android.wm.shell.activityembedding.ActivityEmbeddingController@587ec38
+08-09 18:29:33.273  1001  1075 V WindowManagerShell:  try handler com.android.wm.shell.recents.RecentsTransitionHandler@28d411
+08-09 18:29:33.273  1001  1075 V ShellRecents: RecentsTransitionHandler.startAnimation: no controller found
+08-09 18:29:33.273  1001  1075 V WindowManagerShell:  try handler com.android.wm.shell.splitscreen.StageCoordinator@825a976
+08-09 18:29:33.273  1001  1075 V WindowManagerShell:  try handler com.android.wm.shell.transition.RemoteTransitionHandler@8ef4b77
+08-09 18:29:33.273  1001  1075 V WindowManagerShell: Transition doesn't have explicit remote, search filters for match for {id=46 t=OPEN f=0x0 trk=0 r=[0@Point(0, 0)] c=[{WCT{android.window.IWindowContainerToken$Stub$Proxy@d592403} m=OPEN f=NONE leash=Surface(name=Task=24)/@0x57e0614 sb=Rect(0, 0 - 1080, 2340) eb=Rect(0, 0 - 1080, 2340) d=0 taskParent=-1},{WCT{android.window.IWindowContainerToken$Stub$Proxy@53f6f80} m=TO_BACK f=SHOW_WALLPAPER leash=Surface(name=Task=1)/@0x3fadebd sb=Rect(0, 0 - 1080, 2340) eb=Rect(0, 0 - 1080, 2340) d=0 taskParent=-1}]}
+08-09 18:29:33.274  1001  1075 V WindowManagerShell:  Checking filter Pair{{types=[] flags=0x0] notFlags=0x0 checks=[{atype=undefined independent=true modes=[OPEN,TO_FRONT] flags=IN_TASK_WITH_EMBEDDED_ACTIVITY mustBeTask=false order=ANY topActivity=ComponentInfo{com.google.android.apps.nexuslauncher/com.google.android.apps.nexuslauncher.NexusLauncherActivity} launchCookie=null},{atype=undefined independent=true modes=[CLOSE,TO_BACK] flags=IN_TASK_WITH_EMBEDDED_ACTIVITY mustBeTask=false order=ANY topActivity=null launchCookie=null}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@ec3e50c, appThread = android.app.IApplicationThread$Stub$Proxy@c7a5e55, debugName = OverlaySwipeBack }}
+08-09 18:29:33.274  1001  1075 V WindowManagerShell:  Checking filter Pair{{types=[] flags=0x0] notFlags=0x0 checks=[{atype=dream independent=true modes=[OPEN,TO_FRONT] flags=NONE mustBeTask=false order=ANY topActivity=null launchCookie=null},{atype=home independent=true modes=[CLOSE,TO_BACK] flags=NONE mustBeTask=false order=ANY topActivity=null launchCookie=null}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@396406a, appThread = android.app.IApplicationThread$Stub$Proxy@a95e95b, debugName = LauncherToDream }}
+08-09 18:29:33.274  1001  1075 V WindowManagerShell:  Checking filter Pair{{types=[] flags=0x0] notFlags=0x100 checks=[{atype=home independent=true modes=[OPEN,TO_FRONT] flags=NONE mustBeTask=false order=TOP topActivity=ComponentInfo{com.google.android.apps.nexuslauncher/com.google.android.apps.nexuslauncher.NexusLauncherActivity} launchCookie=null},{atype=standard independent=true modes=[CLOSE,TO_BACK] flags=NONE mustBeTask=false order=ANY topActivity=null launchCookie=null}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@65045f8, appThread = android.app.IApplicationThread$Stub$Proxy@b4f8ad1, debugName = QuickstepLaunchHome }}
+08-09 18:29:33.274  1001  1075 V WindowManagerShell:  Delegate animation for (#46) to null
+08-09 18:29:33.274  1001  1075 V WindowManagerShell:  try handler com.android.wm.shell.transition.DefaultTransitionHandler@beb93e4
+08-09 18:29:33.274  1001  1075 V WindowManagerShell: start default transition animation, info = {id=46 t=OPEN f=0x0 trk=0 r=[0@Point(0, 0)] c=[{WCT{android.window.IWindowContainerToken$Stub$Proxy@d592403} m=OPEN f=NONE leash=Surface(name=Task=24)/@0x57e0614 sb=Rect(0, 0 - 1080, 2340) eb=Rect(0, 0 - 1080, 2340) d=0 taskParent=-1},{WCT{android.window.IWindowContainerToken$Stub$Proxy@53f6f80} m=TO_BACK f=SHOW_WALLPAPER leash=Surface(name=Task=1)/@0x3fadebd sb=Rect(0, 0 - 1080, 2340) eb=Rect(0, 0 - 1080, 2340) d=0 taskParent=-1}]}
+08-09 18:29:33.275  1001  1075 V WindowManagerShell: loadAnimation: anim=android.view.animation.AnimationSet@2f3d1fe animAttr=0x13 type=OPEN isEntrance=false
+08-09 18:29:33.277   388   439 I netd    : bandwidthSetGlobalAlert(2097152) <0.24ms>
+08-09 18:29:33.280  1001  1075 V WindowManagerShell: loadAnimation: anim=android.view.animation.AnimationSet@db7100a animAttr=0x12 type=OPEN isEntrance=true
+08-09 18:29:33.289  3801  4059 I BugleRcsEngine: No RCS Configuration was found in Bugle for simID: redacted-pii:sim_id[chars:20,last3:897] [CONTEXT log_prefix="ProvisioningEngineDataRetriever" thread_id=65 ]
+08-09 18:29:33.286   388   439 I netd    : bandwidthRemoveInterfaceQuota(eth0) <1.35ms>
+08-09 18:29:33.293   388   439 I netd    : bandwidthSetInterfaceQuota(eth0, 9223372036854775807) <2.28ms>
+08-09 18:29:33.303  1001  1075 V WindowManagerShell:  animated by com.android.wm.shell.transition.DefaultTransitionHandler@beb93e4
+08-09 18:29:33.303  1001  1075 W Looper  : Slow dispatch took 35ms wmshell.main h=android.os.Handler c=com.android.wm.shell.transition.Transitions$TransitionPlayerImpl$$ExternalSyntheticLambda0@debae98 m=0
+08-09 18:29:33.304   587   610 V WindowManager: Sent Transition (#46) createdAt=08-09 18:29:32.368 via request=TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=24 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=com.easyui.core/.MainActivity } baseActivity=ComponentInfo{com.easyui.core/com.easyui.core.MainActivity} topActivity=ComponentInfo{com.easyui.core/com.easyui.core.MainActivity} origActivity=null realActivity=ComponentInfo{com.easyui.core/com.easyui.core.MainActivity} numActivities=1 lastActiveTime=392431 supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{RemoteToken{5bbd1ef Task{369c779 #24 type=standard A=10217:com.easyui.core}}} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(0, 136 - 0, 0) topActivityInfo=ActivityInfo{8c964fc com.easyui.core.MainActivity} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=false isVisible=false isVisibleRequested=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false topActivityEligibleForLetterboxEducation= falseisLetterboxEducationEnabled= true isLetterboxDoubleTapEnabled= false topActivityEligibleForUserAspectRatioButton= false topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=1080 topActivityLetterboxHeight=2340 isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false cameraCompatTaskInfo=CameraCompatTaskInfo { cameraCompatControlState=hidden freeformCameraCompatMode=inactive}}}, pipTask = null, remoteTransition = null, displayChange = null, flags = 0, debugId = 46 }
+08-09 18:29:33.304   587   610 V WindowManager:     startWCT=WindowContainerTransaction { changes = {} hops = [] errorCallbackToken=null taskFragmentOrganizer=null }
+08-09 18:29:33.304   587   610 V WindowManager:     info={id=46 t=OPEN f=0x0 trk=0 r=[0@Point(0, 0)] c=[
+08-09 18:29:33.304   587   610 V WindowManager:         {WCT{RemoteToken{5bbd1ef Task{369c779 #24 type=standard A=10217:com.easyui.core}}} m=OPEN f=NONE leash=Surface(name=Task=24)/@0x4767af7 sb=Rect(0, 0 - 1080, 2340) eb=Rect(0, 0 - 1080, 2340) d=0 taskParent=-1},
+08-09 18:29:33.304   587   610 V WindowManager:         {WCT{RemoteToken{8f273c9 Task{b5d791e #1 type=home}}} m=TO_BACK f=SHOW_WALLPAPER leash=Surface(name=Task=1)/@0xb0e4242 sb=Rect(0, 0 - 1080, 2340) eb=Rect(0, 0 - 1080, 2340) d=0 taskParent=-1}
+08-09 18:29:33.304   587   610 V WindowManager:     ]}
+08-09 18:29:33.373   587  1915 W UserManagerService: Requested status bar icon for non-badged user 0
+08-09 18:29:33.382  1280  1680 D EGL_emulation: app_time_stats: avg=5690.65ms min=29.51ms max=22098.37ms count=4
+08-09 18:29:33.477  1001  1082 W Looper  : Slow delivery took 50ms wmshell.anim h=android.view.Choreographer$FrameHandler c=android.view.Choreographer$FrameDisplayEventReceiver@47c36bd m=0
+08-09 18:29:33.484  1001  1144 D EGL_emulation: app_time_stats: avg=5765.10ms min=25.61ms max=22888.97ms count=4
+08-09 18:29:33.493  1001  1082 W Looper  : Drained
+08-09 18:29:33.500   587  1915 I ActivityManager: Background started FGS: Allowed [callingPackage: com.google.android.apps.wellbeing; callingUid: 10142; uidState: BTOP; uidBFSL: [BFSL]; intent: Intent { cmp=com.google.android.apps.wellbeing/com.google.apps.tiktok.concurrent.InternalForegroundService (has extras) }; code:BACKGROUND_ACTIVITY_PERMISSION; tempAllowListReason:<null>; targetSdkVersion:34; callerTargetSdkVersion:34; startForegroundCount:0; bindFromPackage:null: isBindService:false]
+08-09 18:29:33.554   587  1106 W ForegroundServiceTypeLoggerModule: Foreground service start for UID: 10142 does not have any types
+08-09 18:29:33.557   388   439 I netd    : tetherGetStats() -> {[]} <0.62ms>
+08-09 18:29:33.570   587  3067 W ForegroundServiceTypeLoggerModule: FGS stop call for: 10142 has no types!
+08-09 18:29:33.666  1001  1082 W Looper  : Slow delivery took 76ms wmshell.anim h=android.view.Choreographer$FrameHandler c=android.view.Choreographer$FrameDisplayEventReceiver@47c36bd m=0
+08-09 18:29:33.667  1001  1075 V WindowManagerShell: Transition animation finished (aborted=false), notifying core (#46) android.os.BinderProxy@4ed2ddd@0
+08-09 18:29:33.672  1001  1075 V WindowManagerShell: Track 0 became idle
+08-09 18:29:33.676  1001  1075 V WindowManagerShell: All active transition animations finished
+08-09 18:29:33.698   587   610 V WindowManager: Finish Transition (#46): created at 08-09 18:29:32.368 collect-started=0.058ms request-sent=20.072ms started=44.154ms ready=885.874ms sent=892.812ms finished=1299.585ms
+08-09 18:29:33.722   587  1106 W UserManagerService: Requested status bar icon for non-badged user 0
+08-09 18:29:33.760   587  1106 W UserManagerService: Requested status bar icon for non-badged user 0
+08-09 18:29:33.782   587   587 I NotificationService: Cannot find enqueued record for key: 0|com.google.android.apps.wellbeing|174344743|null|10142
+08-09 18:29:33.835  1001  1075 W Looper  : Slow delivery took 43ms wmshell.main h=android.os.Handler c=android.window.TaskOrganizer$1$$ExternalSyntheticLambda4@6cdb8b0 m=0
+08-09 18:29:33.867  1280  1280 D VRI[NexusLauncherActivity]: visibilityChanged oldVisibility=true newVisibility=false
+08-09 18:29:33.868  1280  1280 D NexusLauncherModelDelegate: notifySmartspaceEvent: SmartspaceTargetEvent{mSmartspaceTarget=null, mSmartspaceActionId='null', mEventType=7}
+08-09 18:29:34.370  5864  5864 D nativeloader: Configuring clns-7 for other apk /data/app/~~MLTW6sYlwkoBOqCOBKNJDA==/com.easyui.core-JmziP3Xj5HtW8Dkj96IV7A==/base.apk. target_sdk_version=34, uses_libraries=, library_path=/data/app/~~MLTW6sYlwkoBOqCOBKNJDA==/com.easyui.core-JmziP3Xj5HtW8Dkj96IV7A==/lib/x86_64:/data/app/~~MLTW6sYlwkoBOqCOBKNJDA==/com.easyui.core-JmziP3Xj5HtW8Dkj96IV7A==/base.apk!/lib/x86_64, permitted_path=/data:/mnt/expand:/data/user/0/com.easyui.core
+08-09 18:29:34.382  5864  5864 V GraphicsEnvironment: Currently set values for:
+08-09 18:29:34.382  5864  5864 V GraphicsEnvironment:   angle_gl_driver_selection_pkgs=[]
+08-09 18:29:34.382  5864  5864 V GraphicsEnvironment:   angle_gl_driver_selection_values=[]
+08-09 18:29:34.382  5864  5864 V GraphicsEnvironment: Global.Settings values are invalid: number of packages: 0, number of values: 0
+08-09 18:29:34.382  5864  5864 V GraphicsEnvironment: Neither updatable production driver nor prerelease driver is supported.
+08-09 18:29:34.413   587  3067 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ENABLE_FAKE_FOCUS
+08-09 18:29:34.414  1001  1075 W Looper  : Drained
+08-09 18:29:34.554  5864  5864 W HWUI    : Unknown dataspace 0
+08-09 18:29:35.193   587  3067 I AppsFilter: interaction: PackageSetting{ce76570 com.easyui.core/10217} -> PackageSetting{a7684ad com.google.android.apps.nexuslauncher/10179} BLOCKED
+08-09 18:29:35.194   587  3067 D CompatChangeReporter: Compat change id reported: 229362273; UID 10217; state: ENABLED
+08-09 18:29:35.241  5864  5864 W com.easyui.core: Method boolean androidx.compose.runtime.snapshots.SnapshotStateList.conditionalUpdate(boolean, kotlin.jvm.functions.Function1) failed lock verification and will run slower.
+08-09 18:29:35.241  5864  5864 W com.easyui.core: Common causes for lock verification issues are non-optimized dex code
+08-09 18:29:35.241  5864  5864 W com.easyui.core: and incorrect proguard optimizations.
+08-09 18:29:35.242  5864  5864 W com.easyui.core: Method boolean androidx.compose.runtime.snapshots.SnapshotStateList.conditionalUpdate$default(androidx.compose.runtime.snapshots.SnapshotStateList, boolean, kotlin.jvm.functions.Function1, int, java.lang.Object) failed lock verification and will run slower.
+08-09 18:29:35.242  5864  5864 W com.easyui.core: Method java.lang.Object androidx.compose.runtime.snapshots.SnapshotStateList.mutate(kotlin.jvm.functions.Function1) failed lock verification and will run slower.
+08-09 18:29:35.242  5864  5864 W com.easyui.core: Method void androidx.compose.runtime.snapshots.SnapshotStateList.update(boolean, kotlin.jvm.functions.Function1) failed lock verification and will run slower.
+08-09 18:29:35.242  5864  5864 W com.easyui.core: Method void androidx.compose.runtime.snapshots.SnapshotStateList.update$default(androidx.compose.runtime.snapshots.SnapshotStateList, boolean, kotlin.jvm.functions.Function1, int, java.lang.Object) failed lock verification and will run slower.
+08-09 18:29:35.349  5864  5864 W WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+08-09 18:29:35.349  5864  5864 W WindowOnBackDispatcher: Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+08-09 18:29:35.353   587  3067 D CoreBackPreview: Window{88c4818 u0 com.easyui.core/com.easyui.core.MainActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@bb163e2, mPriority=0, mIsAnimationCallback=false}
+08-09 18:29:35.391   587  2843 E TaskPersister: File error accessing recents directory (directory doesn't exist?).
+08-09 18:29:35.429  5864  5868 I com.easyui.core: Compiler allocated 5174KB to compile void android.view.ViewRootImpl.performTraversals()
+08-09 18:29:35.471   457   497 W ServiceManagerCppClient: Permission failure: android.permission.ACCESS_SURFACE_FLINGER from uid=10217 pid=0
+08-09 18:29:35.471   457   497 D PermissionCache: checking android.permission.ACCESS_SURFACE_FLINGER for uid=10217 => denied (581 us)
+08-09 18:29:35.471   457   497 W ServiceManagerCppClient: Permission failure: android.permission.ROTATE_SURFACE_FLINGER from uid=10217 pid=0
+08-09 18:29:35.471   457   497 D PermissionCache: checking android.permission.ROTATE_SURFACE_FLINGER for uid=10217 => denied (261 us)
+08-09 18:29:35.471   457   497 W ServiceManagerCppClient: Permission failure: android.permission.INTERNAL_SYSTEM_WINDOW from uid=10217 pid=0
+08-09 18:29:35.471   457   497 D PermissionCache: checking android.permission.INTERNAL_SYSTEM_WINDOW for uid=10217 => denied (159 us)
+08-09 18:29:35.473  5864  5879 I EGL_emulation: Opening libGLESv1_CM_emulation.so
+08-09 18:29:35.473  5864  5879 I EGL_emulation: Opening libGLESv2_emulation.so
+08-09 18:29:35.599  5864  5879 W HWUI    : Failed to initialize 101010-2 format, error = EGL_SUCCESS
+08-09 18:29:35.638   171   171 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@4.0::IMapper/default in either framework or device VINTF manifest.
+08-09 18:29:35.638  5864  5879 I Gralloc4: mapper 4.x is not supported
+--------- beginning of kernel
+08-09 18:29:35.754     0     0 I servicemanager: Caller(pid=5864,uid=10217,sid=u:r:untrusted_app:s0:c217,c256,c512,c768) Could not find android.hardware.graphics.allocator.IAllocator/default in the VINTF manifest. No alternative instances declared in VINTF.
+08-09 18:29:35.647  1001  1144 D EGL_emulation: app_time_stats: avg=525.35ms min=42.54ms max=1879.02ms count=4
+08-09 18:29:36.455   587  3067 W ServiceManagerCppClient: Permission failure: android.permission.ACCESS_SURFACE_FLINGER from uid=10217 pid=0
+08-09 18:29:36.456   587  3067 D PermissionCache: checking android.permission.ACCESS_SURFACE_FLINGER for uid=10217 => denied (197 us)
+08-09 18:29:36.456   587  3067 W ServiceManagerCppClient: Permission failure: android.permission.ROTATE_SURFACE_FLINGER from uid=10217 pid=0
+08-09 18:29:36.456   587  3067 D PermissionCache: checking android.permission.ROTATE_SURFACE_FLINGER for uid=10217 => denied (86 us)
+08-09 18:29:36.456   587  3067 W ServiceManagerCppClient: Permission failure: android.permission.INTERNAL_SYSTEM_WINDOW from uid=10217 pid=0
+08-09 18:29:36.456   587  3067 D PermissionCache: checking android.permission.INTERNAL_SYSTEM_WINDOW for uid=10217 => denied (56 us)
+08-09 18:29:36.461   587   610 W ziparchive: Unable to open '/data/app/~~MLTW6sYlwkoBOqCOBKNJDA==/com.easyui.core-JmziP3Xj5HtW8Dkj96IV7A==/base.dm': No such file or directory
+08-09 18:29:36.476  5864  5874 I HWUI    : Davey! duration=1865ms; Flags=1, FrameTimelineVsyncId=42152, IntendedVsync=394617247329, Vsync=394617247329, InputEventId=0, HandleInputStart=394624525593, AnimationStart=394624536958, PerformTraversalsStart=394624544768, DrawStart=395693613362, FrameDeadline=394633913995, FrameInterval=394624458354, FrameStartTime=16666666, SyncQueued=395746001742, SyncStart=395749238559, IssueDrawCommandsStart=395750210712, SwapBuffers=396236667459, FrameCompleted=396485611591, DequeueBufferDuration=8456, QueueBufferDuration=699579, GpuCompleted=396485478023, SwapBuffersCompleted=396485611591, DisplayPresentTime=0, CommandSubmissionCompleted=396236667459, 
+08-09 18:29:36.485   587   610 I ActivityTaskManager: Displayed com.easyui.core/.MainActivity for user 0: +4s111ms
+08-09 18:29:36.573  5864  5864 I Choreographer: Skipped 112 frames!  The application may be doing too much work on its main thread.
+08-09 18:29:36.595   587   734 I ImeTracker: com.easyui.core:a2fad89e: onRequestHide at ORIGIN_SERVER reason HIDE_UNSPECIFIED_WINDOW fromUser false
+08-09 18:29:36.595   587   734 I ImeTracker: com.easyui.core:a2fad89e: onCancelled at PHASE_SERVER_SHOULD_HIDE
+08-09 18:29:36.630   587   613 D OomAdjuster: Not killing cached processes
+08-09 18:29:36.653  1280  1280 D BaseDepthController: setSurface:
+08-09 18:29:36.653  1280  1280 D BaseDepthController: 	mWaitingOnSurfaceValidity: false
+08-09 18:29:36.653  1280  1280 D BaseDepthController: 	mSurface: null
+08-09 18:29:36.653  1280  1280 D BaseDepthController: mSurface is null and mCurrentBlur is: 0
+08-09 18:29:36.654  1280  1280 D StateManager: goToState - fromState: Normal, toState: Normal, partial trace:
+08-09 18:29:36.654  1280  1280 D StateManager: 	at com.android.launcher3.statemanager.StateManager.moveToRestState(go/retraceme 31f9979659277bb965985aff1272c33e3c3c9e755b77166d20a2465454178f2c:4)
+08-09 18:29:36.654  1280  1280 D StateManager: 	at com.android.launcher3.statemanager.StateManager.moveToRestState(go/retraceme 31f9979659277bb965985aff1272c33e3c3c9e755b77166d20a2465454178f2c:1)
+08-09 18:29:36.654  1280  1280 D StateManager: 	at com.android.launcher3.statemanager.StatefulActivity.onStop(go/retraceme 31f9979659277bb965985aff1272c33e3c3c9e755b77166d20a2465454178f2c:34)
+08-09 18:29:36.655  1280  1280 D StatsLog: LAUNCHER_ONSTOP
+08-09 18:29:36.672  1321  1998 I FontLog : Received query Noto Color Emoji Compat, URI content://com.google.android.gms.fonts [CONTEXT service_id=132 ]
+08-09 18:29:36.674  1442  1442 I GoogleInputMethodService: GoogleInputMethodService.onFinishInput():3157 
+08-09 18:29:36.678  1442  1442 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2248 repeatCheckTimes = 0, locked = false
+08-09 18:29:36.678  1442  1442 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1986 onStartInput(EditorInfo{EditorInfo{packageName=com.easyui.core, inputType=0, inputTypeString=NULL, enableLearning=false, autoCorrection=false, autoComplete=false, imeOptions=0, privateImeOptions=null, actionName=UNSPECIFIED, actionLabel=null, initialSelStart=-1, initialSelEnd=-1, initialCapsMode=0, label=null, fieldId=0, fieldName=null, extras=null, hintText=null, hintLocales=[]}}, false)
+08-09 18:29:36.678  1442  1442 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2248 repeatCheckTimes = 1, locked = false
+08-09 18:29:36.679  1442  1442 I AndroidIME: InputBundleManager.loadActiveInputBundleId():450 loadActiveInputBundleId: und-Latn-x-password, password
+08-09 18:29:36.679   587  1106 W PackageConfigPersister: App-specific configuration not found for packageName: com.easyui.core and userId: 0
+08-09 18:29:36.681  1321  1998 I FontLog : Query [emojicompat-emoji-font] resolved to {Noto Color Emoji Compat, wdth 100.0, wght 400, ital 0.0, bestEffort false} [CONTEXT service_id=132 ]
+08-09 18:29:36.684   587  3067 I AppWidgetServiceImpl: setAppWidgetHidden() 0
+08-09 18:29:36.687  1321  1998 I FontLog : Fetch {Noto Color Emoji Compat, wdth 100.0, wght 400, ital 0.0, bestEffort false} end status Status{statusCode=SUCCESS, resolution=null} [CONTEXT service_id=132 ]
+08-09 18:29:36.698   388   439 I netd    : tetherGetStats() -> {[]} <0.67ms>
+08-09 18:29:36.700  1280  1280 D StatsLog: LAUNCHER_GOOGLE_SEARCH_RESTORE_LIST_SIZE_AFTER_ACTIVITY_RESTART
+08-09 18:29:36.701  1321  1998 I FontLog : Pulling font file for id = 11, cache size = 5 [CONTEXT service_id=132 ]
+08-09 18:29:36.721  1321  1998 I FontLog : Pulling font file for id = 11, cache size = 5 [CONTEXT service_id=132 ]
+08-09 18:29:36.752  1280  2114 D OneSearchSuggestProvider: Shut down the binder channel
+08-09 18:29:36.754  1280  1490 I IPCThreadState: oneway function results for code 2 on binder at 0x73b9cd4f1df0 will be dropped but finished with status UNKNOWN_TRANSACTION
+08-09 18:29:37.049  1001  1093 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=false callback=android.view.ViewRootImpl$$ExternalSyntheticLambda11@f836e8b
+08-09 18:29:37.055   587  3067 D CoreBackPreview: Window{6f3b21e u0 Splash Screen com.easyui.core EXITING}: Setting back callback null
+08-09 18:29:37.056  1713  1713 I wpa_supplicant: wlan0: CTRL-EVENT-BEACON-LOSS 
+08-09 18:29:37.063   587  1915 W InputManager-JNI: Input channel object '6f3b21e Splash Screen com.easyui.core (client)' was disposed without first being removed with the input manager!
+08-09 18:29:37.324  1001  1144 D EGL_emulation: app_time_stats: avg=1676.60ms min=1676.60ms max=1676.60ms count=1
+08-09 18:29:38.162  1110  1940 D ApfFilter: (wlan0): Adding RA fe80::2 -> ff02::1 1800s fec0::/64 86400s/14400s 
+08-09 18:29:38.890   587  1915 D ConnectivityService: requestNetwork for uid/pid:10134/3479 activeRequest: null callbackRequest: 157 [NetworkRequest [ TRACK_DEFAULT id=158, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED&NOT_BANDWIDTH_CONSTRAINED Uid: 10134 RequestorUid: 10134 RequestorPkg: com.google.android.apps.messaging UnderlyingNetworks: Null] ], NetworkRequest [ REQUEST id=159, [ Transports: SATELLITE Capabilities: INTERNET&TRUSTED&NOT_VCN_MANAGED Uid: 10134 RequestorUid: 10134 RequestorPkg: com.google.android.apps.messaging UnderlyingNetworks: Null] ]] callback flags: 0 order: 2147483647 isUidTracked: false
+08-09 18:29:38.892   587   922 D ConnectivityService: NetReassign [158 : null → 100] [c 1] [a 1] [i 1]
+08-09 18:29:38.900  3479  5677 D MddListenableWorkerFactory: createWorker for class: com.google.android.apps.messaging.rcsprovisioning.RcsProvisioningListenableWorker
+08-09 18:29:38.907  3479  3479 I BugleRcsWorker: [seqId=4][workId=6412fb62-4ba2-4f54-84b6-25e98171f789] RCS provisioning task has started
+08-09 18:29:38.913  3479  5899 I BugleRcsWorker: [seqId=4][workId=6412fb62-4ba2-4f54-84b6-25e98171f789] Starting StateMachine, trigger is STATE_MACHINE_RETRY
+08-09 18:29:38.914  3479  5899 I BugleRcsEngine: start PEv2, trigger is STATE_MACHINE_RETRY, workerId is 6412fb62-4ba2-4f54-84b6-25e98171f789 [null] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=125 ]
+08-09 18:29:38.915  3479  5899 I BugleRcsEngine: Created new RcsProvisioningProtoDataStorage for sim redacted-pii:sim_id[chars:20,last3:897] [CONTEXT thread_id=125 ]
+08-09 18:29:38.917  3479  5899 I BugleRcsEngine: No RCS Configuration was found in Bugle for simID: redacted-pii:sim_id[chars:20,last3:897] [CONTEXT log_prefix="ProvisioningEngineDataRetriever" thread_id=125 ]
+08-09 18:29:38.918  3479  5899 I BugleRcsEngine: start [null] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=125 ]
+08-09 18:29:38.918  3479  5901 I BugleRcsEngine: Enter EnabledState [null] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:38.923  3479  5901 W BugleRcsEngine: Unable to send diagnostic log [CONTEXT thread_id=127 ]
+08-09 18:29:38.927  3479  5901 I BugleRcsEngine: Sending ProvisioningEvent to Bugle [Send Provisioning Session ID (18)], redacted-pii:[chars:65] [CONTEXT thread_id=127 ]
+08-09 18:29:38.927  3479  5901 I BugleRcsEngine: Broadcasting provisioning intent com.google.android.ims.provisioning.engine.provisioningEventAction to Bugle with extras redacted-pii:[chars:223] from source PROVISIONING_EVENT [CONTEXT log_prefix="EngineBroadcaster" thread_id=127 ]
+08-09 18:29:38.933  3479  5899 I BugleRcsProvisioning: RcsProvisioningEventReceiver: Received ProvisioningEvent: Send Provisioning Session ID
+08-09 18:29:38.934  3479  3616 I Bugle   : BroadcastReceiverAsyncWorkTracker: Acknowledging broadcast of com.google.android.apps.messaging.shared.receiver.RcsProvisioningEventReceiver@6c45973
+08-09 18:29:38.934  3479  5901 I BugleRcsEngine: Start a new provisioning session [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:38.935  3479  5901 I BugleRcsEngine: No RCS Configuration was found in Bugle for simID: redacted-pii:sim_id[chars:20,last3:897] [CONTEXT log_prefix="ProvisioningEngineDataRetriever" thread_id=127 ]
+08-09 18:29:38.939  3479  5901 I BugleRcsEngine: No RCS Configuration was found in Bugle for simID: redacted-pii:sim_id[chars:20,last3:897] [CONTEXT log_prefix="ProvisioningEngineDataRetriever" thread_id=127 ]
+08-09 18:29:38.940  3479  5901 I BugleRcsEngine: transitionViaMessage, srcState=EnabledState, destState = CheckPreconditionsState [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:38.941  3479  5901 I BugleRcsEngine: Sending ProvisioningEvent to Bugle [Update provisioning status (11)], redacted-pii:[chars:85] [CONTEXT thread_id=127 ]
+08-09 18:29:38.941  3479  5901 I BugleRcsEngine: Broadcasting provisioning intent com.google.android.ims.provisioning.engine.provisioningEventAction to Bugle with extras redacted-pii:[chars:243] from source PROVISIONING_EVENT [CONTEXT log_prefix="EngineBroadcaster" thread_id=127 ]
+08-09 18:29:38.943  3479  5901 I BugleRcsEngine: EnabledState: Transition to check preconditions [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:38.944  3479  5901 I BugleRcsEngine: transitionTo: destState=CheckPreconditionsState [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:38.944  3479  5901 I BugleRcsEngine: onTransitionRequested EnabledState [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:38.945  3479  5677 I BugleRcsProvisioning: RcsProvisioningEventReceiver: Received ProvisioningEvent: Update provisioning status
+08-09 18:29:38.945  3479  5901 I BugleRcsEngine: Enter CheckPreconditionsState [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:38.945  3479  3616 I Bugle   : BroadcastReceiverAsyncWorkTracker: Acknowledging broadcast of com.google.android.apps.messaging.shared.receiver.RcsProvisioningEventReceiver@f526b3a
+08-09 18:29:38.949  3479  5901 W BugleRcsEngine: Unable to send diagnostic log [CONTEXT thread_id=127 ]
+08-09 18:29:38.951  3479  5901 I BugleRcsEngine: No RCS Configuration was found in Bugle for simID: redacted-pii:sim_id[chars:20,last3:897] [CONTEXT log_prefix="ProvisioningEngineDataRetriever" thread_id=127 ]
+08-09 18:29:38.951  3479  5901 I BugleRcsEngine: Battery optimization is not required. [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:38.952  3479  5901 I BugleRcsEngine: No RCS Configuration was found in Bugle for simID: redacted-pii:sim_id[chars:20,last3:897] [CONTEXT log_prefix="ProvisioningEngineDataRetriever" thread_id=127 ]
+08-09 18:29:38.953  3479  5901 I BugleRcsEngine: transitionViaMessage, srcState=CheckPreconditionsState, destState = ReadyState [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:38.953  3479  5901 I BugleRcsEngine: CheckPreconditionsState: Transition to ready [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:38.954  3479  5901 I BugleRcsEngine: transitionTo: destState=ReadyState [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:38.954  3479  5901 I BugleRcsEngine: onTransitionRequested CheckPreconditionsState [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:38.955  3479  5901 I BugleRcsEngine: Exit CheckPreconditionsState [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:38.955  3479  5901 I BugleRcsEngine: Exit EnabledState [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:38.956  3479  5901 W BugleRcsEngine: Unable to send diagnostic log [CONTEXT thread_id=127 ]
+08-09 18:29:38.956  3479  5901 I BugleRcsEngine: Enter InProgressState [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:38.959  3479  5901 W BugleRcsEngine: Unable to send diagnostic log [CONTEXT thread_id=127 ]
+08-09 18:29:38.960  3479  5901 I BugleRcsEngine: Enter ReadyState [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:38.963  3479  5901 W BugleRcsEngine: Unable to send diagnostic log [CONTEXT thread_id=127 ]
+08-09 18:29:38.964  3479  5899 W BugleRcsEngine: Unable to send diagnostic log [CONTEXT thread_id=125 ]
+08-09 18:29:38.964  3479  5901 I BugleRcsEngine: No RCS Configuration was found in Bugle for simID: redacted-pii:sim_id[chars:20,last3:897] [CONTEXT log_prefix="ProvisioningEngineDataRetriever" thread_id=127 ]
+08-09 18:29:38.972  3479  5901 I BugleRcsEngine: transitionViaMessage, srcState=ReadyState, destState = RequestWithImsiState [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:38.972  3479  5901 I BugleRcsEngine: ReadyState: Transition to request with imsi [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:38.972  3479  5901 I BugleRcsEngine: transitionTo: destState=RequestWithImsiState [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:38.973  3479  5901 I BugleRcsEngine: onTransitionRequested ReadyState [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:38.973  3479  5901 I BugleRcsEngine: Exit ReadyState [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:38.974  3479  5901 W BugleRcsEngine: Unable to send diagnostic log [CONTEXT thread_id=127 ]
+08-09 18:29:38.975  3479  5901 I BugleRcsEngine: Enter RequestWithImsiState [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:38.978  3479  5899 W BugleRcsEngine: Unable to send diagnostic log [CONTEXT thread_id=125 ]
+08-09 18:29:38.979  3479  5901 W BugleRcsEngine: Unable to send diagnostic log [CONTEXT thread_id=127 ]
+08-09 18:29:38.983  3479  5901 W BugleConnectivity: getNetworkState: NetworkStateMonitor not found for subId 1.
+08-09 18:29:38.984  3479  5901 I BugleConnectivity: HasReadPrivilegedPhoneState: true
+08-09 18:29:38.989  3479  5901 I BugleRcsEngine: Using config server URL from biuf [CONTEXT log_prefix="ProvisioningServerUtil" thread_id=127 ]
+08-09 18:29:38.990  3479  5901 I BugleRcsEngine: No RCS Configuration was found in Bugle for simID: redacted-pii:sim_id[chars:20,last3:897] [CONTEXT log_prefix="ProvisioningEngineDataRetriever" thread_id=127 ]
+08-09 18:29:38.991  3479  5899 W BugleRcsEngine: Unable to send diagnostic log [CONTEXT thread_id=125 ]
+08-09 18:29:39.000  3479  5901 I BugleRcsEngine: No RCS Configuration was found in Bugle for simID: redacted-pii:sim_id[chars:20,last3:897] [CONTEXT log_prefix="ProvisioningEngineDataRetriever" thread_id=127 ]
+08-09 18:29:39.001  3479  5901 W BugleRcsEngine: Could not retrieve MSISDN from configuration. Configuration is empty. [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:39.002  3479  5901 W BugleRcsEngine: Skipping adding Tachyon identity key to request. Null/empty RCS msisdn from configuration for sim ID: redacted-pii:sim_id[chars:20,last3:897]. [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:39.062   587  1915 D FileUtils: Rounded bytes from 2592722944 to 4000000000
+08-09 18:29:39.080   388  5903 I resolv  : GetAddrInfoHandler::run: {100 786532 100 983140 10143 0}
+08-09 18:29:39.080  2522  4023 D TrafficStats: tagSocket(96) with statsTag=0x1809, statsUid=-1
+08-09 18:29:39.084  2522  4023 W libc    : Access denied finding property "persist.adb.tls_server.enable"
+08-09 18:29:39.084  2522  4023 W libc    : Access denied finding property "service.adb.tls.port"
+08-09 18:29:39.080  2522  2522 W binder:2522_6: type=1400 audit(0.0:426): avc:  denied  { read } for  name="u:object_r:system_adbd_prop:s0" dev="tmpfs" ino=318 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:system_adbd_prop:s0 tclass=file permissive=0 app=com.google.android.gms
+08-09 18:29:39.092  3479  5901 E BugleRcsEngine: Could not create DroidGuard token creation event [CONTEXT log_prefix="DroidGuardLogger" thread_id=127 ]
+08-09 18:29:39.092  3479  5901 I BugleRcsEngine: RequestWithImsiState: event Send config request [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:39.080  2522  2522 W binder:2522_6: type=1400 audit(0.0:427): avc:  denied  { read } for  name="u:object_r:adbd_prop:s0" dev="tmpfs" ino=63 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:adbd_prop:s0 tclass=file permissive=0 app=com.google.android.gms
+08-09 18:29:39.093  3479  5901 I BugleRcsEngine: InProgressState: event Send config request [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:39.093  3479  5901 W BugleRcsEngine: Unable to send diagnostic log [CONTEXT thread_id=127 ]
+08-09 18:29:39.096  3479  5899 W BugleRcsEngine: Unable to send diagnostic log [CONTEXT thread_id=125 ]
+08-09 18:29:39.097   388  5904 I resolv  : GetAddrInfoHandler::run: {100 786532 100 983140 10134 0}
+08-09 18:29:39.098   388  5905 I resolv  : res_nmkquery: (QUERY, IN, AAAA)
+08-09 18:29:39.098   388  5905 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7eb7223dce10
+08-09 18:29:39.098   388  5906 I resolv  : res_nmkquery: (QUERY, IN, A)
+08-09 18:29:39.098   388  5905 I resolv  : doQuery: rcode=0, ancount=1, return value=76
+08-09 18:29:39.098   388  5906 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7eb7223de230
+08-09 18:29:39.098   388  5906 I resolv  : doQuery: rcode=0, ancount=1, return value=64
+08-09 18:29:39.099  3479  5899 D TrafficStats: tagSocket(155) with statsTag=0xd97, statsUid=-1
+08-09 18:29:39.139   587  1106 W ActivityManager: stopServiceToken startId 10 is last, but have 1 remaining args
+08-09 18:29:39.674   388   439 I netd    : tetherGetStats() -> {[]} <0.84ms>
+08-09 18:29:39.758  5864  5907 D ProfileInstaller: Installing profile for com.easyui.core
+08-09 18:29:40.831  3479  5899 W BugleRcsEngine: Unable to send diagnostic log [CONTEXT thread_id=125 ]
+08-09 18:29:40.832  3479  5901 I BugleRcsEngine: RequestWithImsiState: event HTTP Response [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:40.832  3479  5901 I BugleRcsEngine: InProgressState: event HTTP Response [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:40.833  3479  5901 W BugleRcsEngine: Unable to send diagnostic log [CONTEXT thread_id=127 ]
+08-09 18:29:40.834  3479  5901 I BugleRcsEngine: RequestWithImsiState: event HTTP 400 (Bad request) [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:40.834  3479  5901 I BugleRcsEngine: InProgressState: event HTTP 400 (Bad request) [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:40.834  3479  5901 W BugleRcsEngine: Unable to send diagnostic log [CONTEXT thread_id=127 ]
+08-09 18:29:40.835  3479  5901 I BugleRcsEngine: transitionTo: destState=RetryState [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:40.835  3479  5901 I BugleRcsEngine: onTransitionRequested RequestWithImsiState [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:40.836  3479  5901 I BugleRcsEngine: Exit RequestWithImsiState [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:40.836  3479  5899 W BugleRcsEngine: Unable to send diagnostic log [CONTEXT thread_id=125 ]
+08-09 18:29:40.836  3479  5901 W BugleRcsEngine: Unable to send diagnostic log [CONTEXT thread_id=127 ]
+08-09 18:29:40.837  3479  5901 I BugleRcsEngine: Exit InProgressState [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:40.837  3479  5901 W BugleRcsEngine: Unable to send diagnostic log [CONTEXT thread_id=127 ]
+08-09 18:29:40.838  3479  5901 I BugleRcsEngine: Enter RetryState [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:40.841  3479  5901 W BugleRcsEngine: Unable to send diagnostic log [CONTEXT thread_id=127 ]
+08-09 18:29:40.841  3479  5901 I BugleRcsEngine: nextRetry = 0 [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:40.842  3479  5901 I BugleRcsEngine: scheduleRetry, currentRetry = 0, retryMillis = 960000 [4f9ee1c6-83eb-4e26-9461-be6ea77634a8] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:40.850  3479  5901 I BugleRcsWorker: [seqId=4][workId=6412fb62-4ba2-4f54-84b6-25e98171f789] Received a provisioning state changed event from the provisioning engine RETRY
+08-09 18:29:40.851  3479  5901 I BugleRcsWorker: [seqId=4][workId=6412fb62-4ba2-4f54-84b6-25e98171f789] Provisioning Engine entered RetryState, provisioning task will be rescheduled with exponential backoff
+08-09 18:29:40.851  3479  5901 I BugleRcsWorker: [seqId=4][workId=6412fb62-4ba2-4f54-84b6-25e98171f789] finish provisioning task with result Success {mOutputData=Data {}}
+08-09 18:29:40.851  3479  5901 I BugleRcsWorker: [seqId=4][workId=6412fb62-4ba2-4f54-84b6-25e98171f789] RCS provisioning task has finished with result Success {mOutputData=Data {}}
+08-09 18:29:40.854  3479  5677 I BugleRcsEngine: quit [null] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=124 ]
+08-09 18:29:40.854  3479  5901 I BugleRcsEngine: transitionTo: destState=ciru [null] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:40.855  3479  5901 I BugleRcsEngine: Exit RetryState [null] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:40.855  3479  5901 W BugleRcsEngine: Unable to send diagnostic log [CONTEXT thread_id=127 ]
+08-09 18:29:40.856  3479  5908 I WM-WorkerWrapper: Worker result SUCCESS for Work [ id=0f5e4ec3-1564-4af4-a879-fbbc83ea9702, tags={ com.google.android.apps.messaging.rcsprovisioning.RcsProvisioningListenableWorker,provisioning } ]
+08-09 18:29:40.856  3479  5901 W BugleRcsEngine: onQuitting [null] [CONTEXT log_prefix="(PEv2-SM195012721-DefaultCallSmsData-1-28c)" thread_id=127 ]
+08-09 18:29:40.863  3479  3564 I Bugle   : Scheduling custom retry
+08-09 18:29:40.864  3479  5899 I BugleRcsEngine: [SR]: Single Registration is disabled. Skipping Single Registration capability check for subId: 1, OS.isAtLeastS:[true], enableSingleRegistrationProvisioning:[false] [CONTEXT thread_id=125 ]
+08-09 18:29:40.865  3479  5900 W BugleRcsEngine: Unable to send diagnostic log [CONTEXT thread_id=126 ]
+08-09 18:29:40.865  3479  5900 W BugleRcsEngine: Unable to send diagnostic log [CONTEXT thread_id=126 ]
+08-09 18:29:40.866  3479  5899 I BugleRcsEngine: No RCS Configuration was found in Bugle for simID: redacted-pii:sim_id[chars:20,last3:897] [CONTEXT log_prefix="ProvisioningEngineDataRetriever" thread_id=125 ]
+08-09 18:29:40.869  3479  5899 I BugleRcsEngine: Scheduled provisioning task with 240 seconds delay, APPEND policy, trigger is STATE_MACHINE_RETRY, workerId is d728469a-4dcf-49f3-b942-31375260e343 [CONTEXT thread_id=125 ]
+08-09 18:29:41.156   587   714 D ActivityManager: freezing 3205 com.google.android.packageinstaller
+08-09 18:29:41.158   587   922 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+08-09 18:29:41.158   587   922 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+08-09 18:29:41.158   587   922 D InetDiagMessage: Destroyed live tcp sockets for uids={10101} in 2ms
+08-09 18:29:41.282   388   439 I netd    : tetherGetStats() -> {[]} <0.61ms>
+08-09 18:29:41.286   388   439 I netd    : bandwidthSetGlobalAlert(2097152) <0.15ms>
+08-09 18:29:41.310   388   439 I netd    : tetherGetStats() -> {[]} <0.75ms>
+08-09 18:29:41.581   195  5812 I keystore2: system/security/keystore2/watchdog/src/lib.rs:319 - Watchdog thread idle -> terminating. Have a great day.
+08-09 18:29:42.168  1548  1548 W JobService: onNetworkChanged() not implemented in com.google.android.apps.miphone.aiai.common.superpacks.impl.AiAiPersistentDownloadJobService. Must override in a subclass.
+08-09 18:29:42.179  3801  3899 I BugleRcsEngine: Connected state: [1], networkType: [WIFI] [CONTEXT thread_id=59 ]
+08-09 18:29:42.179  3801  4059 I BugleRcsEngine: handleMessage processing message:[NOTIFY_UPTIME_IGNORE_STATE_CHANGED] with [non-null]:RcsEngineImpl reference [CONTEXT log_prefix="RcsEngineImpl[DUAL_REG]:[3812d890-0380]>Handler" thread_id=65 ]
+08-09 18:29:42.181   587  1106 D OomAdjuster: Not killing cached processes
+08-09 18:29:42.182  1321  1998 I ChimeraSrvcProxy: NullBinder for android.net.action.RECOMMEND_NETWORKS triggering remote TransactionTooLargeException due to Service without Chimera impl
+08-09 18:29:42.182  1321  1998 W .gms.persistent: Large reply transaction of 1056768 bytes, interface descriptor , code 1
+08-09 18:29:42.186  3801  4059 I BugleRcsEngine: No RCS Configuration was found in Bugle for simID: redacted-pii:sim_id[chars:20,last3:897] [CONTEXT log_prefix="ProvisioningEngineDataRetriever" thread_id=65 ]
+08-09 18:29:42.779   388   439 I netd    : tetherGetStats() -> {[]} <2.04ms>
+08-09 18:29:44.662   587   922 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+08-09 18:29:44.663   587   922 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+08-09 18:29:44.663   587   922 D InetDiagMessage: Destroyed live tcp sockets for uids={10142} in 2ms
+08-09 18:29:44.664   587   922 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+08-09 18:29:44.664   587   922 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+08-09 18:29:44.665   587   922 D InetDiagMessage: Destroyed live tcp sockets for uids={20142} in 2ms
+08-09 18:29:44.980  1713  1713 I wpa_supplicant: wlan0: CTRL-EVENT-BEACON-LOSS 
+08-09 18:29:45.173  1548  1548 W JobService: onNetworkChanged() not implemented in com.google.android.apps.miphone.aiai.common.superpacks.impl.AiAiPersistentDownloadJobService. Must override in a subclass.
+08-09 18:29:45.178  3801  4059 I BugleRcsEngine: handleMessage processing message:[NOTIFY_UPTIME_IGNORE_STATE_CHANGED] with [non-null]:RcsEngineImpl reference [CONTEXT log_prefix="RcsEngineImpl[DUAL_REG]:[3812d890-0380]>Handler" thread_id=65 ]
+08-09 18:29:45.179  3801  3899 I BugleRcsEngine: Connected state: [1], networkType: [WIFI] [CONTEXT thread_id=59 ]
+08-09 18:29:45.179  1321  2034 I ChimeraSrvcProxy: NullBinder for android.net.action.RECOMMEND_NETWORKS triggering remote TransactionTooLargeException due to Service without Chimera impl
+08-09 18:29:45.179  1321  2034 W .gms.persistent: Large reply transaction of 1056768 bytes, interface descriptor , code 1
+08-09 18:29:45.183  3801  4059 I BugleRcsEngine: No RCS Configuration was found in Bugle for simID: redacted-pii:sim_id[chars:20,last3:897] [CONTEXT log_prefix="ProvisioningEngineDataRetriever" thread_id=65 ]
+08-09 18:29:46.802   587   714 D ActivityManager: freezing 1616 com.google.android.googlequicksearchbox:search
+08-09 18:29:46.803   587   714 D ActivityManager: freezing 3943 com.google.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0
+08-09 18:29:47.056   587   714 D ActivityManager: freezing 3515 com.google.android.gms.ui
+08-09 18:29:47.057   587   922 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+08-09 18:29:47.058   587   922 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+08-09 18:29:47.058   587   922 D InetDiagMessage: Destroyed live tcp sockets for uids={99000} in 3ms
+08-09 18:29:47.205   587  1106 D OomAdjuster: Not killing cached processes
+08-09 18:29:47.302  1780  1780 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.feedback.internal.IFeedbackService dat=chimera-action:/... cmp=com.google.android.gms/.chimera.GmsBoundBrokerService }
+08-09 18:29:47.402  1780  1788 W gle.android.gms: ApkAssets: Deleting an ApkAssets object '<empty> and /data/app/~~MLTW6sYlwkoBOqCOBKNJDA==/com.easyui.core-JmziP3Xj5HtW8Dkj96IV7A==/base.apk' with 1 weak references
+08-09 18:29:51.208  1548  1548 W JobService: onNetworkChanged() not implemented in com.google.android.apps.miphone.aiai.common.superpacks.impl.AiAiPersistentDownloadJobService. Must override in a subclass.
+08-09 18:29:51.215  1321  1998 I ChimeraSrvcProxy: NullBinder for android.net.action.RECOMMEND_NETWORKS triggering remote TransactionTooLargeException due to Service without Chimera impl
+08-09 18:29:51.216   587   922 W IPCThreadState: Sending oneway calls to frozen process.
+08-09 18:29:51.220  1321  1998 W .gms.persistent: Large reply transaction of 1056768 bytes, interface descriptor , code 1
+08-09 18:29:51.222   587   922 W IPCThreadState: Sending oneway calls to frozen process.
+08-09 18:29:51.223   587   922 W IPCThreadState: Sending oneway calls to frozen process.
+08-09 18:29:51.231  3801  4059 I BugleRcsEngine: handleMessage processing message:[NOTIFY_UPTIME_IGNORE_STATE_CHANGED] with [non-null]:RcsEngineImpl reference [CONTEXT log_prefix="RcsEngineImpl[DUAL_REG]:[3812d890-0380]>Handler" thread_id=65 ]
+08-09 18:29:51.237  3801  3899 I BugleRcsEngine: Connected state: [1], networkType: [WIFI] [CONTEXT thread_id=59 ]
+08-09 18:29:51.243  3801  4059 I BugleRcsEngine: No RCS Configuration was found in Bugle for simID: redacted-pii:sim_id[chars:20,last3:897] [CONTEXT log_prefix="ProvisioningEngineDataRetriever" thread_id=65 ]
+08-09 18:29:51.289   587   714 D ActivityManager: freezing 1004 com.google.android.permissioncontroller
+08-09 18:29:51.291   587   922 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+08-09 18:29:51.292   587   922 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+08-09 18:29:51.292   587   922 D InetDiagMessage: Destroyed live tcp sockets for uids={10203} in 2ms
+08-09 18:29:52.663   587   714 D ActivityManager: freezing 1706 com.android.keychain
+08-09 18:29:52.663   587   714 D ActivityManager: freezing 1189 com.android.settings
+08-09 18:29:52.664   587   714 D ActivityManager: freezing 3018 com.android.dynsystem:dynsystem
+08-09 18:29:52.664   587   714 D ActivityManager: freezing 2981 com.android.dynsystem
+08-09 18:29:52.665   587   714 D ActivityManager: freezing 1846 com.android.localtransport
+08-09 18:29:52.916  1713  1713 I wpa_supplicant: wlan0: CTRL-EVENT-BEACON-LOSS 
+08-09 18:29:53.965   587  1915 D OomAdjuster: Not killing cached processes
+08-09 18:29:54.098   587   714 D ActivityManager: freezing 2522 com.google.android.gms.unstable
+08-09 18:29:54.210   587   922 W IPCThreadState: Sending oneway calls to frozen process.
+08-09 18:29:54.211  1548  1548 W JobService: onNetworkChanged() not implemented in com.google.android.apps.miphone.aiai.common.superpacks.impl.AiAiPersistentDownloadJobService. Must override in a subclass.
+08-09 18:29:54.211   587   922 W IPCThreadState: Sending oneway calls to frozen process.
+08-09 18:29:54.211   587   922 W IPCThreadState: Sending oneway calls to frozen process.
+08-09 18:29:54.212   587   922 W IPCThreadState: Sending oneway calls to frozen process.
+08-09 18:29:54.212   587   922 W IPCThreadState: Sending oneway calls to frozen process.
+08-09 18:29:54.216  3801  3899 I BugleRcsEngine: Connected state: [1], networkType: [WIFI] [CONTEXT thread_id=59 ]
+08-09 18:29:54.217  1321  2034 I ChimeraSrvcProxy: NullBinder for android.net.action.RECOMMEND_NETWORKS triggering remote TransactionTooLargeException due to Service without Chimera impl
+08-09 18:29:54.217  3801  4059 I BugleRcsEngine: handleMessage processing message:[NOTIFY_UPTIME_IGNORE_STATE_CHANGED] with [non-null]:RcsEngineImpl reference [CONTEXT log_prefix="RcsEngineImpl[DUAL_REG]:[3812d890-0380]>Handler" thread_id=65 ]
+08-09 18:29:54.217  1321  2034 W .gms.persistent: Large reply transaction of 1056768 bytes, interface descriptor , code 1
+08-09 18:29:54.222  3801  4059 I BugleRcsEngine: No RCS Configuration was found in Bugle for simID: redacted-pii:sim_id[chars:20,last3:897] [CONTEXT log_prefix="ProvisioningEngineDataRetriever" thread_id=65 ]
+08-09 18:29:55.594   388   439 I netd    : tetherGetStats() -> {[]} <0.87ms>
+08-09 18:29:55.599   388   439 I netd    : bandwidthSetGlobalAlert(2097152) <0.15ms>
+08-09 18:29:55.601   388   439 I netd    : bandwidthRemoveInterfaceQuota(eth0) <1.06ms>
+08-09 18:29:55.603   388   439 I netd    : bandwidthSetInterfaceQuota(eth0, 9223372036854775807) <0.83ms>
+08-09 18:29:57.213  1548  1548 W JobService: onNetworkChanged() not implemented in com.google.android.apps.miphone.aiai.common.superpacks.impl.AiAiPersistentDownloadJobService. Must override in a subclass.
+08-09 18:29:57.216   587   922 W IPCThreadState: Sending oneway calls to frozen process.
+08-09 18:29:57.216   587   922 W IPCThreadState: Sending oneway calls to frozen process.
+08-09 18:29:57.216   587   922 W IPCThreadState: Sending oneway calls to frozen process.
+08-09 18:29:57.217   587   922 W IPCThreadState: Sending oneway calls to frozen process.
+08-09 18:29:57.217   587   922 W IPCThreadState: Sending oneway calls to frozen process.
+08-09 18:29:57.220  1321  1998 I ChimeraSrvcProxy: NullBinder for android.net.action.RECOMMEND_NETWORKS triggering remote TransactionTooLargeException due to Service without Chimera impl
+08-09 18:29:57.220  3801  4059 I BugleRcsEngine: handleMessage processing message:[NOTIFY_UPTIME_IGNORE_STATE_CHANGED] with [non-null]:RcsEngineImpl reference [CONTEXT log_prefix="RcsEngineImpl[DUAL_REG]:[3812d890-0380]>Handler" thread_id=65 ]
+08-09 18:29:57.220  1321  1998 W .gms.persistent: Large reply transaction of 1056768 bytes, interface descriptor , code 1
+08-09 18:29:57.221  3801  3899 I BugleRcsEngine: Connected state: [1], networkType: [WIFI] [CONTEXT thread_id=59 ]
+08-09 18:29:57.225  3801  4059 I BugleRcsEngine: No RCS Configuration was found in Bugle for simID: redacted-pii:sim_id[chars:20,last3:897] [CONTEXT log_prefix="ProvisioningEngineDataRetriever" thread_id=65 ]
+08-09 18:29:57.324   587   714 D ActivityManager: freezing 1780 com.google.android.gms
+08-09 18:29:59.046  5914  5914 W BpBinder: Linking to death on android.gui.ISurfaceComposer but there are no threads (yet?) listening to incoming transactions. See ProcessState::startThreadPool and ProcessState::setThreadPoolMaxThreadCount. Generally you should setup the binder threadpool before other initialization steps.
+08-09 18:29:59.046  5914  5914 W ProcessState: Extra binder thread started, but 0 threads requested. Do not use *startThreadPool when zero threads are requested.
+08-09 18:29:59.069   171   171 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@4.0::IMapper/default in either framework or device VINTF manifest.
+08-09 18:29:59.070  5914  5915 I Gralloc4: mapper 4.x is not supported
+08-09 18:29:59.181     0     0 I servicemanager: Caller(pid=5914,uid=2000,sid=u:r:shell:s0) Could not find android.hardware.graphics.allocator.IAllocator/default in the VINTF manifest. No alternative instances declared in VINTF.
+08-09 18:29:59.605     0     0 I logd    : logdr: UID=2000 GID=2000 PID=5916 n tail=0 logMask=99 pid=0 start=0ns deadline=0ns

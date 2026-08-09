@@ -4,6 +4,10 @@
 
 Work is complete only when it is implemented, verified, documented, and handed off.
 
+## Current baseline audit status — 2026-08-09
+
+The current baseline report is authoritative for the final verdict. A GO requires the repository wrapper, clean build, unit tests, lint, available instrumentation tests, clean install/launch, HOME verification, runtime feature smoke coverage, and current documentation to pass together.
+
 ## Required checklist
 
 For every task:

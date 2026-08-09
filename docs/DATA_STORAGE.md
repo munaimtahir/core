@@ -14,6 +14,10 @@ Recommended:
 Jetpack DataStore Preferences
 ```
 
+## Current stored launcher state — 2026-08-09
+
+In addition to the original baseline values, the current launcher persists only local launcher preferences such as home page/grid settings, typed home tile content, appearance options, app-drawer mode/favorites, and onboarding completion. No account, cloud, monetization, analytics, or product-variant state is present.
+
 ## Allowed baseline data
 
 | Data | Purpose |

@@ -4,6 +4,10 @@
 
 Define the minimum UI direction for `core v0.1`.
 
+## Current UI status — 2026-08-09
+
+The implemented launcher adds a top information strip, page indicator, app-drawer search and Grid/List controls, appearance controls, Quick Access, contacts, widgets, and a visible Reset entry. These remain launcher surfaces; they do not replace Android system UI.
+
 ## UI goal
 
 The UI should be stable, readable, and easy to test.

@@ -1,5 +1,9 @@
 # TASKS
 
+## Current completion status — 2026-08-09
+
+Stages 1–7 and the launcher-level customization work are implemented. The final baseline audit, including wrapper restoration, repaired tests, clean build/lint, connected instrumentation, runtime smoke evidence, and documentation reconciliation, is recorded in `docs/VERIFICATION/core-v0.1-baseline-report.md`. Future product-variant work remains separate.
+
 ## Stage 0 — Documentation Foundation
 
 - [ ] Create repository named `core`

@@ -13,9 +13,11 @@ class BaselineUiSmokeTest {
     val rule = createAndroidComposeRule<MainActivity>()
 
     private fun continuePastOnboardingIfShown() {
-        val nodes = rule.onAllNodesWithTag("onboarding_continue").fetchSemanticsNodes()
-        if (nodes.isNotEmpty()) {
-            rule.onNodeWithTag("onboarding_continue").performClick()
+        repeat(3) {
+            val nodes = rule.onAllNodesWithTag("onboarding_next").fetchSemanticsNodes()
+            if (nodes.isEmpty()) return
+            rule.onNodeWithTag("onboarding_next").performClick()
+            rule.waitForIdle()
         }
     }
 
@@ -25,13 +27,14 @@ class BaselineUiSmokeTest {
         rule.onNodeWithTag("home_screen").assertExists()
         rule.onNodeWithTag("home_all_apps_button").assertExists()
         rule.onNodeWithTag("home_customize_button").assertExists()
-        rule.onNodeWithTag("home_settings_button").assertExists()
+        rule.onNodeWithTag("home_appearance_button").assertExists()
+        rule.onNodeWithTag("home_reset_button").assertExists()
     }
 
     @Test
     fun theme_settings_showsThemeOptions() {
         continuePastOnboardingIfShown()
-        rule.onNodeWithTag("home_settings_button").performClick()
+        rule.onNodeWithTag("home_appearance_button").performClick()
         rule.onNodeWithTag("theme_settings_screen").assertExists()
         rule.onNodeWithTag("theme_palette_system").assertExists()
         rule.onNodeWithTag("theme_palette_light").assertExists()

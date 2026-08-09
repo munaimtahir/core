@@ -12,6 +12,10 @@ Create a stable Android launcher baseline.
 
 The baseline should be intentionally small.
 
+## Current implementation status — 2026-08-09
+
+The original v0.1 foundation is implemented and has been extended with documented launcher-level customization. Current verification status and evidence are maintained in `docs/VERIFICATION/core-v0.1-baseline-report.md`; this document remains the scope contract and does not authorize product variants or Android system-UI replacement.
+
 ## In scope
 
 ### 1. Launcher support
@@ -160,3 +164,5 @@ Do not implement:
 ## Baseline completion statement
 
 The baseline is complete only when the app can function as a simple launcher, display and launch installed apps, persist minimal settings, and pass verification.
+
+The current completion verdict is determined by the dated verification report, not by this scope document alone.

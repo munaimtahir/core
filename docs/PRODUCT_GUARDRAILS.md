@@ -4,6 +4,10 @@
 
 This file protects the project from scope creep and unrealistic product claims.
 
+## Current status — 2026-08-09
+
+The launcher-level customization currently implemented in `core` does not change these guardrails. The final baseline report verifies the launcher surface only; Android system UI, cloud, monetization, product variants, and kiosk/device-owner behavior remain excluded.
+
 ## Product truth
 
 `core` simplifies the Android home experience.

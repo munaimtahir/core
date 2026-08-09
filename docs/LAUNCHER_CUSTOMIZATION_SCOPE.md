@@ -11,6 +11,10 @@ It separates:
 3. Product-variant features to add only after the baseline receives a GO verdict.
 4. Android system-level features that must not be promised or implemented as normal launcher features.
 
+## Current verification status — 2026-08-09
+
+The implementation notes marked “Implemented” in this document are current launcher-level behavior, not merely future allowance. They were exercised in the final baseline smoke audit where practical; command-level results and artifact paths are in `docs/VERIFICATION/core-v0.1-baseline-report.md`. Items under “Allowed later,” product-variant sections, and system-boundary sections remain future/deferred scope.
+
 ## Core principle
 
 A launcher can redesign the Android home experience.

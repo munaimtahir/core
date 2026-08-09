@@ -2,8 +2,8 @@ package com.easyui.core.home
 
 data class HomeLayout(
     val spec: HomeGridSpec = HomeGridSpec(),
-    val pages: List<List<HomeTileContent?>> = List(HomeGridSpec().pageCount) {
-        List(HomeGridSpec().slotsPerPage) { null }
+    val pages: List<List<HomeTileContent?>> = List(spec.pageCount) {
+        List(spec.slotsPerPage) { null }
     },
 ) {
     init {
@@ -51,4 +51,3 @@ data class HomeLayout(
         require(slot.slotIndex in 0 until spec.slotsPerPage) { "slotIndex out of bounds" }
     }
 }
-
